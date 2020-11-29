@@ -2,32 +2,27 @@ import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo } from 
 import { AudioContext } from "context/AudioContext";
 
 interface Props {
-  gain: number;
   id: string;
 }
 
-type Ref = GainNode;
+type Ref = AnalyserNode;
 
-const Gain = forwardRef<Ref, Props>(function ({ gain }, ref) {
+const Analyser = forwardRef<Ref, Props>(function ({}, ref) {
   const context = useContext(AudioContext);
-  const node = useMemo<GainNode>(
-    () => context.createGain(),
+  const node = useMemo<AnalyserNode>(
+    () => context.createAnalyser(),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [context]
   );
 
-  useEffect(
-    () => {
-      node.gain.value = gain;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gain]
-  );
+  useEffect(() => {
+    node.fftSize = 2048;
+  }, []);
 
   useImperativeHandle(ref, () => node);
 
   return null;
 });
-Gain.displayName = "Gain";
+Analyser.displayName = "Analyser";
 
-export default Gain;
+export default Analyser;

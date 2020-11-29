@@ -2,17 +2,16 @@ import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo } from 
 import { AudioContext } from "context/AudioContext";
 
 interface Props {
+  children?: React.ReactNode; // TODO temporarily for easier testing of notes
   detune?: number;
   frequency: number;
-  output?: AudioNode;
+  id: string;
   type: OscillatorType;
 }
-interface Ref {
-  start: () => void;
-  stop: () => void;
-}
 
-const Oscillator = forwardRef<Ref, Props>(function Oscillator({ detune, frequency, output, type }, ref) {
+type Ref = OscillatorNode;
+
+const Oscillator = forwardRef<Ref, Props>(function Oscillator({ detune, frequency, type }, ref) {
   const context = useContext(AudioContext);
 
   const node = useMemo(
@@ -33,17 +32,7 @@ const Oscillator = forwardRef<Ref, Props>(function Oscillator({ detune, frequenc
     return () => node.stop();
   }, [node]);
 
-  useEffect(() => {
-    if (!output) return;
-
-    node.connect(output);
-    return () => output && node.disconnect(output);
-  }, [output]);
-
-  useImperativeHandle(ref, () => ({
-    start: () => output && node.connect(output),
-    stop: () => output && node.disconnect(output),
-  }));
+  useImperativeHandle(ref, () => node);
 
   return null;
 });
