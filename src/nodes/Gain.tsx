@@ -7,7 +7,7 @@ import { useOnConnect } from "utils/handles";
 type Props = Node;
 
 const Gain = ({ data, id }: Props) => {
-  const [gain, setGain] = useState<number>(data.gain);
+  const [gain, setGain] = useState<number>(data.gain ?? 1);
 
   // AudioNode
   const context = useContext(AudioContext);

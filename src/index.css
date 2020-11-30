@@ -12,3 +12,24 @@ body {
   padding: 10px;
   font-size: 12px;
 }
+
+.react-flow__edge-path {
+  stroke-width: 3px;
+}
+
+.contextMenu {
+  background: #eee;
+  box-shadow: 2px 2px 4px #ccc;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contextMenu li {
+  cursor: pointer;
+  padding: 4px;
+}
+
+.contextMenu li:hover {
+  background: #ccc;
+}
