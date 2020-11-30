@@ -1,19 +1,24 @@
-import { forwardRef, useContext, useImperativeHandle } from "react";
+import React, { useContext, useEffect } from "react";
+import { Handle, Node, Position } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
+import { useNodeContext } from "context/NodeContext";
 
-interface Props {
-  id: string;
-}
+type Props = Node;
 
-type Ref = AudioDestinationNode;
-
-const Destination = forwardRef<Ref, Props>(function ({ id }, ref) {
+const Destination = ({ id }: Props) => {
+  // AudioNode
   const context = useContext(AudioContext);
+  const node = context.destination;
+  const { addNode } = useNodeContext();
+  useEffect(() => void addNode(id, node), [addNode, node, id]);
 
-  useImperativeHandle(ref, () => context.destination);
+  return (
+    <div className="customNode" title={id}>
+      <Handle id="input" position={Position.Left} type="target" />
 
-  return null;
-});
-Destination.displayName = "Destination";
+      <div>input</div>
+    </div>
+  );
+};
 
 export default Destination;

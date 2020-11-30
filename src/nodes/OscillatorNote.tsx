@@ -3,13 +3,17 @@ import { Handle, Node, Position } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import { useOnConnect } from "utils/handles";
+import { getNoteFrequency, getNoteName } from "utils/notes";
 
 type Props = Node;
 
-const Oscillator = ({ data, id }: Props) => {
+const OscillatorNote = ({ data, id }: Props) => {
   const [detune, setDetune] = useState<number>(data.detune ?? 0);
-  const [frequency, setFrequency] = useState<number>(data.frequency ?? 440);
   const [type, setType] = useState<OscillatorType>(data.type ?? "sine");
+  const [octave, setOctave] = useState<number>(data.octave ?? 4);
+  const [twelfth, setTwelfth] = useState<number>(data.twelfth ?? 0);
+  const frequency = getNoteFrequency(octave, twelfth);
+  const note = getNoteName(octave, twelfth);
 
   // AudioNode
   const context = useContext(AudioContext);
@@ -53,15 +57,19 @@ const Oscillator = ({ data, id }: Props) => {
       </div>
       <div>
         frequency:{" "}
-        <input
-          className="nodrag"
-          min={0}
-          max={20000}
-          onChange={e => setFrequency(+e.target.value)}
-          type="number"
-          value={frequency}
-        />{" "}
-        Hz
+        <div>
+          octave:
+          <button onClick={() => setOctave(o => (o > 0 ? o - 1 : o))}>-</button>
+          <button onClick={() => setOctave(o => (o < 8 ? o + 1 : o))}>+</button>
+          {octave}
+          <br />
+          twelfth:
+          <button onClick={() => setTwelfth(t => (t > 0 ? t - 1 : t))}>-</button>
+          <button onClick={() => setTwelfth(t => (t < 11 ? t + 1 : t))}>+</button>
+          {twelfth}
+          <br />
+          {note} @ {frequency.toFixed(2)}
+        </div>
       </div>
       <div>
         type:
@@ -76,4 +84,4 @@ const Oscillator = ({ data, id }: Props) => {
   );
 };
 
-export default Oscillator;
+export default OscillatorNote;

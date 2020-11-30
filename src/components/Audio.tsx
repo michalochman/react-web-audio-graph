@@ -6,14 +6,7 @@ interface Props {
 }
 
 function Audio({ children }: Props) {
-  const context = useMemo(() => {
-    const context = new window.AudioContext();
-    if (context.state !== "suspended") {
-      context.suspend();
-    }
-
-    return context;
-  }, []);
+  const context = useMemo(() => new window.AudioContext(), []);
 
   const resume = useCallback(() => {
     if (context.state === "suspended") {

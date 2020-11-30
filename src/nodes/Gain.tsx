@@ -1,33 +1,56 @@
-import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Handle, Node, Position } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
+import { useNodeContext } from "context/NodeContext";
+import { useOnConnect } from "utils/handles";
 
-interface Props {
-  gain: number;
-  id: string;
-}
+type Props = Node;
 
-type Ref = GainNode;
+const Gain = ({ data, id }: Props) => {
+  const [gain, setGain] = useState<number>(data.gain);
 
-const Gain = forwardRef<Ref, Props>(function ({ gain }, ref) {
+  // AudioNode
   const context = useContext(AudioContext);
-  const node = useMemo<GainNode>(
-    () => context.createGain(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [context]
+  const node = useMemo<GainNode>(() => context.createGain(), [context]);
+  const { addNode } = useNodeContext();
+  useEffect(() => void addNode(id, node), [addNode, node, id]);
+
+  // AudioParam
+  useEffect(() => void (node.gain.value = gain), [node, gain]);
+
+  const onConnect = useOnConnect();
+
+  return (
+    <div className="customNode" title={id}>
+      <Handle id="input" position={Position.Left} style={{ top: "33%" }} type="target" />
+      <Handle id="gain" position={Position.Left} style={{ top: "66%" }} type="target" />
+
+      <Handle id="output" onConnect={onConnect} position={Position.Right} style={{ top: "33%" }} type="source" />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <span style={{ paddingRight: 8 }}>input</span>
+        <span>output</span>
+      </div>
+      <div>
+        gain:{" "}
+        <input
+          className="nodrag"
+          type="range"
+          max="1"
+          min="0"
+          onChange={e => setGain(+e.target.value)}
+          step={0.01}
+          value={gain}
+        />
+        {gain.toFixed(2)}
+      </div>
+    </div>
   );
-
-  useEffect(
-    () => {
-      node.gain.value = gain;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gain]
-  );
-
-  useImperativeHandle(ref, () => node);
-
-  return null;
-});
-Gain.displayName = "Gain";
+};
 
 export default Gain;

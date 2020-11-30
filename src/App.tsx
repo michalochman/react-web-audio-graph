@@ -1,66 +1,88 @@
-import React, { useState } from "react";
+import React from "react";
 import { ReactFlowProvider } from "react-flow-renderer";
 import Audio from "components/Audio";
 import Flow from "components/Flow";
 import Nodes from "components/Nodes";
-import Analyser from "nodes/Analyser";
-import Destination from "nodes/Destination";
-import Gain from "nodes/Gain";
-import Oscillator from "nodes/Oscillator";
 
-import { getNoteFrequency, getNoteName } from "utils/notes";
+function getPosition() {
+  return {
+    x: Math.floor((Math.random() * 0.9 * window.innerWidth) / 20) * 20,
+    y: Math.floor((Math.random() * 0.9 * window.innerHeight) / 20) * 20,
+  };
+}
+
+const nodes = [
+  {
+    id: "Oscillator-note",
+    type: "OscillatorNote",
+    data: {
+      octave: 4,
+      twelfth: 0,
+      type: "sine",
+    },
+    position: getPosition(),
+  },
+  {
+    id: "Oscillator-lfo",
+    type: "Oscillator",
+    data: {
+      frequency: 0.25,
+      type: "sine",
+    },
+    position: getPosition(),
+  },
+  {
+    id: "Gain-note",
+    type: "Gain",
+    data: {
+      gain: 0.1,
+    },
+    position: getPosition(),
+  },
+  {
+    id: "Gain-lfo",
+    type: "Gain",
+    data: {
+      gain: 0.2,
+    },
+    position: getPosition(),
+  },
+  {
+    id: "Gain-master",
+    type: "Gain",
+    data: {
+      gain: 1,
+    },
+    position: getPosition(),
+  },
+  {
+    id: "Analyser-1",
+    type: "Analyser",
+    position: getPosition(),
+  },
+  {
+    id: "Analyser-2",
+    type: "Analyser",
+    position: getPosition(),
+  },
+  {
+    id: "Analyser-3",
+    type: "Analyser",
+    position: getPosition(),
+  },
+  {
+    id: "Destination-speakers",
+    type: "Destination",
+    position: getPosition(),
+  },
+];
 
 function App() {
-  const [detune] = useState(0);
-  const [type, setType] = useState<OscillatorType>("sine");
-  const [octave, setOctave] = useState(4);
-  const [twelfth, setTwelfth] = useState(0);
-  const frequency = getNoteFrequency(octave, twelfth);
-  const note = getNoteName(octave, twelfth);
-
   return (
     <Audio>
       <Nodes>
         <ReactFlowProvider>
-          <Flow>
-            <Oscillator id="note" frequency={frequency} type={type}>
-              {/* TODO temporarily for easier testing of notes */}
-              <div>detune: {detune.toFixed(2)}</div>
-              <div>
-                frequency:{" "}
-                <div>
-                  octave:
-                  <button onClick={() => setOctave(o => (o > 0 ? o - 1 : o))}>-</button>
-                  <button onClick={() => setOctave(o => (o < 8 ? o + 1 : o))}>+</button>
-                  {octave}
-                  <br />
-                  twelfth:
-                  <button onClick={() => setTwelfth(t => (t > 0 ? t - 1 : t))}>-</button>
-                  <button onClick={() => setTwelfth(t => (t < 11 ? t + 1 : t))}>+</button>
-                  {twelfth}
-                  <br />
-                  {note} @ {frequency.toFixed(2)}
-                </div>
-              </div>
-              <div>
-                type:
-                <select onChange={e => setType(e.target.value as OscillatorType)} value={type}>
-                  <option value="sawtooth">sawtooth</option>
-                  <option value="square">square</option>
-                  <option value="sine">sine</option>
-                  <option value="triangle">triangle</option>
-                </select>
-              </div>
-            </Oscillator>
-            <Oscillator id="lfo" frequency={0.25} type="sine" />
-            <Gain id="note" gain={0.1} />
-            <Gain id="lfo" gain={0.2} />
-            <Gain id="master" gain={1} />
-            <Analyser id="note" />
-            <Analyser id="lfo" />
-            <Analyser id="master" />
-            <Destination id="destination" />
-          </Flow>
+          <Flow edges={[]} nodes={nodes} />
         </ReactFlowProvider>
       </Nodes>
     </Audio>

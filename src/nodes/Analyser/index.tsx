@@ -1,14 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Handle, Node, Position } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
+import { AudioContext } from "context/AudioContext";
+import { useNodeContext } from "context/NodeContext";
 import Visualiser from "./Visualiser";
 
 type Props = Node;
 
 const Analyser = ({ id }: Props) => {
-  const node = useNode<AnalyserNode>(id);
-
   const [audioData, setAudioData] = useState(new Uint8Array(0));
+
+  // AudioNode
+  const context = useContext(AudioContext);
+  const node = useMemo<AnalyserNode>(() => context.createAnalyser(), [context]);
+  const { addNode } = useNodeContext();
+  useEffect(() => void addNode(id, node), [addNode, node, id]);
+
+  // AudioParam
+  useEffect(() => void (node.fftSize = 2048), [node]);
 
   const tick = useCallback((): number => {
     const dataArray = new Uint8Array(node.frequencyBinCount);

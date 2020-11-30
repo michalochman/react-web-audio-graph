@@ -3,12 +3,12 @@ import { Connection, Edge } from "react-flow-renderer";
 import { useNodeContext } from "context/NodeContext";
 
 // FIXME This should be handled on changes to ReactFlowRenderer state instead.
-export function useOnOutputConnect() {
+export function useOnConnect() {
   const { nodes } = useNodeContext();
 
   return useCallback(
     (connection: Connection) => {
-      console.log("Output connected", connection, nodes);
+      console.log("Connection created", connection, nodes);
 
       if (!connection.source || !connection.target || !connection.targetHandle) {
         return;
@@ -57,6 +57,26 @@ export function useOnEdgeRemove() {
         // @ts-ignore
         source.disconnect(target[targetHandle]);
       }
+    },
+    [nodes]
+  );
+}
+
+// FIXME This should be handled on changes to ReactFlowRenderer state instead.
+export function useOnNodeRemove() {
+  const { nodes } = useNodeContext();
+
+  return useCallback(
+    (nodeId: string) => {
+      console.log("Node removed", nodeId, nodes);
+
+      const node = nodes[nodeId];
+
+      if (!node) {
+        return;
+      }
+
+      node.disconnect();
     },
     [nodes]
   );
