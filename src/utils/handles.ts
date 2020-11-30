@@ -1,9 +1,8 @@
 import { useCallback } from "react";
-import { Connection } from "react-flow-renderer";
+import { Connection, Edge } from "react-flow-renderer";
 import { useNodeContext } from "context/NodeContext";
 
 // FIXME This should be handled on changes to ReactFlowRenderer state instead.
-//       Now it's not capable of disconnecting nodes.
 export function useOnOutputConnect() {
   const { nodes } = useNodeContext();
 
@@ -27,6 +26,36 @@ export function useOnOutputConnect() {
       else {
         // @ts-ignore
         source.connect(target[targetHandle]);
+      }
+    },
+    [nodes]
+  );
+}
+
+// FIXME This should be handled on changes to ReactFlowRenderer state instead.
+export function useOnEdgeRemove() {
+  const { nodes } = useNodeContext();
+
+  return useCallback(
+    (edge: Edge) => {
+      console.log("Connection removed", edge, nodes);
+
+      if (!edge.source || !edge.target || !edge.targetHandle) {
+        return;
+      }
+
+      const source = nodes[edge.source];
+      const target = nodes[edge.target];
+      const targetHandle = edge.targetHandle;
+
+      // connect AudioNode
+      if (targetHandle === "input") {
+        source.disconnect(target);
+      }
+      // connect AudioParam
+      else {
+        // @ts-ignore
+        source.disconnect(target[targetHandle]);
       }
     },
     [nodes]

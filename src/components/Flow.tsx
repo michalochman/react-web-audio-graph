@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import ReactFlow, { addEdge, Background, Connection, Controls, Edge, Elements } from "react-flow-renderer";
+import ReactFlow, {
+  addEdge,
+  isEdge,
+  removeElements,
+  Background,
+  Connection,
+  Controls,
+  Edge,
+  Elements,
+} from "react-flow-renderer";
 import Analyser from "components/flow/Analyser";
 import Destination from "components/flow/Destination";
 import Gain from "components/flow/Gain";
 import Oscillator from "components/flow/Oscillator";
 import { useNodeContext } from "context/NodeContext";
+import { useOnEdgeRemove } from "utils/handles";
 
 interface Props {
   children: React.ReactNode[];
@@ -28,6 +38,7 @@ const nodeTypes = {
 // TODO consider sending elements as props and couple AudioNodes with ReactFlow nodes
 function Flow({ children }: Props) {
   const { addNode } = useNodeContext();
+  const onEdgeRemove = useOnEdgeRemove();
 
   // Takes AudioNodes provided as children and creates ReactFlow nodes
   const nodes: Elements =
@@ -49,6 +60,12 @@ function Flow({ children }: Props) {
   const [edges, setEdges] = useState<Elements>([]);
 
   const onConnect = (params: Edge | Connection) => setEdges(els => addEdge(params, els));
+  const onElementsRemove = (elementsToRemove: Elements) => {
+    const elementIdsToRemove = elementsToRemove.map(el => el.id);
+    const edgesToRemove = edges.filter(isEdge).filter(edge => elementIdsToRemove.includes(edge.id));
+    edgesToRemove.forEach(edge => onEdgeRemove(edge));
+    setEdges(els => removeElements(elementsToRemove, els));
+  };
 
   return (
     <>
@@ -57,6 +74,7 @@ function Flow({ children }: Props) {
           elements={[...nodes, ...edges]}
           nodeTypes={nodeTypes}
           onConnect={onConnect}
+          onElementsRemove={onElementsRemove}
           snapToGrid
           snapGrid={[10, 10]}
         >
