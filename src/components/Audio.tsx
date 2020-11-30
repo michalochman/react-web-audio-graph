@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { AudioContext } from "context/AudioContext";
 
 interface Props {
@@ -6,12 +6,13 @@ interface Props {
 }
 
 function Audio({ children }: Props) {
-  const context = useMemo(() => new window.AudioContext(), []);
-
-  useEffect(() => {
+  const context = useMemo(() => {
+    const context = new window.AudioContext();
     if (context.state !== "suspended") {
       context.suspend();
     }
+
+    return context;
   }, []);
 
   const resume = useCallback(() => {

@@ -1,13 +1,13 @@
 import React, { useMemo, useRef } from "react";
-import { NodeContext } from "context/NodeContext";
+import { NodeContext, NodeContextType } from "context/NodeContext";
 
 interface Props {
   children: React.ReactNode;
 }
 
 function Nodes({ children }: Props) {
-  const nodes = useRef<NodeContext["nodes"]>({});
-  const context: NodeContext = useMemo(
+  const nodes = useRef<NodeContextType["nodes"]>({});
+  const context: NodeContextType = useMemo(
     () => ({
       addNode: (id, node) => {
         nodes.current[id] = node;

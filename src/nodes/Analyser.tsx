@@ -7,7 +7,7 @@ interface Props {
 
 type Ref = AnalyserNode;
 
-const Analyser = forwardRef<Ref, Props>(function ({}, ref) {
+const Analyser = forwardRef<Ref, Props>(function (props, ref) {
   const context = useContext(AudioContext);
   const node = useMemo<AnalyserNode>(
     () => context.createAnalyser(),
@@ -17,7 +17,7 @@ const Analyser = forwardRef<Ref, Props>(function ({}, ref) {
 
   useEffect(() => {
     node.fftSize = 2048;
-  }, []);
+  }, [node]);
 
   useImperativeHandle(ref, () => node);
 

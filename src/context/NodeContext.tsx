@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
 
-export type NodeContext = {
+export type NodeContextType = {
   addNode: (id: string, node: AudioNode) => void;
   nodes: Record<string, AudioNode>;
 };
 
-export const NodeContext = createContext<NodeContext>(null!);
+export const NodeContext = createContext<NodeContextType>(null!);
 
 export function useNodeContext() {
   return useContext(NodeContext);

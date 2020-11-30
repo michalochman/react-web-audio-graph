@@ -12,12 +12,12 @@ const Oscillator = ({ data, id }: Props) => {
   const [frequency, setFrequency] = useState(node.frequency.value);
   useEffect(() => {
     node.frequency.value = frequency;
-  }, [frequency]);
+  }, [frequency, node]);
 
   const [type, setType] = useState(node.type);
   useEffect(() => {
     node.type = type;
-  }, [type]);
+  }, [node, type]);
 
   return (
     <div className="customNode" title={id}>

@@ -12,7 +12,7 @@ const Gain = ({ id }: Props) => {
   const [gain, setGain] = useState(node.gain.value);
   useEffect(() => {
     node.gain.value = gain;
-  }, [gain]);
+  }, [gain, node]);
 
   return (
     <div className="customNode" title={id}>
