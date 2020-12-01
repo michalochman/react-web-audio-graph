@@ -42,7 +42,7 @@ const Gain = ({ data, id }: Props) => {
           className="nodrag"
           type="range"
           max="1"
-          min="0"
+          min="-1"
           onChange={e => setGain(+e.target.value)}
           step={0.01}
           value={gain}
