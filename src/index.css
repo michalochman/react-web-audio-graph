@@ -12,6 +12,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.react-flow__node-ConstantSource {
+  width: 120px;
+}
 .react-flow__node-Gain {
   width: 120px;
 }

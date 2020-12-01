@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
 import Analyser from "nodes/Analyser";
 import BiquadFilter from "nodes/BiquadFilter";
+import ConstantSource from "nodes/ConstantSource";
 import Destination from "nodes/Destination";
 import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
@@ -32,6 +33,7 @@ const flowWrapperStyle: React.CSSProperties = {
 const nodeTypes = {
   Analyser: Analyser,
   BiquadFilter: BiquadFilter,
+  ConstantSource: ConstantSource,
   Destination: Destination,
   Gain: Gain,
   Oscillator: Oscillator,
@@ -147,6 +149,7 @@ function Flow() {
           <ul className="contextMenu">
             <li onClick={() => addNode("Analyser")}>Add Analyser</li>
             <li onClick={() => addNode("BiquadFilter")}>Add Biquad Filter</li>
+            <li onClick={() => addNode("ConstantSource")}>Add Constant Source</li>
             <li onClick={() => addNode("Destination")}>Add Destination</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
