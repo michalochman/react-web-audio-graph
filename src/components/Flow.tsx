@@ -17,7 +17,7 @@ import Destination from "nodes/Destination";
 import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
-import { useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
+import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 
 const flowWrapperStyle: React.CSSProperties = {
   height: "100%",
@@ -47,20 +47,26 @@ function Flow() {
   const [edges, setEdges] = useState<Elements>([]);
   const elements = [...nodes, ...edges];
 
+  const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
   const onConnect = (params: Edge | Connection) => setEdges(elements => addEdge(params, elements));
   const onElementsRemove = (elementsToRemove: Elements) => {
-    const elementIdsToRemove = elementsToRemove.map(el => el.id);
-    const edgesToRemove = edges.filter(isEdge).filter(edge => elementIdsToRemove.includes(edge.id));
-    const nodesToRemove = edges.filter(isNode).filter(node => elementIdsToRemove.includes(node.id));
+    const edgesToRemove = elementsToRemove.filter(isEdge);
+    const nodesToRemove = elementsToRemove.filter(isNode);
 
     edgesToRemove.forEach(edge => onEdgeRemove(edge));
     nodesToRemove.forEach(node => onNodeRemove(node.id));
 
     setEdges(elements => removeElements(elementsToRemove, elements));
     setNodes(elements => removeElements(elementsToRemove, elements));
+  };
+  const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
+    onEdgeRemove(oldEdge);
+    setEdges(elements => removeElements([oldEdge], elements));
+    setEdges(elements => addEdge(newConnection, elements));
+    onElementsConnect(newConnection);
   };
 
   const onPaneClick = (event: React.MouseEvent<Element, MouseEvent>) => {
@@ -69,12 +75,11 @@ function Flow() {
 
   const onPaneContextMenu = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault();
-    console.log(event);
     setShowPopper(true);
     setVirtualReference({
       getBoundingClientRect: () => ({
-        top: event.clientY,
-        left: event.clientX,
+        top: Math.floor(event.clientY / 10) * 10,
+        left: Math.floor(event.clientX / 10) * 10,
         height: 0,
         width: 0,
       }),
@@ -105,6 +110,7 @@ function Flow() {
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
+        onEdgeUpdate={onEdgeUpdate}
         onElementsRemove={onElementsRemove}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}

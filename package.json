@@ -14,7 +14,7 @@
     "@types/uuid": "^8.3.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-flow-renderer": "^8.0.0",
+    "react-flow-renderer": "^8.1.1",
     "react-popper": "^2.2.4",
     "react-scripts": "4.0.1",
     "typescript": "^4.0.3",

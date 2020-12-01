@@ -13,8 +13,8 @@ body {
   font-size: 12px;
 }
 
-.react-flow__edge-path {
-  stroke-width: 3px;
+.react-flow .react-flow__edge-path {
+  stroke-width: 3;
 }
 
 .contextMenu {
