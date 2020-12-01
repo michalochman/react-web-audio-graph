@@ -7,8 +7,8 @@ export function useOnConnect() {
   const { nodes } = useNodeContext();
 
   return useCallback(
-    (connection: Connection) => {
-      console.log("Connection created", connection, nodes);
+    (connection: Edge | Connection) => {
+      console.log("Connection created", connection);
 
       if (!connection.source || !connection.target || !connection.targetHandle) {
         return;
@@ -26,6 +26,8 @@ export function useOnConnect() {
       else {
         // @ts-ignore
         source.connect(target[targetHandle]);
+        // @ts-ignore
+        target[targetHandle].value = 0;
       }
     },
     [nodes]
@@ -38,7 +40,7 @@ export function useOnEdgeRemove() {
 
   return useCallback(
     (edge: Edge) => {
-      console.log("Connection removed", edge, nodes);
+      console.log("Connection removed", edge);
 
       if (!edge.source || !edge.target || !edge.targetHandle) {
         return;
@@ -56,6 +58,8 @@ export function useOnEdgeRemove() {
       else {
         // @ts-ignore
         source.disconnect(target[targetHandle]);
+        // @ts-ignore
+        target[targetHandle].value = target[targetHandle].defaultValue;
       }
     },
     [nodes]

@@ -1,17 +1,13 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Handle, Node, Position } from "react-flow-renderer";
+import React, { useContext, useEffect, useMemo } from "react";
+import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import { useOnConnect } from "utils/handles";
 import { getNoteFrequency, getNoteName } from "utils/notes";
+import Node from "nodes/Node";
 
-type Props = Node;
-
-const OscillatorNote = ({ data, id }: Props) => {
-  const [detune, setDetune] = useState<number>(data.detune ?? 0);
-  const [type, setType] = useState<OscillatorType>(data.type ?? "sine");
-  const [octave, setOctave] = useState<number>(data.octave ?? 4);
-  const [twelfth, setTwelfth] = useState<number>(data.twelfth ?? 0);
+const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
+  console.log("OscillatorNote render", data, id, selected);
+  const { detune = 0, octave = 4, onChange, twelfth = 0, type = "sine" } = data;
   const frequency = getNoteFrequency(octave, twelfth);
   const note = getNoteName(octave, twelfth);
 
@@ -27,61 +23,49 @@ const OscillatorNote = ({ data, id }: Props) => {
 
   // AudioParam
   useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);
-  useEffect(() => void (node.frequency.value = frequency ?? 440), [node, frequency]);
   useEffect(() => void (node.type = type ?? "sine"), [node, type]);
 
-  const onConnect = useOnConnect();
-
   return (
-    <div className="customNode" title={id}>
-      <Handle id="detune" type="target" position={Position.Left} style={{ top: "40%" }} />
-      <Handle id="frequency" type="target" position={Position.Left} style={{ top: "60%" }} />
-      <Handle id="type" type="target" position={Position.Left} style={{ top: "80%" }} />
-
-      <Handle id="output" onConnect={onConnect} position={Position.Right} style={{ top: "20%" }} type="source" />
-
-      <div style={{ textAlign: "right" }}>
-        <span>output</span>
-      </div>
-      <div>
-        detune:
-        <input
-          className="nodrag"
-          min={-100}
-          max={100}
-          onChange={e => setDetune(+e.target.value)}
-          step={1}
-          type="number"
-          value={detune}
-        />
-      </div>
-      <div>
-        frequency:{" "}
-        <div>
-          octave:
-          <button onClick={() => setOctave(o => (o > 0 ? o - 1 : o))}>-</button>
-          <button onClick={() => setOctave(o => (o < 8 ? o + 1 : o))}>+</button>
-          {octave}
-          <br />
-          twelfth:
-          <button onClick={() => setTwelfth(t => (t > 0 ? t - 1 : t))}>-</button>
-          <button onClick={() => setTwelfth(t => (t < 11 ? t + 1 : t))}>+</button>
-          {twelfth}
-          <br />
-          {note} @ {frequency.toFixed(2)}
+    <Node id={id} inputs={["detune"]} outputs={["output"]} type={nodeType}>
+      {selected && (
+        <div className="customNode_editor">
+          <div className="customNode_item">
+            <input
+              className="nodrag"
+              min={-100}
+              max={100}
+              onChange={e => onChange({ detune: +e.target.value })}
+              step={1}
+              type="number"
+              value={detune}
+            />
+          </div>
+          <div className="customNode_item">
+            <div>
+              <button onClick={() => onChange({ octave: (11 + octave - 1) % 11 })}>-</button>
+              <button onClick={() => onChange({ octave: (octave + 1) % 11 })}>+</button>
+              octave: {octave}
+              <br />
+              <button onClick={() => onChange({ twelfth: (12 + twelfth - 1) % 12 })}>-</button>
+              <button onClick={() => onChange({ twelfth: (twelfth + 1) % 12 })}>+</button>
+              twelfth:
+              {twelfth}
+              <br />
+              {note} @ {frequency.toFixed(2)} Hz
+            </div>
+          </div>
+          <div className="customNode_item">
+            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+              <option value="sawtooth">sawtooth</option>
+              <option value="square">square</option>
+              <option value="sine">sine</option>
+              <option value="triangle">triangle</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div>
-        type:
-        <select onChange={e => setType(e.target.value as OscillatorType)} value={type}>
-          <option value="sawtooth">sawtooth</option>
-          <option value="square">square</option>
-          <option value="sine">sine</option>
-          <option value="triangle">triangle</option>
-        </select>
-      </div>
-    </div>
+      )}
+    </Node>
   );
 };
 
-export default OscillatorNote;
+export default React.memo(OscillatorNote);

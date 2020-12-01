@@ -22,13 +22,12 @@ function drawTimeDomainData({ context, data, height, width }: DrawData) {
   const sliceWidth = width / bufferLength;
 
   context.lineWidth = 2;
-  context.strokeStyle = "#000000";
-  context.clearRect(0, 0, width, height);
+  context.strokeStyle = "#000";
   context.beginPath();
-  context.moveTo(x, ((data[0] / 128.0) * height) / 2);
+  context.moveTo(x, height - ((data[0] / 128.0) * height) / 2);
   for (let i = 1; i < bufferLength; i++) {
     const y = ((data[i] / 128.0) * height) / 2;
-    context.lineTo(x, y);
+    context.lineTo(x, height - y);
     x += sliceWidth;
   }
   context.stroke();
@@ -39,8 +38,7 @@ function drawFrequencyData({ context, data, height, width }: DrawData) {
   const bufferLength = data.length;
   const barWidth = width / bufferLength;
 
-  context.clearRect(0, 0, width, 256);
-  context.fillStyle = "#000000";
+  context.fillStyle = "#000";
   for (let i = 0; i < bufferLength; i++) {
     const barHeight = height * (data[i] / 255.0);
     const y = height - barHeight;
@@ -69,6 +67,8 @@ const Visualiser = ({ node, dataGetter, ...canvasProps }: Props) => {
       height,
       width,
     };
+    context.fillStyle = "#ddd";
+    context.fillRect(0, 0, width, 256);
     if (dataGetter === "getByteTimeDomainData") {
       drawTimeDomainData(drawContext);
     } else if (dataGetter === "getByteFrequencyData") {
@@ -90,7 +90,7 @@ const Visualiser = ({ node, dataGetter, ...canvasProps }: Props) => {
 
   useAnimationFrame(tick);
 
-  return <canvas ref={canvasRef} style={{ background: "#ddd" }} {...canvasProps} />;
+  return <canvas ref={canvasRef} style={{ display: "block" }} {...canvasProps} />;
 };
 
 export default Visualiser;

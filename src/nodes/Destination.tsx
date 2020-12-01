@@ -1,24 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import { Handle, Node, Position } from "react-flow-renderer";
+import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
+import Node from "nodes/Node";
 
-type Props = Node;
-
-const Destination = ({ id }: Props) => {
+const Destination = ({ id, type }: NodeProps) => {
   // AudioNode
   const context = useContext(AudioContext);
   const node = context.destination;
   const { addNode } = useNodeContext();
   useEffect(() => void addNode(id, node), [addNode, node, id]);
 
-  return (
-    <div className="customNode" title={id}>
-      <Handle id="input" position={Position.Left} type="target" />
-
-      <div>input</div>
-    </div>
-  );
+  return <Node id={id} inputs={["input"]} type={type} />;
 };
 
-export default Destination;
+export default React.memo(Destination);

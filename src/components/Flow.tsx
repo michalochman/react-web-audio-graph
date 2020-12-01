@@ -12,6 +12,7 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { usePopper } from "react-popper";
 import { v4 as uuidv4 } from "uuid";
+import produce from "immer";
 import Analyser from "nodes/Analyser";
 import BiquadFilter from "nodes/BiquadFilter";
 import Destination from "nodes/Destination";
@@ -53,7 +54,10 @@ function Flow() {
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
-  const onConnect = (params: Edge | Connection) => setEdges(elements => addEdge(params, elements));
+  const onConnect = (params: Edge | Connection) => {
+    setEdges(elements => addEdge(params, elements));
+    onElementsConnect(params);
+  };
   const onElementsRemove = (elementsToRemove: Elements) => {
     const edgesToRemove = elementsToRemove.filter(isEdge);
     const nodesToRemove = elementsToRemove.filter(isNode);
@@ -90,13 +94,25 @@ function Flow() {
 
   const addNode = useCallback(
     (type: string) => {
+      const id = `${type}-${uuidv4()}`;
+      const onChange = (data: Record<string, any>): void => {
+        setNodes(
+          produce((draft: Elements) => {
+            const node = draft.find(element => element.id === id);
+            if (!node) {
+              return;
+            }
+            Object.keys(data).forEach(property => (node.data[property] = data[property]));
+          })
+        );
+      };
       const position = {
         x: virtualReference.getBoundingClientRect().left,
         y: virtualReference.getBoundingClientRect().top,
       };
       const node = {
-        id: `${type}-${uuidv4()}`,
-        data: {},
+        id,
+        data: { onChange },
         type,
         position,
       };

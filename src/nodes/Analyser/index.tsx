@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Handle, Node, Position } from "react-flow-renderer";
+import React, { useContext, useEffect, useMemo } from "react";
+import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Visualiser from "./Visualiser";
-
-type Props = Node;
+import Node from "nodes/Node";
 
 export type DataGetter = "getByteFrequencyData" | "getByteTimeDomainData";
 
-const Analyser = ({ id }: Props) => {
-  const [dataGetter, setDataGetter] = useState<DataGetter>("getByteTimeDomainData");
-  const [fftSizeExp, setFftSizeExp] = useState(11);
+const Analyser = ({ data, id, selected, type }: NodeProps) => {
+  console.log("Analyser render", data, id, selected);
+  const { dataGetter = "getByteTimeDomainData", fftSizeExp = 11, onChange } = data;
 
   // AudioNode
   const context = useContext(AudioContext);
@@ -22,35 +21,34 @@ const Analyser = ({ id }: Props) => {
   useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);
 
   return (
-    <div className="customNode" title={id}>
-      <Handle id="input" position={Position.Left} type="target" />
-
-      <div>input</div>
-
-      <div>
-        fftSize:{" "}
-        <input
-          className="nodrag"
-          type="range"
-          max="11"
-          min="5"
-          onChange={e => setFftSizeExp(+e.target.value)}
-          step={1}
-          value={fftSizeExp}
-        />
-        {Math.pow(2, fftSizeExp)}
+    <Node id={id} inputs={["input", "fftSize"]} type={type}>
+      <div className="customNode_item">
+        <Visualiser node={node} dataGetter={dataGetter} height={64} width={256} />
       </div>
-      <div>
-        type:
-        <select onChange={e => setDataGetter(e.target.value as DataGetter)} value={dataGetter}>
-          <option value="getByteFrequencyData">Frequency</option>
-          <option value="getByteTimeDomainData">Time Domain</option>
-        </select>
-      </div>
-
-      <Visualiser node={node} dataGetter={dataGetter} height={64} width={256} />
-    </div>
+      {selected && (
+        <div className="customNode_editor">
+          <div className="customNode_item">
+            <input
+              className="nodrag"
+              type="range"
+              max="11"
+              min="5"
+              onChange={e => onChange({ fftSizeExp: +e.target.value })}
+              step={1}
+              value={fftSizeExp}
+            />
+            {Math.pow(2, fftSizeExp)}
+          </div>
+          <div className="customNode_item">
+            <select onChange={e => onChange({ dataGetter: e.target.value })} value={dataGetter}>
+              <option value="getByteFrequencyData">Frequency</option>
+              <option value="getByteTimeDomainData">Time Domain</option>
+            </select>
+          </div>
+        </div>
+      )}
+    </Node>
   );
 };
 
-export default Analyser;
+export default React.memo(Analyser);
