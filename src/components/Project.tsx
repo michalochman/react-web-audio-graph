@@ -1,5 +1,5 @@
 import { useStoreState, Elements } from "react-flow-renderer";
-import React, { Dispatch, SetStateAction, useCallback } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
@@ -17,6 +17,24 @@ function Project({ setProject }: Props) {
     ...element,
     __rf: undefined,
   }));
+  const project = JSON.stringify(mappedElements);
+
+  // Load project from URL
+  useEffect(() => {
+    const project = atob(window.location.hash.substr(1));
+    try {
+      const elements = JSON.parse(project);
+      setProject({
+        id: uuidv4(),
+        elements,
+      });
+    } catch {}
+  }, [setProject]);
+
+  // Store project in URL
+  useEffect(() => {
+    window.location.hash = btoa(project);
+  }, [project]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,7 +52,12 @@ function Project({ setProject }: Props) {
   );
 
   return (
-    <div style={{ padding: 10, width: 400 }}>
+    <div
+      style={{
+        padding: 10,
+        width: 400,
+      }}
+    >
       <textarea
         onChange={onChange}
         style={{
