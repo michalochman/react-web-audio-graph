@@ -9,6 +9,7 @@ import ReactFlow, {
   Edge,
   Elements,
   isNode,
+  useStoreState,
 } from "react-flow-renderer";
 import { usePopper } from "react-popper";
 import { v4 as uuidv4 } from "uuid";
@@ -51,6 +52,7 @@ function Flow() {
   const { styles, attributes } = usePopper(virtualReference, popperElement, {
     placement: "bottom-start",
   });
+  const transform = useStoreState(store => store.transform);
 
   const [nodes, setNodes] = useState<Elements>([]);
   const [edges, setEdges] = useState<Elements>([]);
@@ -113,8 +115,8 @@ function Flow() {
         );
       };
       const position = {
-        x: virtualReference.getBoundingClientRect().left,
-        y: virtualReference.getBoundingClientRect().top,
+        x: (virtualReference.getBoundingClientRect().left - transform[0]) / transform[2],
+        y: (virtualReference.getBoundingClientRect().top - transform[1]) / transform[2],
       };
       const node = {
         id,
@@ -125,7 +127,7 @@ function Flow() {
       setNodes(nodes => [...nodes, node]);
       setShowPopper(false);
     },
-    [virtualReference]
+    [transform, virtualReference]
   );
 
   return (
@@ -138,7 +140,6 @@ function Flow() {
         onElementsRemove={onElementsRemove}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
-        paneMoveable={false}
         snapToGrid
         snapGrid={[10, 10]}
         // TODO figure out why this is needed for flow container not to cover context menu
