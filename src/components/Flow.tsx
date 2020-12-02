@@ -18,6 +18,7 @@ import BiquadFilter from "nodes/BiquadFilter";
 import ConstantSource from "nodes/ConstantSource";
 import Delay from "nodes/Delay";
 import Destination from "nodes/Destination";
+import DynamicsCompressor from "nodes/DynamicsCompressor";
 import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
@@ -37,6 +38,7 @@ const nodeTypes = {
   ConstantSource: ConstantSource,
   Delay: Delay,
   Destination: Destination,
+  DynamicsCompressor: DynamicsCompressor,
   Gain: Gain,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
@@ -154,6 +156,7 @@ function Flow() {
             <li onClick={() => addNode("ConstantSource")}>Add Constant Source</li>
             <li onClick={() => addNode("Delay")}>Add Delay</li>
             <li onClick={() => addNode("Destination")}>Add Destination</li>
+            <li onClick={() => addNode("DynamicsCompressor")}>Add Dynamics Compressor</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
             <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
