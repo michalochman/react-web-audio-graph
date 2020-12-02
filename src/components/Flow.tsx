@@ -16,6 +16,7 @@ import produce from "immer";
 import Analyser from "nodes/Analyser";
 import BiquadFilter from "nodes/BiquadFilter";
 import ConstantSource from "nodes/ConstantSource";
+import Delay from "nodes/Delay";
 import Destination from "nodes/Destination";
 import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
@@ -34,6 +35,7 @@ const nodeTypes = {
   Analyser: Analyser,
   BiquadFilter: BiquadFilter,
   ConstantSource: ConstantSource,
+  Delay: Delay,
   Destination: Destination,
   Gain: Gain,
   Oscillator: Oscillator,
@@ -150,6 +152,7 @@ function Flow() {
             <li onClick={() => addNode("Analyser")}>Add Analyser</li>
             <li onClick={() => addNode("BiquadFilter")}>Add Biquad Filter</li>
             <li onClick={() => addNode("ConstantSource")}>Add Constant Source</li>
+            <li onClick={() => addNode("Delay")}>Add Delay</li>
             <li onClick={() => addNode("Destination")}>Add Destination</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
