@@ -2,14 +2,15 @@ import React, { useCallback, useState } from "react";
 import ReactFlow, {
   addEdge,
   isEdge,
+  isNode,
   removeElements,
+  useStoreState,
   Background,
   Connection,
   Controls,
   Edge,
   Elements,
-  isNode,
-  useStoreState,
+  Node as ReactFlowNode,
 } from "react-flow-renderer";
 import { usePopper } from "react-popper";
 import { v4 as uuidv4 } from "uuid";
@@ -25,13 +26,9 @@ import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 
-const flowWrapperStyle: React.CSSProperties = {
-  height: "100%",
-  position: "absolute",
-  top: 0,
-  left: 0,
-  width: "100%",
-};
+interface Props {
+  elements: Elements;
+}
 
 const nodeTypes = {
   Analyser: Analyser,
@@ -45,7 +42,7 @@ const nodeTypes = {
   OscillatorNote: OscillatorNote,
 };
 
-function Flow() {
+function Flow({ elements: initialElements }: Props) {
   const [showPopper, setShowPopper] = React.useState(false);
   const [popperElement, setPopperElement] = React.useState<HTMLDivElement>();
   const [virtualReference, setVirtualReference] = React.useState<any>(null);
@@ -54,33 +51,51 @@ function Flow() {
   });
   const transform = useStoreState(store => store.transform);
 
-  const [nodes, setNodes] = useState<Elements>([]);
-  const [edges, setEdges] = useState<Elements>([]);
-  const elements = [...nodes, ...edges];
+  const [elements, setElements] = useState<Elements>(initialElements);
 
   const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
+  const onLoad = () => {
+    // Wait for nodes to render and handle connections
+    // FIXME This should be handled on changes to ReactFlowRenderer state instead.
+    setTimeout(() => {
+      const edges = elements.filter(isEdge);
+      edges.forEach(edge => onElementsConnect(edge));
+    }, 0);
+  };
+
   const onConnect = (params: Edge | Connection) => {
-    setEdges(elements => addEdge(params, elements));
+    setElements(elements => addEdge(params, elements));
     onElementsConnect(params);
   };
-  const onElementsRemove = (elementsToRemove: Elements) => {
-    const edgesToRemove = elementsToRemove.filter(isEdge);
-    const nodesToRemove = elementsToRemove.filter(isNode);
+  const onElementsRemove = useCallback(
+    (elementsToRemove: Elements) => {
+      elementsToRemove.filter(isEdge).forEach(edge => onEdgeRemove(edge));
+      elementsToRemove.filter(isNode).forEach(node => onNodeRemove(node.id));
 
-    edgesToRemove.forEach(edge => onEdgeRemove(edge));
-    nodesToRemove.forEach(node => onNodeRemove(node.id));
-
-    setEdges(elements => removeElements(elementsToRemove, elements));
-    setNodes(elements => removeElements(elementsToRemove, elements));
-  };
+      setElements(elements => removeElements(elementsToRemove, elements));
+    },
+    [onEdgeRemove, onNodeRemove]
+  );
   const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
     onEdgeRemove(oldEdge);
-    setEdges(elements => removeElements([oldEdge], elements));
-    setEdges(elements => addEdge(newConnection, elements));
+    setElements(elements => removeElements([oldEdge], elements));
+    setElements(elements => addEdge(newConnection, elements));
     onElementsConnect(newConnection);
+  };
+
+  const onNodeDragStop = (event: React.MouseEvent<Element, MouseEvent>, draggedNode: ReactFlowNode) => {
+    setElements(
+      produce((draft: Elements) => {
+        const node = draft.filter(isNode).find(element => element.id === draggedNode.id);
+        if (!node) {
+          return;
+        }
+        node.position = draggedNode.position;
+      })
+    );
   };
 
   const onPaneClick = (event: React.MouseEvent<Element, MouseEvent>) => {
@@ -104,9 +119,9 @@ function Flow() {
     (type: string) => {
       const id = `${type}-${uuidv4()}`;
       const onChange = (data: Record<string, any>): void => {
-        setNodes(
+        setElements(
           produce((draft: Elements) => {
-            const node = draft.find(element => element.id === id);
+            const node = draft.filter(isNode).find(element => element.id === id);
             if (!node) {
               return;
             }
@@ -124,20 +139,22 @@ function Flow() {
         type,
         position,
       };
-      setNodes(nodes => [...nodes, node]);
+      setElements(elements => [...elements, node]);
       setShowPopper(false);
     },
     [transform, virtualReference]
   );
 
   return (
-    <div style={flowWrapperStyle}>
+    <>
       <ReactFlow
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
         onEdgeUpdate={onEdgeUpdate}
         onElementsRemove={onElementsRemove}
+        onLoad={onLoad}
+        onNodeDragStop={onNodeDragStop}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
         onlyRenderVisibleElements={false}
@@ -165,8 +182,8 @@ function Flow() {
           </ul>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
-export default Flow;
+export default React.memo(Flow);
