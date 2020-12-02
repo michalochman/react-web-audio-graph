@@ -140,6 +140,7 @@ function Flow() {
         onElementsRemove={onElementsRemove}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
+        onlyRenderVisibleElements={false}
         snapToGrid
         snapGrid={[10, 10]}
         // TODO figure out why this is needed for flow container not to cover context menu
