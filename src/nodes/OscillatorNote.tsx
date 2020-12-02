@@ -23,6 +23,7 @@ const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
 
   // AudioParam
   useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);
+  useEffect(() => void (node.frequency.value = frequency), [node, frequency]);
   useEffect(() => void (node.type = type ?? "sine"), [node, type]);
 
   return (
