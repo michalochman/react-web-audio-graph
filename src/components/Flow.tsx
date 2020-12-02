@@ -57,7 +57,28 @@ function Flow({ elements: initialElements }: Props) {
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
+  const createOnChange = (id: string) => (data: Record<string, any>): void => {
+    setElements(
+      produce((draft: Elements) => {
+        const node = draft.filter(isNode).find(element => element.id === id);
+        if (!node) {
+          return;
+        }
+        Object.keys(data).forEach(property => (node.data[property] = data[property]));
+      })
+    );
+  };
+
   const onLoad = () => {
+    // Attach onChange to nodes
+    setElements(
+      produce((draft: Elements) => {
+        draft.filter(isNode).forEach(node => {
+          node.data.onChange = createOnChange(node.id);
+        });
+      })
+    );
+
     // Wait for nodes to render and handle connections
     // FIXME This should be handled on changes to ReactFlowRenderer state instead.
     setTimeout(() => {
@@ -118,17 +139,7 @@ function Flow({ elements: initialElements }: Props) {
   const addNode = useCallback(
     (type: string) => {
       const id = `${type}-${uuidv4()}`;
-      const onChange = (data: Record<string, any>): void => {
-        setElements(
-          produce((draft: Elements) => {
-            const node = draft.filter(isNode).find(element => element.id === id);
-            if (!node) {
-              return;
-            }
-            Object.keys(data).forEach(property => (node.data[property] = data[property]));
-          })
-        );
-      };
+      const onChange = createOnChange(id);
       const position = {
         x: (virtualReference.getBoundingClientRect().left - transform[0]) / transform[2],
         y: (virtualReference.getBoundingClientRect().top - transform[1]) / transform[2],
