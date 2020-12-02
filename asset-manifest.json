@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/react-web-audio-graph/static/css/main.79c2e995.chunk.css",
+    "main.js": "/react-web-audio-graph/static/js/main.20efbc95.chunk.js",
+    "main.js.map": "/react-web-audio-graph/static/js/main.20efbc95.chunk.js.map",
+    "runtime-main.js": "/react-web-audio-graph/static/js/runtime-main.e1384606.js",
+    "runtime-main.js.map": "/react-web-audio-graph/static/js/runtime-main.e1384606.js.map",
+    "static/js/2.e7ec2dce.chunk.js": "/react-web-audio-graph/static/js/2.e7ec2dce.chunk.js",
+    "static/js/2.e7ec2dce.chunk.js.map": "/react-web-audio-graph/static/js/2.e7ec2dce.chunk.js.map",
+    "static/js/3.54a36a56.chunk.js": "/react-web-audio-graph/static/js/3.54a36a56.chunk.js",
+    "static/js/3.54a36a56.chunk.js.map": "/react-web-audio-graph/static/js/3.54a36a56.chunk.js.map",
+    "index.html": "/react-web-audio-graph/index.html",
+    "static/css/main.79c2e995.chunk.css.map": "/react-web-audio-graph/static/css/main.79c2e995.chunk.css.map",
+    "static/js/2.e7ec2dce.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.e7ec2dce.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e1384606.js",
+    "static/js/2.e7ec2dce.chunk.js",
+    "static/css/main.79c2e995.chunk.css",
+    "static/js/main.20efbc95.chunk.js"
+  ]
+}
