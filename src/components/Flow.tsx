@@ -24,6 +24,7 @@ import DynamicsCompressor from "nodes/DynamicsCompressor";
 import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
+import StereoPanner from "nodes/StereoPanner";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 import { useNodeContext } from "context/NodeContext";
 
@@ -41,6 +42,7 @@ const nodeTypes = {
   Gain: Gain,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
+  StereoPanner: StereoPanner,
 };
 
 async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AudioNode>) {
@@ -206,6 +208,7 @@ function Flow({ elements: initialElements }: Props) {
             <li onClick={() => addNode("Gain")}>Add Gain</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
             <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
+            <li onClick={() => addNode("StereoPanner")}>Add Stereo Panner</li>
           </ul>
         </div>
       )}
