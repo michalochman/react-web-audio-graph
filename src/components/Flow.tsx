@@ -25,6 +25,7 @@ import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
 import StereoPanner from "nodes/StereoPanner";
+import WaveShaper from "nodes/WaveShaper";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 import { useNodeContext } from "context/NodeContext";
 
@@ -43,6 +44,7 @@ const nodeTypes = {
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
   StereoPanner: StereoPanner,
+  WaveShaper: WaveShaper,
 };
 
 async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AudioNode>) {
@@ -209,6 +211,7 @@ function Flow({ elements: initialElements }: Props) {
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
             <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
             <li onClick={() => addNode("StereoPanner")}>Add Stereo Panner</li>
+            <li onClick={() => addNode("WaveShaper")}>Add Wave Shaper</li>
           </ul>
         </div>
       )}
