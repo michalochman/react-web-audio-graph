@@ -25,6 +25,7 @@ import Gain from "nodes/Gain";
 import Oscillator from "nodes/Oscillator";
 import OscillatorNote from "nodes/OscillatorNote";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
+import { useNodeContext } from "context/NodeContext";
 
 interface Props {
   elements: Elements;
@@ -42,6 +43,21 @@ const nodeTypes = {
   OscillatorNote: OscillatorNote,
 };
 
+async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AudioNode>) {
+  const nodesWithConnections = initialElements.filter(isEdge).reduce<Record<string, boolean>>((nodeIds, edge) => {
+    nodeIds[edge.source] = true;
+    nodeIds[edge.target] = true;
+    return nodeIds;
+  }, {});
+  while (Object.keys(nodesWithConnections).length) {
+    Object.keys(audioNodes).forEach(nodeId => {
+      delete nodesWithConnections[nodeId];
+    });
+    await new Promise(resolve => setTimeout(resolve, 0));
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}
+
 function Flow({ elements: initialElements }: Props) {
   const [showPopper, setShowPopper] = React.useState(false);
   const [popperElement, setPopperElement] = React.useState<HTMLDivElement>();
@@ -52,6 +68,7 @@ function Flow({ elements: initialElements }: Props) {
   const transform = useStoreState(store => store.transform);
 
   const [elements, setElements] = useState<Elements>(initialElements);
+  const { nodes: audioNodes } = useNodeContext();
 
   const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
@@ -69,7 +86,7 @@ function Flow({ elements: initialElements }: Props) {
     );
   };
 
-  const onLoad = () => {
+  const onLoad = async () => {
     // Attach onChange to nodes
     setElements(
       produce((draft: Elements) => {
@@ -81,10 +98,9 @@ function Flow({ elements: initialElements }: Props) {
 
     // Wait for nodes to render and handle connections
     // FIXME This should be handled on changes to ReactFlowRenderer state instead.
-    setTimeout(() => {
-      const edges = elements.filter(isEdge);
-      edges.forEach(edge => onElementsConnect(edge));
-    }, 0);
+    await waitForInitialNodes(initialElements, audioNodes);
+    const edges = initialElements.filter(isEdge);
+    edges.forEach(edge => onElementsConnect(edge));
   };
 
   const onConnect = (params: Edge | Connection) => {
