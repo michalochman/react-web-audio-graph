@@ -22,7 +22,7 @@ const ConstantSource = ({ data, id, selected, type }: NodeProps) => {
   useEffect(() => (node.offset.value = offset), [node, offset]);
 
   return (
-    <Node id={id} outputs={["output"]} type={type}>
+    <Node id={id} outputs={["output"]} title={`Constant: ${offset}`} type={type}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
