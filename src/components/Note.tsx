@@ -15,21 +15,21 @@ const octaveStyles: React.CSSProperties = {
   ...modifierStyles,
   verticalAlign: "sub",
 };
-const pitchStyles: React.CSSProperties = {
+const accidentalStyles: React.CSSProperties = {
   ...modifierStyles,
   transform: "translateX(-100%)",
   verticalAlign: "super",
 };
 
 function Note({ octave, twelfth }: Props) {
-  const [note, pitch] = getNoteName(twelfth).split("");
+  const [name, accidental] = getNoteName(twelfth).split("");
   const frequency = getNoteFrequency(octave, twelfth);
 
   return (
     <span>
-      {note}
+      {name}
       <small style={octaveStyles}>{octave}</small>
-      {pitch && <small style={pitchStyles}>{pitch}</small>}
+      {accidental && <small style={accidentalStyles}>{accidental}</small>}
       <small> ({frequency.toFixed(2)} Hz)</small>
     </span>
   );
