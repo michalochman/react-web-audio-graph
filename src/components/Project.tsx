@@ -1,5 +1,5 @@
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useStoreState, Elements } from "react-flow-renderer";
-import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
@@ -12,6 +12,7 @@ export interface ProjectState {
 }
 
 function Project({ setProject }: Props) {
+  const [visible, setVisible] = useState(false);
   const elements = useStoreState(store => store.elements);
   const mappedElements = elements.map(element => ({
     ...element,
@@ -28,7 +29,9 @@ function Project({ setProject }: Props) {
         id: uuidv4(),
         elements,
       });
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
   }, [setProject]);
 
   // Store project in URL
@@ -54,7 +57,13 @@ function Project({ setProject }: Props) {
   return (
     <div
       style={{
+        height: "100%",
         padding: 10,
+        position: "absolute",
+        right: 0,
+        top: 0,
+        transform: visible ? "translateX(0)" : "translateX(100%)",
+        transition: "transform 0.4s ease",
         width: 400,
       }}
     >
@@ -68,6 +77,18 @@ function Project({ setProject }: Props) {
         }}
         value={JSON.stringify(mappedElements, null, 2)}
       />
+      <button
+        onClick={() => setVisible(visible => !visible)}
+        style={{
+          position: "absolute",
+          right: "100%",
+          top: -10,
+          transform: "rotate(-90deg)",
+          transformOrigin: "bottom right",
+        }}
+      >
+        {visible ? "hide" : "show"}
+      </button>
     </div>
   );
 }
