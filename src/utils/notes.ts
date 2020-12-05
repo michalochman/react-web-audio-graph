@@ -16,7 +16,7 @@ export function getNoteFrequency(octave: number, twelfth: number) {
   assertOctaveValid(octave);
   assertTwelfthValid(twelfth);
 
-  const C0 = 16.35;
+  const C0 = 16.3516;
   return C0 * Math.pow(2, octave + twelfth / 12);
 }
 
