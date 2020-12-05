@@ -37,6 +37,7 @@ body {
   border-radius: 4px 4px 0 0;
   display: flex;
   font-weight: bold;
+  height: 20px;
   justify-content: center;
   padding: 5px;
 }
