@@ -26,7 +26,7 @@ const Analyser = ({ data, id, selected, type: nodeType }: NodeProps) => {
   useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);
 
   return (
-    <Node id={id} inputs={["input", "fftSize"]} outputs={["output"]} type={nodeType}>
+    <Node id={id} inputs={["input", "fftSize"]} outputs={["output"]} title={`Analyser: ${type}`} type={nodeType}>
       <div className="customNode_item">
         <Visualiser type={type} node={node} paused={paused} height={64} width={256} />
       </div>
