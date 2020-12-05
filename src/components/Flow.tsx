@@ -17,6 +17,8 @@ import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
 import Analyser from "components/nodes/Analyser";
 import BiquadFilter from "components/nodes/BiquadFilter";
+import ChannelMerger from "components/nodes/ChannelMerger";
+import ChannelSplitter from "components/nodes/ChannelSplitter";
 import ConstantSource from "components/nodes/ConstantSource";
 import Delay from "components/nodes/Delay";
 import Destination from "components/nodes/Destination";
@@ -36,6 +38,8 @@ interface Props {
 const nodeTypes = {
   Analyser: Analyser,
   BiquadFilter: BiquadFilter,
+  ChannelMerger: ChannelMerger,
+  ChannelSplitter: ChannelSplitter,
   ConstantSource: ConstantSource,
   Delay: Delay,
   Destination: Destination,
@@ -203,6 +207,8 @@ function Flow({ elements: initialElements }: Props) {
           <ul className="contextMenu">
             <li onClick={() => addNode("Analyser")}>Add Analyser</li>
             <li onClick={() => addNode("BiquadFilter")}>Add Biquad Filter</li>
+            <li onClick={() => addNode("ChannelMerger")}>Add Channel Merger</li>
+            <li onClick={() => addNode("ChannelSplitter")}>Add Channel Splitter</li>
             <li onClick={() => addNode("ConstantSource")}>Add Constant Source</li>
             <li onClick={() => addNode("Delay")}>Add Delay</li>
             <li onClick={() => addNode("Destination")}>Add Destination</li>
