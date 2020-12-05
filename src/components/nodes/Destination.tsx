@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
 function Destination({ id, type }: NodeProps) {
   // AudioNode

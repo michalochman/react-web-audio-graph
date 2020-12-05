@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { DataType } from "nodes/Analyser/index";
+import { DataType } from "components/nodes/Analyser/index";
 import useAnimationFrame from "hooks/useAnimationFrame";
 
 interface OwnProps {

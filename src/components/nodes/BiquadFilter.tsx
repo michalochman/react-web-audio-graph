@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
 function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, gain = 0, frequency = 350, Q = 1, onChange, type = "lowpass" } = data;

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from "re
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
 // See: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode#Example
 const distortion = `const k = 50;

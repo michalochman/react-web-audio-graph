@@ -15,17 +15,17 @@ import ReactFlow, {
 import { usePopper } from "react-popper";
 import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
-import Analyser from "nodes/Analyser";
-import BiquadFilter from "nodes/BiquadFilter";
-import ConstantSource from "nodes/ConstantSource";
-import Delay from "nodes/Delay";
-import Destination from "nodes/Destination";
-import DynamicsCompressor from "nodes/DynamicsCompressor";
-import Gain from "nodes/Gain";
-import Oscillator from "nodes/Oscillator";
-import OscillatorNote from "nodes/OscillatorNote";
-import StereoPanner from "nodes/StereoPanner";
-import WaveShaper from "nodes/WaveShaper";
+import Analyser from "components/nodes/Analyser";
+import BiquadFilter from "components/nodes/BiquadFilter";
+import ConstantSource from "components/nodes/ConstantSource";
+import Delay from "components/nodes/Delay";
+import Destination from "components/nodes/Destination";
+import DynamicsCompressor from "components/nodes/DynamicsCompressor";
+import Gain from "components/nodes/Gain";
+import Oscillator from "components/nodes/Oscillator";
+import OscillatorNote from "components/nodes/OscillatorNote";
+import StereoPanner from "components/nodes/StereoPanner";
+import WaveShaper from "components/nodes/WaveShaper";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 import { useNodeContext } from "context/NodeContext";
 

@@ -2,28 +2,22 @@ import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
-function StereoPanner({ data, id, selected, type }: NodeProps) {
-  const { pan = 0, onChange } = data;
+function Gain({ data, id, selected, type }: NodeProps) {
+  const { gain = 1, onChange } = data;
 
   // AudioNode
   const context = useContext(AudioContext);
-  const node = useMemo<StereoPannerNode>(() => context.createStereoPanner(), [context]);
+  const node = useMemo<GainNode>(() => context.createGain(), [context]);
   const { addNode } = useNodeContext();
   useEffect(() => void addNode(id, node), [addNode, node, id]);
 
   // AudioParam
-  useEffect(() => void (node.pan.value = pan), [node, pan]);
+  useEffect(() => void (node.gain.value = gain), [node, gain]);
 
   return (
-    <Node
-      id={id}
-      inputs={["input", "pan"]}
-      outputs={["output"]}
-      title={`Stereo: ${Math.abs(pan * 100).toFixed(0)}% ${pan > 0 ? "Right" : pan < 0 ? "Left" : ""}`}
-      type={type}
-    >
+    <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={`Gain: ${gain}`} type={type}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
@@ -33,8 +27,8 @@ function StereoPanner({ data, id, selected, type }: NodeProps) {
               max="1"
               min="-1"
               step="0.01"
-              onChange={e => onChange({ pan: +e.target.value })}
-              value={pan}
+              onChange={e => onChange({ gain: +e.target.value })}
+              value={gain}
             />
           </div>
         </div>
@@ -43,4 +37,4 @@ function StereoPanner({ data, id, selected, type }: NodeProps) {
   );
 }
 
-export default React.memo(StereoPanner);
+export default React.memo(Gain);

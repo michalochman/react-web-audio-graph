@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
 function DynamicsCompressor({ data, id, selected, type }: NodeProps) {
   const { attack = 0.003, knee = 30, onChange, ratio = 12, release = 0.25, threshold = -24 } = data;

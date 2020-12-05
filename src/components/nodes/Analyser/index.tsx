@@ -3,7 +3,7 @@ import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Visualiser from "./Visualiser";
-import Node from "nodes/Node";
+import Node from "components/nodes/Node";
 
 export enum DataType {
   Frequency = "Frequency",
