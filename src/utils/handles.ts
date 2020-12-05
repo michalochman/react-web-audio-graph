@@ -26,8 +26,6 @@ export function useOnConnect() {
       else {
         // @ts-ignore
         source.connect(target[targetHandle]);
-        // @ts-ignore
-        target[targetHandle].value = 0;
       }
     },
     [nodes]
@@ -58,8 +56,6 @@ export function useOnEdgeRemove() {
       else {
         // @ts-ignore
         source.disconnect(target[targetHandle]);
-        // @ts-ignore
-        target[targetHandle].value = target[targetHandle].defaultValue;
       }
     },
     [nodes]
