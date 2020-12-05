@@ -51,7 +51,7 @@ function drawFrequencyData(context: CanvasRenderingContext2D, data: Uint8Array) 
   }
 }
 
-const Visualiser = ({ node, paused, type, ...canvasProps }: Props) => {
+function Visualiser({ node, paused, type, ...canvasProps }: Props) {
   const audioData = useRef(new Uint8Array(node.frequencyBinCount));
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -90,6 +90,6 @@ const Visualiser = ({ node, paused, type, ...canvasProps }: Props) => {
   useAnimationFrame(tick);
 
   return <canvas ref={canvasRef} style={{ display: "block" }} {...canvasProps} />;
-};
+}
 
-export default Visualiser;
+export default React.memo(Visualiser);

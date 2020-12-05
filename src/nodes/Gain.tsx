@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const Gain = ({ data, id, selected, type }: NodeProps) => {
-  console.log("Gain render", data, id, selected);
+function Gain({ data, id, selected, type }: NodeProps) {
   const { gain = 1, onChange } = data;
 
   // AudioNode
@@ -36,6 +35,6 @@ const Gain = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(Gain);

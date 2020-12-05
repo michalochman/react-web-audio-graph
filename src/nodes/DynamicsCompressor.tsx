@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const DynamicsCompressor = ({ data, id, selected, type }: NodeProps) => {
-  console.log("DynamicsCompressor render", data, id, selected);
+function DynamicsCompressor({ data, id, selected, type }: NodeProps) {
   const { attack = 0.003, knee = 30, onChange, ratio = 12, release = 0.25, threshold = -24 } = data;
 
   // AudioNode
@@ -89,6 +88,6 @@ const DynamicsCompressor = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(DynamicsCompressor);

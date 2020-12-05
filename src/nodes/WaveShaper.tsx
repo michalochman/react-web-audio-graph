@@ -14,8 +14,7 @@ for (let i = 0; i < samples; i++) {
 }
 return curve;`;
 
-const WaveShaper = ({ data, id, selected, type }: NodeProps) => {
-  console.log("WaveShaper render", data, id, selected);
+function WaveShaper({ data, id, selected, type }: NodeProps) {
   const { onChange, oversample } = data;
   const [curveFn, setCurveFn] = useState(data.curveFn ?? distortion);
   const [lastValidCurveFn, setLastValidCurveFn] = useState(curveFn);
@@ -43,8 +42,8 @@ const WaveShaper = ({ data, id, selected, type }: NodeProps) => {
 
       setLastValidCurveFn(curveFn);
       onChange({ curveFn });
-    } catch {
-      console.error("bad fn");
+    } catch (e) {
+      console.error(e);
     }
   }, [context.sampleRate, curveFn, onChange]);
 
@@ -73,6 +72,6 @@ const WaveShaper = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(WaveShaper);

@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const StereoPanner = ({ data, id, selected, type }: NodeProps) => {
-  console.log("StereoPanner render", data, id, selected);
+function StereoPanner({ data, id, selected, type }: NodeProps) {
   const { pan = 0, onChange } = data;
 
   // AudioNode
@@ -42,6 +41,6 @@ const StereoPanner = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(StereoPanner);

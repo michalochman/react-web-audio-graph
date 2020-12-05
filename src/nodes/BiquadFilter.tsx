@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const BiquadFilter = ({ data, id, selected, type: nodeType }: NodeProps) => {
-  console.log("BiquadFilter render", data, id, selected);
+function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, gain = 0, frequency = 350, Q = 1, onChange, type = "lowpass" } = data;
 
   // AudioNode
@@ -89,6 +88,6 @@ const BiquadFilter = ({ data, id, selected, type: nodeType }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(BiquadFilter);

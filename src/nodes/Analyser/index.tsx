@@ -10,10 +10,7 @@ export enum DataType {
   TimeDomain = "Time Domain",
 }
 
-// const dataType: Record<DataGetter, string> = {};
-
-const Analyser = ({ data, id, selected, type: nodeType }: NodeProps) => {
-  console.log("Analyser render", data, id, selected);
+function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
   const { fftSizeExp = 11, onChange, paused = false, type = DataType.TimeDomain } = data;
 
   // AudioNode
@@ -68,6 +65,6 @@ const Analyser = ({ data, id, selected, type: nodeType }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(Analyser);

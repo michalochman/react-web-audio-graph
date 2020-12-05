@@ -6,8 +6,7 @@ import { useNodeContext } from "context/NodeContext";
 import { getNoteFrequency, getNoteName } from "utils/notes";
 import Node from "nodes/Node";
 
-const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
-  console.log("OscillatorNote render", data, id, selected);
+function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, octave = 4, onChange, twelfth = 0, type = "sine" } = data;
   const frequency = getNoteFrequency(octave, twelfth);
 
@@ -76,6 +75,6 @@ const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(OscillatorNote);

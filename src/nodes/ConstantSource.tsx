@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const ConstantSource = ({ data, id, selected, type }: NodeProps) => {
-  console.log("ConstantSource render", data, id, selected);
+function ConstantSource({ data, id, selected, type }: NodeProps) {
   const { offset = 1, onChange } = data;
 
   // AudioNode
@@ -38,6 +37,6 @@ const ConstantSource = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(ConstantSource);

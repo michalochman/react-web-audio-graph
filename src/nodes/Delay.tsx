@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const Delay = ({ data, id, selected, type }: NodeProps) => {
-  console.log("Delay render", data, id, selected);
+function Delay({ data, id, selected, type }: NodeProps) {
   const { delayTime = 1, onChange } = data;
 
   // AudioNode
@@ -33,6 +32,6 @@ const Delay = ({ data, id, selected, type }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(Delay);

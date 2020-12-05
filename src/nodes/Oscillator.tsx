@@ -4,8 +4,7 @@ import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import Node from "nodes/Node";
 
-const Oscillator = ({ data, id, selected, type: nodeType }: NodeProps) => {
-  console.log("Oscillator render", data, id, selected);
+function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, frequency = 440, onChange, type = "sine" } = data;
 
   // AudioNode
@@ -66,6 +65,6 @@ const Oscillator = ({ data, id, selected, type: nodeType }: NodeProps) => {
       )}
     </Node>
   );
-};
+}
 
 export default React.memo(Oscillator);
