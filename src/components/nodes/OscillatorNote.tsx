@@ -52,14 +52,18 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
               {Array(12)
                 .fill(0)
                 .map((_, twelfth) => (
-                  <option value={twelfth}>{getNoteName(twelfth)}</option>
+                  <option key={twelfth} value={twelfth}>
+                    {getNoteName(twelfth)}
+                  </option>
                 ))}
             </select>
             <select onChange={e => onChange({ octave: +e.target.value })} style={{ width: "50%" }} value={octave}>
               {Array(11)
                 .fill(0)
                 .map((_, octave) => (
-                  <option value={octave}>{octave}</option>
+                  <option key={octave} value={octave}>
+                    {octave}
+                  </option>
                 ))}
             </select>
           </div>
