@@ -22,7 +22,13 @@ const BiquadFilter = ({ data, id, selected, type: nodeType }: NodeProps) => {
   useEffect(() => void (node.type = type), [node, type]);
 
   return (
-    <Node id={id} inputs={["input", "detune", "frequency", "gain", "Q"]} outputs={["output"]} type={nodeType}>
+    <Node
+      id={id}
+      inputs={["input", "detune", "frequency", "gain", "Q"]}
+      outputs={["output"]}
+      title={`Filter: ${type}`}
+      type={nodeType}
+    >
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
