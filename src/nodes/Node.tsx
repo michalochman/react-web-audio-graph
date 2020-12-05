@@ -6,13 +6,14 @@ interface Props {
   id: NodeProps["id"];
   inputs?: string[];
   outputs?: string[];
+  title?: React.ReactNode;
   type: NodeProps["type"];
 }
 
-function Node({ children, id, inputs, outputs, type }: Props) {
+function Node({ children, id, inputs, outputs, title, type }: Props) {
   return (
     <div className="customNode" title={id}>
-      <div className="customNode_header">{type}</div>
+      <div className="customNode_header">{title ?? type}</div>
       <div className="customNode_body">
         {inputs && (
           <div className="customNode_inputs">
