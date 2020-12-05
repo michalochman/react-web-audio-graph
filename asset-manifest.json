@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/react-web-audio-graph/static/css/main.79c2e995.chunk.css",
+    "main.css": "/react-web-audio-graph/static/css/main.ce0a360a.chunk.css",
     "main.js": "/react-web-audio-graph/static/js/main.f31cf9af.chunk.js",
     "main.js.map": "/react-web-audio-graph/static/js/main.f31cf9af.chunk.js.map",
     "runtime-main.js": "/react-web-audio-graph/static/js/runtime-main.26ebc2b8.js",
@@ -10,13 +10,13 @@
     "static/js/3.5a4a8ea2.chunk.js": "/react-web-audio-graph/static/js/3.5a4a8ea2.chunk.js",
     "static/js/3.5a4a8ea2.chunk.js.map": "/react-web-audio-graph/static/js/3.5a4a8ea2.chunk.js.map",
     "index.html": "/react-web-audio-graph/index.html",
-    "static/css/main.79c2e995.chunk.css.map": "/react-web-audio-graph/static/css/main.79c2e995.chunk.css.map",
+    "static/css/main.ce0a360a.chunk.css.map": "/react-web-audio-graph/static/css/main.ce0a360a.chunk.css.map",
     "static/js/2.e67f0c51.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.e67f0c51.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.26ebc2b8.js",
     "static/js/2.e67f0c51.chunk.js",
-    "static/css/main.79c2e995.chunk.css",
+    "static/css/main.ce0a360a.chunk.css",
     "static/js/main.f31cf9af.chunk.js"
   ]
 }
