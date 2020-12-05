@@ -1,11 +1,11 @@
 import React, { useCallback, useRef } from "react";
-import { DataGetter } from "nodes/Analyser/index";
+import { DataType } from "nodes/Analyser/index";
 import useAnimationFrame from "hooks/useAnimationFrame";
 
 interface OwnProps {
-  dataGetter: DataGetter;
   node: AnalyserNode;
   paused: boolean;
+  type: DataType;
 }
 
 type Props = OwnProps & React.ComponentProps<"canvas">;
@@ -51,7 +51,7 @@ function drawFrequencyData(context: CanvasRenderingContext2D, data: Uint8Array) 
   }
 }
 
-const Visualiser = ({ dataGetter, node, paused, ...canvasProps }: Props) => {
+const Visualiser = ({ node, paused, type, ...canvasProps }: Props) => {
   const audioData = useRef(new Uint8Array(node.frequencyBinCount));
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -62,19 +62,23 @@ const Visualiser = ({ dataGetter, node, paused, ...canvasProps }: Props) => {
       return;
     }
 
-    if (dataGetter === "getByteTimeDomainData") {
+    if (type === DataType.TimeDomain) {
       drawTimeDomainData(context, audioData.current);
-    } else if (dataGetter === "getByteFrequencyData") {
+    } else if (type === DataType.Frequency) {
       drawFrequencyData(context, audioData.current);
     }
-  }, [dataGetter]);
+  }, [type]);
 
   const getData = useCallback(() => {
     const bufferLength = node.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
-    node[dataGetter].call(node, dataArray);
+    if (type === DataType.TimeDomain) {
+      node.getByteTimeDomainData(dataArray);
+    } else if (type === DataType.Frequency) {
+      node.getByteFrequencyData(dataArray);
+    }
     audioData.current = dataArray;
-  }, [node, dataGetter]);
+  }, [node, type]);
 
   const tick = useCallback(() => {
     if (!paused) {

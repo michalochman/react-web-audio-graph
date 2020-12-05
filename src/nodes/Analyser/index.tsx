@@ -5,11 +5,16 @@ import { useNodeContext } from "context/NodeContext";
 import Visualiser from "./Visualiser";
 import Node from "nodes/Node";
 
-export type DataGetter = "getByteFrequencyData" | "getByteTimeDomainData";
+export enum DataType {
+  Frequency = "Frequency",
+  TimeDomain = "Time Domain",
+}
 
-const Analyser = ({ data, id, selected, type }: NodeProps) => {
+// const dataType: Record<DataGetter, string> = {};
+
+const Analyser = ({ data, id, selected, type: nodeType }: NodeProps) => {
   console.log("Analyser render", data, id, selected);
-  const { dataGetter = "getByteTimeDomainData", fftSizeExp = 11, onChange, paused = false } = data;
+  const { fftSizeExp = 11, onChange, paused = false, type = DataType.TimeDomain } = data;
 
   // AudioNode
   const context = useContext(AudioContext);
@@ -21,9 +26,9 @@ const Analyser = ({ data, id, selected, type }: NodeProps) => {
   useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);
 
   return (
-    <Node id={id} inputs={["input", "fftSize"]} outputs={["output"]} type={type}>
+    <Node id={id} inputs={["input", "fftSize"]} outputs={["output"]} type={nodeType}>
       <div className="customNode_item">
-        <Visualiser dataGetter={dataGetter} node={node} paused={paused} height={64} width={256} />
+        <Visualiser type={type} node={node} paused={paused} height={64} width={256} />
       </div>
       {selected && (
         <div className="customNode_editor">
@@ -40,9 +45,9 @@ const Analyser = ({ data, id, selected, type }: NodeProps) => {
             {Math.pow(2, fftSizeExp)}
           </div>
           <div className="customNode_item" style={{ justifyContent: "space-between" }}>
-            <select onChange={e => onChange({ dataGetter: e.target.value })} value={dataGetter}>
-              <option value="getByteFrequencyData">Frequency</option>
-              <option value="getByteTimeDomainData">Time Domain</option>
+            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+              <option value={DataType.Frequency}>{DataType.Frequency}</option>
+              <option value={DataType.TimeDomain}>{DataType.TimeDomain}</option>
             </select>
             <label
               style={{
