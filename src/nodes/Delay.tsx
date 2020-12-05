@@ -18,7 +18,7 @@ const Delay = ({ data, id, selected, type }: NodeProps) => {
   useEffect(() => void (node.delayTime.value = delayTime), [node, delayTime]);
 
   return (
-    <Node id={id} inputs={["input", "delayTime"]} outputs={["output"]} type={type}>
+    <Node id={id} inputs={["input", "delayTime"]} outputs={["output"]} title={`Delay: ${delayTime} s`} type={type}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
