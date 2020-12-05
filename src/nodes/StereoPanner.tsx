@@ -18,7 +18,13 @@ const StereoPanner = ({ data, id, selected, type }: NodeProps) => {
   useEffect(() => void (node.pan.value = pan), [node, pan]);
 
   return (
-    <Node id={id} inputs={["input", "pan"]} outputs={["output"]} type={type}>
+    <Node
+      id={id}
+      inputs={["input", "pan"]}
+      outputs={["output"]}
+      title={`Stereo: ${Math.abs(pan * 100).toFixed(0)}% ${pan > 0 ? "Right" : pan < 0 ? "Left" : ""}`}
+      type={type}
+    >
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
