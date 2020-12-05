@@ -9,6 +9,7 @@ function App() {
   const [project, setProject] = useState<ProjectState>({
     id: "",
     elements: [],
+    transform: { x: 0, y: 0, zoom: 1 },
   });
 
   return (
@@ -22,7 +23,7 @@ function App() {
               height: "100vh",
             }}
           >
-            <Flow key={project.id} elements={project.elements} />
+            <Flow key={project.id} elements={project.elements} transform={project.transform} />
             <Project setProject={setProject} />
           </div>
         </ReactFlowProvider>

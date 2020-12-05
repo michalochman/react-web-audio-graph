@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
-import { useStoreState, Elements } from "react-flow-renderer";
+import { useStoreState, Elements, FlowTransform } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
@@ -9,25 +9,36 @@ interface Props {
 export interface ProjectState {
   elements: Elements;
   id: string;
+  transform: FlowTransform;
 }
 
 function Project({ setProject }: Props) {
   const [visible, setVisible] = useState(false);
   const elements = useStoreState(store => store.elements);
+  const transform = useStoreState(store => store.transform);
   const mappedElements = elements.map(element => ({
     ...element,
     __rf: undefined,
   }));
-  const project = JSON.stringify(mappedElements);
+  const mappedTransform = {
+    x: transform[0],
+    y: transform[1],
+    zoom: transform[2],
+  };
+  const project = JSON.stringify({
+    elements: mappedElements,
+    transform: mappedTransform,
+  });
 
   // Load project from URL
   useEffect(() => {
     const project = atob(window.location.hash.substr(1));
     try {
-      const elements = JSON.parse(project);
+      const { elements, transform } = JSON.parse(project);
       setProject({
         id: uuidv4(),
         elements,
+        transform,
       });
     } catch (e) {
       console.error(e);
@@ -42,10 +53,11 @@ function Project({ setProject }: Props) {
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       try {
-        const elements = JSON.parse(e.target.value) as Elements;
+        const { elements, transform } = JSON.parse(e.target.value);
         setProject({
           elements,
           id: uuidv4(),
+          transform,
         });
       } catch (e) {
         console.error(e);
@@ -75,7 +87,14 @@ function Project({ setProject }: Props) {
           resize: "none",
           width: "100%",
         }}
-        value={JSON.stringify(mappedElements, null, 2)}
+        value={JSON.stringify(
+          {
+            elements: mappedElements,
+            transform: mappedTransform,
+          },
+          null,
+          2
+        )}
       />
       <button
         onClick={() => setVisible(visible => !visible)}

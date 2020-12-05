@@ -10,7 +10,9 @@ import ReactFlow, {
   Controls,
   Edge,
   Elements,
+  FlowTransform,
   Node as ReactFlowNode,
+  OnLoadParams as ReactFlowInstance,
 } from "react-flow-renderer";
 import { usePopper } from "react-popper";
 import { v4 as uuidv4 } from "uuid";
@@ -33,6 +35,7 @@ import { useNodeContext } from "context/NodeContext";
 
 interface Props {
   elements: Elements;
+  transform: FlowTransform;
 }
 
 const nodeTypes = {
@@ -66,7 +69,7 @@ async function waitForInitialNodes(initialElements: Elements, audioNodes: Record
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }
 
-function Flow({ elements: initialElements }: Props) {
+function Flow({ elements: initialElements, transform: initialTransform }: Props) {
   const [showPopper, setShowPopper] = React.useState(false);
   const [popperElement, setPopperElement] = React.useState<HTMLDivElement>();
   const [virtualReference, setVirtualReference] = React.useState<any>(null);
@@ -94,7 +97,9 @@ function Flow({ elements: initialElements }: Props) {
     );
   };
 
-  const onLoad = async () => {
+  const onLoad = async (reactFlowInstance: ReactFlowInstance) => {
+    reactFlowInstance.setTransform(initialTransform);
+
     // Attach onChange to nodes
     setElements(
       produce((draft: Elements) => {
@@ -183,6 +188,8 @@ function Flow({ elements: initialElements }: Props) {
   return (
     <>
       <ReactFlow
+        defaultPosition={[initialTransform.x, initialTransform.y]}
+        defaultZoom={initialTransform.zoom}
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
