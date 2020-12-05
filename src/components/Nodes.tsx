@@ -13,6 +13,15 @@ function Nodes({ children }: Props) {
         nodes.current[id] = node;
       },
       nodes: nodes.current,
+      removeNode: id => {
+        delete nodes.current[id];
+      },
+      removeNodes: () => {
+        const audioNodes = Object.keys(nodes.current).map(id => nodes.current[id]);
+        audioNodes.forEach(node => (node as any).stop?.());
+        audioNodes.forEach(node => node.disconnect());
+        nodes.current = {};
+      },
     }),
     []
   );

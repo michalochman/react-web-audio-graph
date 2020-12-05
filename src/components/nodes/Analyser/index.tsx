@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
+import { useNode } from "context/NodeContext";
 import Visualiser from "./Visualiser";
-import Node from "components/nodes/Node";
+import Node from "components/Node";
 
 export enum DataType {
   Frequency = "Frequency",
@@ -16,8 +16,7 @@ function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
   // AudioNode
   const context = useContext(AudioContext);
   const node = useMemo<AnalyserNode>(() => context.createAnalyser(), [context]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   // AudioParam
   useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);

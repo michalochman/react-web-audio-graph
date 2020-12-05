@@ -2,15 +2,11 @@ import React, { useState } from "react";
 import { ReactFlowProvider } from "react-flow-renderer";
 import Audio from "components/Audio";
 import Flow from "components/Flow";
-import Project, { ProjectState } from "components/Project";
+import Project, { ProjectState, getDefaultProject } from "components/Project";
 import Nodes from "components/Nodes";
 
 function App() {
-  const [project, setProject] = useState<ProjectState>({
-    id: "",
-    elements: [],
-    transform: { x: 0, y: 0, zoom: 1 },
-  });
+  const [project, setProject] = useState<ProjectState>(getDefaultProject);
 
   return (
     <Audio>

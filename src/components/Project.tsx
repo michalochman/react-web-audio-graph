@@ -1,6 +1,7 @@
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useStoreState, Elements, FlowTransform } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
+import { useNodeContext } from "context/NodeContext";
 
 interface Props {
   setProject: Dispatch<SetStateAction<ProjectState>>;
@@ -12,7 +13,45 @@ export interface ProjectState {
   transform: FlowTransform;
 }
 
+const textareaStyles: React.CSSProperties = {
+  fontSize: 12,
+  height: "100%",
+  resize: "none",
+  width: "100%",
+};
+
+const controlsStyles: React.CSSProperties = {
+  display: "flex",
+  position: "absolute",
+  right: "100%",
+  top: -10,
+  transform: "rotate(-90deg)",
+  transformOrigin: "bottom right",
+};
+
+const getDrawerStyles = (visible: boolean): React.CSSProperties => ({
+  height: "100%",
+  padding: 10,
+  position: "absolute",
+  right: 0,
+  top: 0,
+  transform: visible ? "translateX(0)" : "translateX(100%)",
+  transition: "transform 0.4s ease",
+  width: 400,
+});
+
+export const getDefaultProject = () => ({
+  id: uuidv4(),
+  elements: [],
+  transform: {
+    x: 0,
+    y: 0,
+    zoom: 1,
+  },
+});
+
 function Project({ setProject }: Props) {
+  const { removeNodes } = useNodeContext();
   const [visible, setVisible] = useState(false);
   const elements = useStoreState(store => store.elements);
   const transform = useStoreState(store => store.transform);
@@ -29,6 +68,7 @@ function Project({ setProject }: Props) {
     elements: mappedElements,
     transform: mappedTransform,
   });
+  const drawerStyles = useMemo(() => getDrawerStyles(visible), [visible]);
 
   // Load project from URL
   useEffect(() => {
@@ -36,8 +76,8 @@ function Project({ setProject }: Props) {
     try {
       const { elements, transform } = JSON.parse(project);
       setProject({
-        id: uuidv4(),
         elements,
+        id: uuidv4(),
         transform,
       });
     } catch (e) {
@@ -66,27 +106,17 @@ function Project({ setProject }: Props) {
     [setProject]
   );
 
+  const clearProject = useCallback(() => {
+    removeNodes();
+    setProject(getDefaultProject);
+  }, [removeNodes, setProject]);
+  const toggleProjectDrawer = useCallback(() => setVisible(visible => !visible), []);
+
   return (
-    <div
-      style={{
-        height: "100%",
-        padding: 10,
-        position: "absolute",
-        right: 0,
-        top: 0,
-        transform: visible ? "translateX(0)" : "translateX(100%)",
-        transition: "transform 0.4s ease",
-        width: 400,
-      }}
-    >
+    <div style={drawerStyles}>
       <textarea
         onChange={onChange}
-        style={{
-          fontSize: 12,
-          height: "100%",
-          resize: "none",
-          width: "100%",
-        }}
+        style={textareaStyles}
         value={JSON.stringify(
           {
             elements: mappedElements,
@@ -96,18 +126,12 @@ function Project({ setProject }: Props) {
           2
         )}
       />
-      <button
-        onClick={() => setVisible(visible => !visible)}
-        style={{
-          position: "absolute",
-          right: "100%",
-          top: -10,
-          transform: "rotate(-90deg)",
-          transformOrigin: "bottom right",
-        }}
-      >
-        {visible ? "hide" : "show"}
-      </button>
+      <div style={controlsStyles}>
+        <button onClick={clearProject} style={{ marginRight: 10 }}>
+          clear
+        </button>
+        <button onClick={toggleProjectDrawer}>{visible ? "hide" : "show"}</button>
+      </div>
     </div>
   );
 }

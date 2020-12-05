@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 function ConstantSource({ data, id, selected, type }: NodeProps) {
   const { offset = 1, onChange } = data;
@@ -14,8 +14,7 @@ function ConstantSource({ data, id, selected, type }: NodeProps) {
     node.start();
     return () => node.stop();
   }, [node]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   // AudioParam
   useEffect(() => (node.offset.value = offset), [node, offset]);

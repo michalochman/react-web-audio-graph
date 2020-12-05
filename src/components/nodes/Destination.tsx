@@ -1,15 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 function Destination({ id, type }: NodeProps) {
   // AudioNode
   const context = useContext(AudioContext);
   const node = context.destination;
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   return <Node id={id} inputs={["input"]} type={type} />;
 }

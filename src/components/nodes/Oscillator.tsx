@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, frequency = 440, onChange, type = "sine" } = data;
@@ -14,8 +14,7 @@ function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
     node.start();
     return () => node.stop();
   }, [node]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   // AudioParam
   useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);

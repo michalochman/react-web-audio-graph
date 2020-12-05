@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 // See: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode#Example
 const distortion = `const k = 50;
@@ -22,8 +22,7 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
   // AudioNode
   const context = useContext(AudioContext);
   const node = useMemo<WaveShaperNode>(() => context.createWaveShaper(), [context]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   const curve = useMemo(() => {
     const curve = new Float32Array(context.sampleRate);

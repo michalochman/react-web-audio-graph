@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 function DynamicsCompressor({ data, id, selected, type }: NodeProps) {
   const { attack = 0.003, knee = 30, onChange, ratio = 12, release = 0.25, threshold = -24 } = data;
@@ -10,8 +10,7 @@ function DynamicsCompressor({ data, id, selected, type }: NodeProps) {
   // AudioNode
   const context = useContext(AudioContext);
   const node = useMemo<DynamicsCompressorNode>(() => context.createDynamicsCompressor(), [context]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   // AudioParam
   useEffect(() => void (node.threshold.value = threshold), [node, threshold]);

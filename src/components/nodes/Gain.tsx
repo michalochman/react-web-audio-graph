@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContext } from "context/AudioContext";
-import { useNodeContext } from "context/NodeContext";
-import Node from "components/nodes/Node";
+import { useNode } from "context/NodeContext";
+import Node from "components/Node";
 
 function Gain({ data, id, selected, type }: NodeProps) {
   const { gain = 1, onChange } = data;
@@ -10,8 +10,7 @@ function Gain({ data, id, selected, type }: NodeProps) {
   // AudioNode
   const context = useContext(AudioContext);
   const node = useMemo<GainNode>(() => context.createGain(), [context]);
-  const { addNode } = useNodeContext();
-  useEffect(() => void addNode(id, node), [addNode, node, id]);
+  useNode(id, node);
 
   // AudioParam
   useEffect(() => void (node.gain.value = gain), [node, gain]);
