@@ -24,7 +24,13 @@ const Oscillator = ({ data, id, selected, type: nodeType }: NodeProps) => {
   useEffect(() => void (node.type = type ?? "sine"), [node, type]);
 
   return (
-    <Node id={id} inputs={["detune", "frequency"]} outputs={["output"]} type={nodeType}>
+    <Node
+      id={id}
+      inputs={["detune", "frequency"]}
+      outputs={["output"]}
+      title={`${frequency} Hz ${type}`}
+      type={nodeType}
+    >
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
