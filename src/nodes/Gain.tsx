@@ -18,7 +18,7 @@ const Gain = ({ data, id, selected, type }: NodeProps) => {
   useEffect(() => void (node.gain.value = gain), [node, gain]);
 
   return (
-    <Node id={id} inputs={["input", "gain"]} outputs={["output"]} type={type}>
+    <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={`Gain: ${gain}`} type={type}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
