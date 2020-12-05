@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo } from "react";
 import { NodeProps } from "react-flow-renderer";
+import Note from "components/Note";
 import { AudioContext } from "context/AudioContext";
 import { useNodeContext } from "context/NodeContext";
 import { getNoteFrequency, getNoteName } from "utils/notes";
@@ -9,7 +10,6 @@ const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
   console.log("OscillatorNote render", data, id, selected);
   const { detune = 0, octave = 4, onChange, twelfth = 0, type = "sine" } = data;
   const frequency = getNoteFrequency(octave, twelfth);
-  const note = getNoteName(octave, twelfth);
 
   // AudioNode
   const context = useContext(AudioContext);
@@ -27,7 +27,13 @@ const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
   useEffect(() => void (node.type = type ?? "sine"), [node, type]);
 
   return (
-    <Node id={id} inputs={["detune"]} outputs={["output"]} type={nodeType}>
+    <Node
+      id={id}
+      inputs={["detune"]}
+      outputs={["output"]}
+      title={<Note octave={octave} twelfth={twelfth} />}
+      type={nodeType}
+    >
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
@@ -37,26 +43,29 @@ const OscillatorNote = ({ data, id, selected, type: nodeType }: NodeProps) => {
               max={100}
               onChange={e => onChange({ detune: +e.target.value })}
               step={1}
-              type="number"
+              style={{ width: "100%" }}
+              type="range"
               value={detune}
             />
           </div>
           <div className="customNode_item">
-            <div>
-              <button onClick={() => onChange({ octave: (11 + octave - 1) % 11 })}>-</button>
-              <button onClick={() => onChange({ octave: (octave + 1) % 11 })}>+</button>
-              octave: {octave}
-              <br />
-              <button onClick={() => onChange({ twelfth: (12 + twelfth - 1) % 12 })}>-</button>
-              <button onClick={() => onChange({ twelfth: (twelfth + 1) % 12 })}>+</button>
-              twelfth:
-              {twelfth}
-              <br />
-              {note} @ {frequency.toFixed(2)} Hz
-            </div>
+            <select onChange={e => onChange({ twelfth: +e.target.value })} style={{ width: "50%" }} value={twelfth}>
+              {Array(12)
+                .fill(0)
+                .map((_, twelfth) => (
+                  <option value={twelfth}>{getNoteName(twelfth)}</option>
+                ))}
+            </select>
+            <select onChange={e => onChange({ octave: +e.target.value })} style={{ width: "50%" }} value={octave}>
+              {Array(11)
+                .fill(0)
+                .map((_, octave) => (
+                  <option value={octave}>{octave}</option>
+                ))}
+            </select>
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+            <select onChange={e => onChange({ type: e.target.value })} style={{ width: "100%" }} value={type}>
               <option value="sawtooth">sawtooth</option>
               <option value="square">square</option>
               <option value="sine">sine</option>

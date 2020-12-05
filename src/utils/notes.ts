@@ -1,4 +1,4 @@
-const NOTES = ["C", "C^#", "D", "D^#", "E", "F", "F^#", "G", "G^#", "A", "A^#", "B"];
+const NOTES = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 
 export function assertOctaveValid(octave: number) {
   if (octave < 0 || octave > 10) {
@@ -20,9 +20,8 @@ export function getNoteFrequency(octave: number, twelfth: number) {
   return C0 * Math.pow(2, octave + twelfth / 12);
 }
 
-export function getNoteName(octave: number, twelfth: number) {
-  assertOctaveValid(octave);
+export function getNoteName(twelfth: number) {
   assertTwelfthValid(twelfth);
 
-  return `${NOTES[twelfth % 12]}_${octave}`;
+  return NOTES[twelfth];
 }
