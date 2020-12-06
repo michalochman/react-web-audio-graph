@@ -5,6 +5,11 @@ interface Props {
   children: React.ReactNode;
 }
 
+export function nodeCleanup(node: AudioNode) {
+  (node as any).stop?.();
+  node.disconnect();
+}
+
 function Nodes({ children }: Props) {
   const nodes = useRef<NodeContextType["nodes"]>({});
   const context: NodeContextType = useMemo(
@@ -12,14 +17,16 @@ function Nodes({ children }: Props) {
       addNode: (id, node) => {
         nodes.current[id] = node;
       },
+      getNode: id => nodes.current[id],
       nodes: nodes.current,
       removeNode: id => {
+        nodeCleanup(nodes.current[id]);
         delete nodes.current[id];
       },
       removeNodes: () => {
-        const audioNodes = Object.keys(nodes.current).map(id => nodes.current[id]);
-        audioNodes.forEach(node => (node as any).stop?.());
-        audioNodes.forEach(node => node.disconnect());
+        Object.keys(nodes.current)
+          .map(id => nodes.current[id])
+          .forEach(node => nodeCleanup(node));
         nodes.current = {};
       },
     }),

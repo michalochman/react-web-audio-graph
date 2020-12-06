@@ -1,93 +1,81 @@
 import { useCallback } from "react";
 import { Connection, Edge } from "react-flow-renderer";
 import { useNodeContext } from "context/NodeContext";
+import { nodeCleanup } from "components/Nodes";
 
 function getChannelIndex(handle: string): number {
   return +(handle.match(/-(\d+)$/)?.[1] ?? 0);
 }
 
+interface ResolvedConnection {
+  inputIndex?: number;
+  outputIndex?: number;
+  source: AudioNode;
+  target: AudioNode | AudioParam;
+}
+
+function resolveConnection(
+  connection: Edge | Connection,
+  getNode: (id: string) => AudioNode
+): ResolvedConnection | never {
+  if (!connection.source || !connection.target || !connection.sourceHandle || !connection.targetHandle) {
+    throw new Error("Invalid connection");
+  }
+
+  const connectToNode = connection.targetHandle.startsWith("input");
+  const source = getNode(connection.source);
+  const target = getNode(connection.target);
+
+  return {
+    inputIndex: connectToNode ? getChannelIndex(connection.targetHandle) : undefined,
+    outputIndex: getChannelIndex(connection.sourceHandle),
+    source: source,
+    target: connectToNode
+      ? target
+      : // @ts-ignore
+        target[connection.targetHandle],
+  };
+}
+
+export function connectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
+  const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
+
+  try {
+    // @ts-ignore
+    source.connect(target, outputIndex, inputIndex);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export function disconnectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
+  const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
+
+  try {
+    // @ts-ignore
+    source.disconnect(target, outputIndex, inputIndex);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 // FIXME This should be handled on changes to ReactFlowRenderer state instead.
 export function useOnConnect() {
-  const { nodes } = useNodeContext();
+  const { getNode } = useNodeContext();
 
-  return useCallback(
-    (connection: Edge | Connection) => {
-      console.log("Connection created", connection);
-
-      if (!connection.source || !connection.target || !connection.sourceHandle || !connection.targetHandle) {
-        return;
-      }
-
-      const source = nodes[connection.source];
-      const target = nodes[connection.target];
-      const sourceHandle = connection.sourceHandle;
-      const targetHandle = connection.targetHandle;
-      const outputIndex = getChannelIndex(sourceHandle);
-      const inputIndex = getChannelIndex(targetHandle);
-
-      // connect AudioNode
-      if (targetHandle.startsWith("input")) {
-        source.connect(target, outputIndex, inputIndex);
-      }
-      // connect AudioParam
-      else {
-        // @ts-ignore
-        source.connect(target[targetHandle], outputIndex);
-      }
-    },
-    [nodes]
-  );
+  return useCallback((connection: Edge | Connection) => connectNodes(connection, getNode), [getNode]);
 }
 
 // FIXME This should be handled on changes to ReactFlowRenderer state instead.
 export function useOnEdgeRemove() {
-  const { nodes } = useNodeContext();
+  const { getNode } = useNodeContext();
 
-  return useCallback(
-    (edge: Edge) => {
-      console.log("Connection removed", edge);
-
-      if (!edge.source || !edge.target || !edge.sourceHandle || !edge.targetHandle) {
-        return;
-      }
-
-      const source = nodes[edge.source];
-      const target = nodes[edge.target];
-      const sourceHandle = edge.sourceHandle;
-      const targetHandle = edge.targetHandle;
-      const outputIndex = getChannelIndex(sourceHandle);
-      const inputIndex = getChannelIndex(targetHandle);
-
-      // disconnect AudioNode
-      if (targetHandle.startsWith("input")) {
-        source.disconnect(target, outputIndex, inputIndex);
-      }
-      // disconnect AudioParam
-      else {
-        // @ts-ignore
-        source.disconnect(target[targetHandle], outputIndex);
-      }
-    },
-    [nodes]
-  );
+  return useCallback((edge: Edge) => disconnectNodes(edge, getNode), [getNode]);
 }
 
 // FIXME This should be handled on changes to ReactFlowRenderer state instead.
 export function useOnNodeRemove() {
-  const { nodes } = useNodeContext();
+  const { getNode } = useNodeContext();
 
-  return useCallback(
-    (nodeId: string) => {
-      console.log("Node removed", nodeId, nodes);
-
-      const node = nodes[nodeId];
-
-      if (!node) {
-        return;
-      }
-
-      node.disconnect();
-    },
-    [nodes]
-  );
+  return useCallback((nodeId: string) => nodeCleanup(getNode(nodeId)), [getNode]);
 }

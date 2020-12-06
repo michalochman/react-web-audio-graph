@@ -10,8 +10,8 @@ function App() {
 
   return (
     <Audio>
-      <Nodes>
-        <ReactFlowProvider>
+      <ReactFlowProvider>
+        <Nodes>
           <div
             style={{
               alignItems: "stretch",
@@ -22,8 +22,8 @@ function App() {
             <Flow key={project.id} elements={project.elements} transform={project.transform} />
             <Project setProject={setProject} />
           </div>
-        </ReactFlowProvider>
-      </Nodes>
+        </Nodes>
+      </ReactFlowProvider>
     </Audio>
   );
 }
