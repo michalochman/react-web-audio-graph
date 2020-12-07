@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useStoreState, Elements, FlowTransform } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
-import { useNodeContext } from "context/NodeContext";
 
 interface Props {
   setProject: Dispatch<SetStateAction<ProjectState>>;
@@ -51,7 +50,6 @@ export const getDefaultProject = () => ({
 });
 
 function Project({ setProject }: Props) {
-  const { removeNodes } = useNodeContext();
   const [visible, setVisible] = useState(false);
   const elements = useStoreState(store => store.elements);
   const transform = useStoreState(store => store.transform);
@@ -107,9 +105,8 @@ function Project({ setProject }: Props) {
   );
 
   const clearProject = useCallback(() => {
-    removeNodes();
     setProject(getDefaultProject);
-  }, [removeNodes, setProject]);
+  }, [setProject]);
   const toggleProjectDrawer = useCallback(() => setVisible(visible => !visible), []);
 
   return (

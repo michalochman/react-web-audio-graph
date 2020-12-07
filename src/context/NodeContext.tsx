@@ -7,7 +7,6 @@ export type NodeContextType = {
   getNode: (id: string) => AudioNode;
   nodes: Record<string, AudioNode>;
   removeNode: (id: string) => void;
-  removeNodes: () => void;
 };
 
 export const NodeContext = createContext<NodeContextType>(null!);

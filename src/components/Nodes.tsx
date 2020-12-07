@@ -23,12 +23,6 @@ function Nodes({ children }: Props) {
         nodeCleanup(nodes.current[id]);
         delete nodes.current[id];
       },
-      removeNodes: () => {
-        Object.keys(nodes.current)
-          .map(id => nodes.current[id])
-          .forEach(node => nodeCleanup(node));
-        nodes.current = {};
-      },
     }),
     []
   );
