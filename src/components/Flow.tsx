@@ -26,6 +26,7 @@ import Delay from "components/nodes/Delay";
 import Destination from "components/nodes/Destination";
 import DynamicsCompressor from "components/nodes/DynamicsCompressor";
 import Gain from "components/nodes/Gain";
+import Noise from "components/nodes/Noise";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import StereoPanner from "components/nodes/StereoPanner";
@@ -48,6 +49,7 @@ const nodeTypes = {
   Destination: Destination,
   DynamicsCompressor: DynamicsCompressor,
   Gain: Gain,
+  Noise: Noise,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
   StereoPanner: StereoPanner,
@@ -221,6 +223,7 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
             <li onClick={() => addNode("Destination")}>Add Destination</li>
             <li onClick={() => addNode("DynamicsCompressor")}>Add Dynamics Compressor</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
+            <li onClick={() => addNode("Noise")}>Add Noise</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
             <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
             <li onClick={() => addNode("StereoPanner")}>Add Stereo Panner</li>
