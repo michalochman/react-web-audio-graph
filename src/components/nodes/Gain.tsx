@@ -13,7 +13,10 @@ function Gain({ data, id, selected, type }: NodeProps) {
   useNode(id, node);
 
   // AudioParam
-  useEffect(() => void (node.gain.value = gain), [node, gain]);
+  useEffect(() => {
+    node.gain.setValueAtTime(node.gain.value, context.currentTime);
+    node.gain.linearRampToValueAtTime(gain, context.currentTime + 0.01);
+  }, [context, node, gain]);
 
   return (
     <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={`Gain: ${gain}`} type={type}>
