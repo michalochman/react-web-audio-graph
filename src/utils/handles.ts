@@ -41,8 +41,13 @@ export function connectNodes(connection: Edge | Connection, getNode: (id: string
   const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
 
   try {
-    // @ts-ignore
-    source.connect(target, outputIndex, inputIndex);
+    if (inputIndex != null) {
+      // @ts-ignore
+      source.connect(target, outputIndex, inputIndex);
+    } else {
+      // @ts-ignore
+      source.connect(target, outputIndex);
+    }
   } catch (e) {
     console.error(e);
   }
@@ -52,8 +57,13 @@ export function disconnectNodes(connection: Edge | Connection, getNode: (id: str
   const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
 
   try {
-    // @ts-ignore
-    source.disconnect(target, outputIndex, inputIndex);
+    if (inputIndex != null) {
+      // @ts-ignore
+      source.disconnect(target, outputIndex, inputIndex);
+    } else {
+      // @ts-ignore
+      source.disconnect(target, outputIndex);
+    }
   } catch (e) {
     console.error(e);
   }
