@@ -72,6 +72,7 @@ async function waitForInitialNodes(initialElements: Elements, audioNodes: Record
 }
 
 const GRID_SIZE = 10;
+
 function snapToGrid(position: number) {
   return Math.floor(position / GRID_SIZE) * GRID_SIZE;
 }
@@ -124,7 +125,12 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
   };
 
   const onConnect = (params: Edge | Connection) => {
-    setElements(elements => addEdge(params, elements));
+    const edge = Object.assign({}, params, {
+      style: {
+        stroke: params.source ? `#${params.source.substr(-6)}` : undefined,
+      },
+    });
+    setElements(elements => addEdge(edge, elements));
     onElementsConnect(params);
   };
   const onElementsRemove = useCallback(
