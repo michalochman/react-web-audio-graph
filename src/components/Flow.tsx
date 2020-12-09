@@ -71,6 +71,11 @@ async function waitForInitialNodes(initialElements: Elements, audioNodes: Record
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }
 
+const GRID_SIZE = 10;
+function snapToGrid(position: number) {
+  return Math.floor(position / GRID_SIZE) * GRID_SIZE;
+}
+
 function Flow({ elements: initialElements, transform: initialTransform }: Props) {
   const [showPopper, setShowPopper] = React.useState(false);
   const [popperElement, setPopperElement] = React.useState<HTMLDivElement>();
@@ -145,7 +150,10 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
         if (!node) {
           return;
         }
-        node.position = draggedNode.position;
+        node.position = {
+          x: snapToGrid(draggedNode.position.x),
+          y: snapToGrid(draggedNode.position.y),
+        };
       })
     );
   };
@@ -159,8 +167,8 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
     setShowPopper(true);
     setVirtualReference({
       getBoundingClientRect: () => ({
-        top: Math.floor(event.clientY / 10) * 10,
-        left: Math.floor(event.clientX / 10) * 10,
+        top: event.clientY,
+        left: event.clientX,
         height: 0,
         width: 0,
       }),
@@ -172,8 +180,8 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
       const id = `${type}-${uuidv4()}`;
       const onChange = createOnChange(id);
       const position = {
-        x: (virtualReference.getBoundingClientRect().left - transform[0]) / transform[2],
-        y: (virtualReference.getBoundingClientRect().top - transform[1]) / transform[2],
+        x: snapToGrid((virtualReference.getBoundingClientRect().left - transform[0]) / transform[2]),
+        y: snapToGrid((virtualReference.getBoundingClientRect().top - transform[1]) / transform[2]),
       };
       const node = {
         id,
@@ -203,11 +211,11 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
         onPaneContextMenu={onPaneContextMenu}
         onlyRenderVisibleElements={false}
         snapToGrid
-        snapGrid={[10, 10]}
+        snapGrid={[GRID_SIZE, GRID_SIZE]}
         // TODO figure out why this is needed for flow container not to cover context menu
         style={{ zIndex: 0 }}
       >
-        <Background gap={10} />
+        <Background gap={GRID_SIZE} />
         <Controls />
       </ReactFlow>
       {/* TODO extract as ContextMenu component */}
