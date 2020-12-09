@@ -32,7 +32,7 @@ function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
             <input
               className="nodrag"
               type="range"
-              max="11"
+              max="15"
               min="5"
               onChange={e => onChange({ fftSizeExp: +e.target.value })}
               step={1}
