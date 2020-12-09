@@ -38,9 +38,8 @@ function resolveConnection(
 }
 
 export function connectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
-  const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
-
   try {
+    const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
     if (inputIndex != null) {
       // @ts-ignore
       source.connect(target, outputIndex, inputIndex);
@@ -54,9 +53,8 @@ export function connectNodes(connection: Edge | Connection, getNode: (id: string
 }
 
 export function disconnectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
-  const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
-
   try {
+    const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
     if (inputIndex != null) {
       // @ts-ignore
       source.disconnect(target, outputIndex, inputIndex);
