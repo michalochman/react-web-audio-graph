@@ -72,7 +72,6 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
       };
       const generator = generators[type as keyof typeof generators];
       const buffer = generator(context.createBuffer(1, bufferSize, context.sampleRate));
-      console.log(buffer.getChannelData(0));
       const node = context.createBufferSource();
       node.buffer = buffer;
       node.loop = true;
