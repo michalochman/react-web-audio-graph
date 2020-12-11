@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import Note from "components/Note";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import { getNoteFrequency, getNoteName } from "utils/notes";
 import Node from "components/Node";
@@ -11,13 +10,11 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
   const frequency = getNoteFrequency(octave, twelfth);
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<OscillatorNode>(() => context.createOscillator(), [context]);
+  const node = useNode(id, context => context.createOscillator());
   useEffect(() => {
     node.start();
     return () => node.stop();
   }, [node]);
-  useNode(id, node);
 
   // AudioParam
   useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);

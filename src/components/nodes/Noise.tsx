@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
@@ -61,29 +60,31 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
   const { onChange, type = "white" } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<AudioBufferSourceNode>(() => {
-    // Will create buffer with 5 seconds of noise
-    const bufferSize = 5 * context.sampleRate;
-    const generators = {
-      brown: generateBrownNoise,
-      pink: generatePinkNoise,
-      white: generateWhiteNoise,
-    };
-    const generator = generators[type as keyof typeof generators];
-    const buffer = generator(context.createBuffer(1, bufferSize, context.sampleRate));
-    console.log(buffer.getChannelData(0));
-    const node = context.createBufferSource();
-    node.buffer = buffer;
-    node.loop = true;
+  const node = useNode(
+    id,
+    context => {
+      // Will create buffer with 5 seconds of noise
+      const bufferSize = 5 * context.sampleRate;
+      const generators = {
+        brown: generateBrownNoise,
+        pink: generatePinkNoise,
+        white: generateWhiteNoise,
+      };
+      const generator = generators[type as keyof typeof generators];
+      const buffer = generator(context.createBuffer(1, bufferSize, context.sampleRate));
+      console.log(buffer.getChannelData(0));
+      const node = context.createBufferSource();
+      node.buffer = buffer;
+      node.loop = true;
 
-    return node;
-  }, [context, type]);
+      return node;
+    },
+    [type]
+  );
   useEffect(() => {
     node.start();
     return () => node.stop();
   }, [node]);
-  useNode(id, node);
 
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title={`Noise: ${type}`} type={nodeType}>

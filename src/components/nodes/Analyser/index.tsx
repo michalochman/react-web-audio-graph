@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Visualiser from "./Visualiser";
 import Node from "components/Node";
@@ -14,9 +13,7 @@ function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
   const { fftSizeExp = 11, onChange, paused = false, type = DataType.TimeDomain } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<AnalyserNode>(() => context.createAnalyser(), [context]);
-  useNode(id, node);
+  const node = useNode(id, context => context.createAnalyser());
 
   // AudioParam
   useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);

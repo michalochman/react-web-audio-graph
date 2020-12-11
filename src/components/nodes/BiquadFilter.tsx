@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
@@ -8,9 +7,7 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, gain = 0, frequency = 350, Q = 1, onChange, type = "lowpass" } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<BiquadFilterNode>(() => context.createBiquadFilter(), [context]);
-  useNode(id, node);
+  const node = useNode(id, context => context.createBiquadFilter());
 
   // AudioParam
   useEffect(() => void (node.detune.value = detune), [node, detune]);

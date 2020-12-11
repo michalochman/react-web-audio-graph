@@ -1,6 +1,5 @@
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import { channelCounts } from "utils/channels";
@@ -9,9 +8,7 @@ function ChannelMerger({ data, id, selected, type }: NodeProps) {
   const { inputs = 2, onChange } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<ChannelMergerNode>(() => context.createChannelMerger(inputs), [context, inputs]);
-  useNode(id, node);
+  const node = useNode(id, context => context.createChannelMerger(inputs), [inputs]);
 
   return (
     <Node

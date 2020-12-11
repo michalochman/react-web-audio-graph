@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
@@ -12,9 +11,7 @@ function Delay({ data, id, selected, type }: NodeProps) {
   const { delayTime = 1, maxDelayTime = 1, onChange } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<DelayNode>(() => context.createDelay(clampDelayTime(maxDelayTime)), [context, maxDelayTime]);
-  useNode(id, node);
+  const node = useNode(id, context => context.createDelay(clampDelayTime(maxDelayTime)), [maxDelayTime]);
 
   // AudioParam
   useEffect(() => void (node.delayTime.value = delayTime), [node, delayTime]);

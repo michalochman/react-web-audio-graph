@@ -1,6 +1,5 @@
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import { channelCounts } from "utils/channels";
@@ -9,9 +8,7 @@ function ChannelSplitter({ data, id, selected, type }: NodeProps) {
   const { onChange, outputs = 2 } = data;
 
   // AudioNode
-  const context = useContext(AudioContext);
-  const node = useMemo<ChannelSplitterNode>(() => context.createChannelSplitter(outputs), [context, outputs]);
-  useNode(id, node);
+  const node = useNode(id, context => context.createChannelSplitter(outputs), [outputs]);
 
   return (
     <Node

@@ -21,8 +21,7 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
 
   // AudioNode
   const context = useContext(AudioContext);
-  const node = useMemo<WaveShaperNode>(() => context.createWaveShaper(), [context]);
-  useNode(id, node);
+  const node = useNode(id, () => context.createWaveShaper());
 
   const curve = useMemo(() => {
     const curve = new Float32Array(context.sampleRate);
