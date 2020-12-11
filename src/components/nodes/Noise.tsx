@@ -87,7 +87,7 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
   }, [node]);
 
   return (
-    <Node id={id} inputs={["input"]} outputs={["output"]} title={`Noise: ${type}`} type={nodeType}>
+    <Node id={id} outputs={["output"]} title={`Noise: ${type}`} type={nodeType}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
