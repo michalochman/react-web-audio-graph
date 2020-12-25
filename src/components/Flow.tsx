@@ -107,6 +107,18 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
     );
   };
 
+  const getEdgeWithColor = (params: Edge | Connection) => {
+    if (!params.source) {
+      return params;
+    }
+
+    return Object.assign({}, params, {
+      style: {
+        stroke: `#${params.source.substr(-6)}`,
+      },
+    });
+  };
+
   const onLoad = async (reactFlowInstance: ReactFlowInstance) => {
     reactFlowInstance.setTransform(initialTransform);
 
@@ -127,12 +139,7 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
   };
 
   const onConnect = (params: Edge | Connection) => {
-    const edge = Object.assign({}, params, {
-      style: {
-        stroke: params.source ? `#${params.source.substr(-6)}` : undefined,
-      },
-    });
-    setElements(elements => addEdge(edge, elements));
+    setElements(elements => addEdge(getEdgeWithColor(params), elements));
     onElementsConnect(params);
   };
   const onElementsRemove = useCallback(
@@ -147,7 +154,7 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
   const onEdgeUpdate = (oldEdge: Edge, newConnection: Connection) => {
     onEdgeRemove(oldEdge);
     setElements(elements => removeElements([oldEdge], elements));
-    setElements(elements => addEdge(newConnection, elements));
+    setElements(elements => addEdge(getEdgeWithColor(newConnection), elements));
     onElementsConnect(newConnection);
   };
 
