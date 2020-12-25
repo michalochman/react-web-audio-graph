@@ -140,6 +140,22 @@ body {
   stroke-width: 3;
 }
 
+@keyframes animateStrokeDashOffset {
+  to {
+    stroke-dashoffset: 12;
+  }
+}
+.react-flow .react-flow__edge.selected .react-flow__edge-path,
+.react-flow .react-flow__edge.updating .react-flow__edge-path {
+  animation: animateStrokeDashOffset 0.25s linear infinite;
+}
+.react-flow .react-flow__edge.updating .react-flow__edge-path {
+  stroke-dasharray: 3;
+}
+.react-flow .react-flow__edge.selected .react-flow__edge-path {
+  stroke-dasharray: 6;
+}
+
 .contextMenu {
   background: #eee;
   box-shadow: 2px 2px 4px #ccc;
