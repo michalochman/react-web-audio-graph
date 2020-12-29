@@ -100,17 +100,6 @@ body {
   font-size: inherit;
 }
 
-.customNode_editor input[type="range"]:after {
-  content: attr(value);
-  font-size: 10px;
-  font-weight: bold;
-  left: 50%;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  transform: translateX(-50%) translateY(-75%);
-}
-
 .customNode_item {
   align-items: center;
   clear: both;

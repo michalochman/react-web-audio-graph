@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import Slider, { SliderType } from "components/controls/Slider";
 
-function Gain({ data, id, selected, type }: NodeProps) {
-  const { gain = 1, onChange } = data;
+function Gain({ data, id, selected, type: nodeType }: NodeProps) {
+  const { gain = 1, onChange, type = SliderType.Log } = data;
 
   // AudioNode
   const node = useNode(id, context => context.createGain());
@@ -15,19 +16,17 @@ function Gain({ data, id, selected, type }: NodeProps) {
   }, [node, gain]);
 
   return (
-    <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={`Gain: ${gain}`} type={type}>
+    <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={`Gain: ${gain.toFixed(3)}`} type={nodeType}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
-            <input
-              className="nodrag"
-              type="range"
-              max="1"
-              min="-1"
-              step="0.01"
-              onChange={e => onChange({ gain: +e.target.value })}
-              value={gain}
-            />
+            <Slider onChange={value => onChange({ gain: value })} type={type} value={gain} />
+          </div>
+          <div className="customNode_item">
+            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+              <option value={SliderType.Linear}>{SliderType.Linear}</option>
+              <option value={SliderType.Log}>{SliderType.Log}</option>
+            </select>
           </div>
         </div>
       )}
