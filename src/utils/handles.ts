@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { Connection, Edge } from "react-flow-renderer";
-import { useNodeContext } from "context/NodeContext";
+import { AnyAudioNode, isComplexAudioNode, useNodeContext } from "context/NodeContext";
 import { nodeCleanup } from "components/Nodes";
 
 function getChannelIndex(handle: string): number {
@@ -16,15 +16,27 @@ interface ResolvedConnection {
 
 function resolveConnection(
   connection: Edge | Connection,
-  getNode: (id: string) => AudioNode
+  getNode: (id: string) => AnyAudioNode
 ): ResolvedConnection | never {
   if (!connection.source || !connection.target || !connection.sourceHandle || !connection.targetHandle) {
     throw new Error("Invalid connection");
   }
 
   const connectToNode = connection.targetHandle.startsWith("input");
-  const source = getNode(connection.source);
-  const target = getNode(connection.target);
+  let source = getNode(connection.source);
+  let target = getNode(connection.target);
+
+  if (isComplexAudioNode(source)) {
+    source = source.output;
+  }
+
+  if (isComplexAudioNode(target)) {
+    target = target.input;
+  }
+
+  if (!source || !target) {
+    throw new Error("Invalid connection");
+  }
 
   return {
     inputIndex: connectToNode ? getChannelIndex(connection.targetHandle) : undefined,
@@ -37,7 +49,7 @@ function resolveConnection(
   };
 }
 
-export function connectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
+export function connectNodes(connection: Edge | Connection, getNode: (id: string) => AnyAudioNode) {
   try {
     const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
     if (inputIndex != null) {
@@ -52,7 +64,7 @@ export function connectNodes(connection: Edge | Connection, getNode: (id: string
   }
 }
 
-export function disconnectNodes(connection: Edge | Connection, getNode: (id: string) => AudioNode) {
+export function disconnectNodes(connection: Edge | Connection, getNode: (id: string) => AnyAudioNode) {
   try {
     const { inputIndex, outputIndex, source, target } = resolveConnection(connection, getNode);
     if (inputIndex != null) {

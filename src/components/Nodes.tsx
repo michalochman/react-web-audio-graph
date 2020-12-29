@@ -1,13 +1,20 @@
 import React, { useMemo, useRef } from "react";
-import { NodeContext, NodeContextType } from "context/NodeContext";
+import { AnyAudioNode, NodeContext, NodeContextType, isComplexAudioNode } from "context/NodeContext";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export function nodeCleanup(node: AudioNode) {
-  (node as any).stop?.();
-  node.disconnect();
+export function nodeCleanup(node: AnyAudioNode) {
+  if (isComplexAudioNode(node)) {
+    (node.input as any)?.stop?.();
+    (node.output as any)?.stop?.();
+    node.input?.disconnect();
+    node.output?.disconnect();
+  } else {
+    (node as any).stop?.();
+    node.disconnect();
+  }
 }
 
 function Nodes({ children }: Props) {

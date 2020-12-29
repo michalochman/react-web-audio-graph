@@ -33,7 +33,7 @@ import OscillatorNote from "components/nodes/OscillatorNote";
 import StereoPanner from "components/nodes/StereoPanner";
 import WaveShaper from "components/nodes/WaveShaper";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
-import { useNodeContext } from "context/NodeContext";
+import { AnyAudioNode, useNodeContext } from "context/NodeContext";
 
 interface Props {
   elements: Elements;
@@ -58,7 +58,7 @@ const nodeTypes = {
   WaveShaper: WaveShaper,
 };
 
-async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AudioNode>) {
+async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AnyAudioNode>) {
   const nodesWithConnections = initialElements.filter(isEdge).reduce<Record<string, boolean>>((nodeIds, edge) => {
     nodeIds[edge.source] = true;
     nodeIds[edge.target] = true;
