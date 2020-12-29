@@ -21,11 +21,11 @@ function DelayEffect({ data, id, selected, type }: NodeProps) {
       delayNode.delayTime.value = delayTime;
       // Feedback
       const feedbackNode = context.createGain();
-      feedbackNode.gain.value = feedback;
+      feedbackNode.gain.setTargetAtTime(feedback, feedbackNode.context.currentTime, 0.015);
 
       // Mix using equal power crossfade
-      dry.gain.value = Math.cos(mix * 0.5 * Math.PI);
-      wet.gain.value = Math.cos((1.0 - mix) * 0.5 * Math.PI);
+      dry.gain.setTargetAtTime(Math.cos(mix * 0.5 * Math.PI), dry.context.currentTime, 0.015);
+      wet.gain.setTargetAtTime(Math.cos((1.0 - mix) * 0.5 * Math.PI), wet.context.currentTime, 0.015);
 
       // Dry
       input.connect(dry);

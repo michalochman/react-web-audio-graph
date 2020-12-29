@@ -12,7 +12,7 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
   // AudioParam
   useEffect(() => void (node.detune.value = detune), [node, detune]);
   useEffect(() => void (node.frequency.value = frequency), [node, frequency]);
-  useEffect(() => void (node.gain.value = gain), [node, gain]);
+  useEffect(() => void node.gain.setTargetAtTime(gain, node.context.currentTime, 0.015), [node, gain]);
   useEffect(() => void (node.Q.value = Q), [node, Q]);
   useEffect(() => void (node.type = type), [node, type]);
 

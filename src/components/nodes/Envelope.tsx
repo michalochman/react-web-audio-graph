@@ -70,7 +70,7 @@ function Envelope({ data, id, selected, type }: NodeProps) {
   const node = useNode(id, context => context.createGain());
 
   // AudioParam
-  useEffect(() => void (node.gain.value = 0), [node]);
+  useEffect(() => void node.gain.setTargetAtTime(0, node.context.currentTime, 0.015), [node]);
 
   const start = useCallback(
     (e: React.MouseEvent | React.KeyboardEvent) => {

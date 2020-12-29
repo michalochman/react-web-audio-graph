@@ -11,8 +11,7 @@ function Gain({ data, id, selected, type }: NodeProps) {
 
   // AudioParam
   useEffect(() => {
-    node.gain.setValueAtTime(node.gain.value, node.context.currentTime);
-    node.gain.linearRampToValueAtTime(gain, node.context.currentTime + 0.01);
+    node.gain.setTargetAtTime(gain, node.context.currentTime, 0.015);
   }, [node, gain]);
 
   return (
