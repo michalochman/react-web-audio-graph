@@ -23,6 +23,7 @@ import ChannelMerger from "components/nodes/ChannelMerger";
 import ChannelSplitter from "components/nodes/ChannelSplitter";
 import ConstantSource from "components/nodes/ConstantSource";
 import Delay from "components/nodes/Delay";
+import DelayEffect from "components/nodes/DelayEffect";
 import Destination from "components/nodes/Destination";
 import DynamicsCompressor from "components/nodes/DynamicsCompressor";
 import Envelope from "components/nodes/Envelope";
@@ -47,6 +48,7 @@ const nodeTypes = {
   ChannelSplitter: ChannelSplitter,
   ConstantSource: ConstantSource,
   Delay: Delay,
+  DelayEffect: DelayEffect,
   Destination: Destination,
   DynamicsCompressor: DynamicsCompressor,
   Envelope: Envelope,
@@ -246,6 +248,7 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
             <li onClick={() => addNode("Destination")}>Add Destination</li>
             <li onClick={() => addNode("DynamicsCompressor")}>Add Dynamics Compressor</li>
             <li onClick={() => addNode("Envelope")}>Add Envelope</li>
+            <li onClick={() => addNode("DelayEffect")}>Add DelayEffect</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
             <li onClick={() => addNode("Noise")}>Add Noise</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
