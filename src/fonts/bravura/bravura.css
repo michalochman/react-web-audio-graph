@@ -1,0 +1,8 @@
+/* https://github.com/steinbergmedia/bravura */
+@font-face {
+  font-family: "Bravura";
+  src: url("bravura.woff2") format("woff2"), url("bravura.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

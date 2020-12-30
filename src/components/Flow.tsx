@@ -28,6 +28,7 @@ import Destination from "components/nodes/Destination";
 import DynamicsCompressor from "components/nodes/DynamicsCompressor";
 import Envelope from "components/nodes/Envelope";
 import Gain from "components/nodes/Gain";
+import Metronome from "components/nodes/Metronome";
 import Noise from "components/nodes/Noise";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
@@ -53,6 +54,7 @@ const nodeTypes = {
   DynamicsCompressor: DynamicsCompressor,
   Envelope: Envelope,
   Gain: Gain,
+  Metronome: Metronome,
   Noise: Noise,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
@@ -250,6 +252,7 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
             <li onClick={() => addNode("Envelope")}>Add Envelope</li>
             <li onClick={() => addNode("DelayEffect")}>Add DelayEffect</li>
             <li onClick={() => addNode("Gain")}>Add Gain</li>
+            <li onClick={() => addNode("Metronome")}>Add Metronome</li>
             <li onClick={() => addNode("Noise")}>Add Noise</li>
             <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
             <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
