@@ -40,7 +40,7 @@ function drawFrequencyData(context: CanvasRenderingContext2D, data: Uint8Array) 
   const barWidth = width / bufferLength;
 
   context.fillStyle = "#001400";
-  context.fillRect(0, 0, width, 256);
+  context.fillRect(0, 0, width, height);
 
   context.fillStyle = "#00c800";
   for (let i = 0; i < bufferLength; i++) {
