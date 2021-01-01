@@ -1,8 +1,15 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
+import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
 import useAnimationFrame from "hooks/useAnimationFrame";
+
+enum TriggerType {
+  Automatic = "automatic" as any,
+  Manual = "manual" as any,
+}
+
+interface EnvelopeNode extends ComplexAudioNode<AnalyserNode, GainNode> {}
 
 interface ADSREnvelope {
   attackTime: number;
@@ -61,16 +68,62 @@ function drawEnvelope(context: CanvasRenderingContext2D, envelope: ADSREnvelope,
 }
 
 function Envelope({ data, id, selected, type }: NodeProps) {
-  const { attackTime = 0.2, decayTime = 0.1, onChange, releaseTime = 0.6, sustainLevel = 0.7, sustainOn = true } = data;
+  const {
+    attackTime = 0.2,
+    decayTime = 0.1,
+    onChange,
+    releaseTime = 0.6,
+    sustainLevel = 0.7,
+    sustainOn = true,
+    triggerType = TriggerType.Manual,
+  } = data;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const keyOnEventTime = useRef(Number.MAX_SAFE_INTEGER);
   const keyOffEventTime = useRef(Number.MAX_SAFE_INTEGER);
+  const [trigger, setTrigger] = useState(false);
 
   // AudioNode
-  const node = useNode(id, context => context.createGain());
+  const node = (useNode(id, context => {
+    const input = context.createAnalyser();
+    const output = context.createGain();
+
+    input.fftSize = 32;
+    input.connect(output);
+
+    return {
+      input,
+      output,
+    };
+  }) as unknown) as EnvelopeNode;
 
   // AudioParam
-  useEffect(() => void node.gain.setTargetAtTime(0, node.context.currentTime, 0.015), [node]);
+  useEffect(() => void node.output.gain.setTargetAtTime(0, node.output.context.currentTime, 0.015), [node]);
+
+  const triggerOn = useCallback(() => {
+    const { currentTime } = node.output.context;
+    keyOnEventTime.current = currentTime;
+    node.output.gain.cancelScheduledValues(currentTime);
+    node.output.gain.setValueAtTime(0, currentTime);
+    node.output.gain.linearRampToValueAtTime(1.0, currentTime + attackTime);
+    node.output.gain.linearRampToValueAtTime(sustainLevel, currentTime + attackTime + decayTime);
+
+    if (!sustainOn) {
+      node.output.gain.linearRampToValueAtTime(0, currentTime + attackTime + decayTime + releaseTime);
+    }
+  }, [node, attackTime, decayTime, releaseTime, sustainLevel, sustainOn]);
+
+  // TODO
+  const triggerOff = useCallback(() => {}, []);
+
+  useEffect(() => {
+    if (trigger) {
+      triggerOn();
+    } else {
+      triggerOff();
+    }
+
+    return () => triggerOff();
+  }, [trigger, triggerOn, triggerOff]);
 
   const start = useCallback(
     (e: React.MouseEvent | React.KeyboardEvent) => {
@@ -78,34 +131,42 @@ function Envelope({ data, id, selected, type }: NodeProps) {
         return;
       }
 
-      const { currentTime } = node.context;
-      keyOnEventTime.current = currentTime;
-      node.gain.cancelScheduledValues(currentTime);
-      node.gain.setValueAtTime(0, currentTime);
-      node.gain.linearRampToValueAtTime(1.0, currentTime + attackTime);
-      node.gain.linearRampToValueAtTime(sustainLevel, currentTime + attackTime + decayTime);
-
-      if (!sustainOn) {
-        node.gain.linearRampToValueAtTime(0, currentTime + attackTime + decayTime + releaseTime);
-      }
+      triggerOn();
     },
-    [node, attackTime, decayTime, releaseTime, sustainLevel, sustainOn]
+    [triggerOn]
   );
 
   const stop = useCallback(() => {
-    const { currentTime } = node.context;
+    const { currentTime } = node.output.context;
     keyOffEventTime.current = currentTime;
-    node.gain.cancelScheduledValues(currentTime);
-    node.gain.setValueAtTime(node.gain.value, currentTime);
+    node.output.gain.cancelScheduledValues(currentTime);
+    node.output.gain.setValueAtTime(node.output.gain.value, currentTime);
 
     const releaseTimeUsed = !sustainOn
       ? Math.max(0, keyOffEventTime.current - keyOnEventTime.current - (attackTime + decayTime))
       : 0;
 
-    node.gain.linearRampToValueAtTime(0, currentTime + releaseTime - releaseTimeUsed);
+    node.output.gain.linearRampToValueAtTime(0, currentTime + releaseTime - releaseTimeUsed);
   }, [node, attackTime, decayTime, releaseTime, sustainOn]);
 
-  const draw = useCallback(() => {
+  const automaticTrigger = useCallback(() => {
+    const bufferLength = node.input.frequencyBinCount;
+    const dataArray = new Float32Array(bufferLength);
+    node.input.getFloatTimeDomainData(dataArray);
+
+    // Naive lo-fi signal detection that triggers if any of the sample frames has any value other than zero
+    if (dataArray.filter(Boolean).length > 0) {
+      setTrigger(true);
+    } else {
+      setTrigger(false);
+    }
+  }, [node]);
+
+  const tick = useCallback(() => {
+    if (triggerType === TriggerType.Automatic) {
+      automaticTrigger();
+    }
+
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     if (!canvas || !context) {
@@ -122,15 +183,15 @@ function Envelope({ data, id, selected, type }: NodeProps) {
         sustainOn,
       },
       {
-        currentTime: node.context.currentTime,
-        gain: node.gain.value,
+        currentTime: node.output.context.currentTime,
+        gain: node.output.gain.value,
         keyOffEventTime: keyOffEventTime.current,
         keyOnEventTime: keyOnEventTime.current,
       }
     );
-  }, [node, attackTime, decayTime, releaseTime, sustainLevel, sustainOn]);
+  }, [node, attackTime, automaticTrigger, decayTime, releaseTime, sustainLevel, sustainOn, triggerType]);
 
-  useAnimationFrame(draw);
+  useAnimationFrame(tick);
 
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} type={type}>
@@ -145,6 +206,10 @@ function Envelope({ data, id, selected, type }: NodeProps) {
             <canvas ref={canvasRef} height={64} width={256} />
           </div>
           <div className="customNode_item">
+            <select onChange={e => onChange({ triggerType: e.target.value })} value={triggerType}>
+              <option value={TriggerType.Manual}>{TriggerType[TriggerType.Manual]}</option>
+              <option value={TriggerType.Automatic}>{TriggerType[TriggerType.Automatic]}</option>
+            </select>
             <label
               style={{
                 alignItems: "center",
