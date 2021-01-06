@@ -1,0 +1,37 @@
+.keyboard {
+  align-items: flex-start;
+  display: flex;
+}
+
+.keyboard .key {
+  align-items: flex-end;
+  border: 1px solid #000;
+  display: flex;
+  font-size: 8px;
+  height: 36px;
+  justify-content: center;
+  outline: none;
+  padding: 0;
+}
+
+.keyboard .key.key-black {
+  background: #303030;
+  color: #f0f0f0;
+  height: 22px;
+  margin-left: -5px;
+  margin-right: -5px;
+  position: relative;
+  width: 10px;
+  z-index: 1;
+}
+
+.keyboard .key.key-white {
+  background: #f0f0f0;
+  color: #303030;
+  margin-right: -1px;
+  width: 16px;
+}
+
+.keyboard .key:hover {
+  background: red;
+}
