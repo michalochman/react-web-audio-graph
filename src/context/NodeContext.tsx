@@ -4,8 +4,8 @@ import { connectNodes } from "utils/handles";
 import { AudioContext } from "context/AudioContext";
 
 export type ComplexAudioNode<Input extends AudioNode | undefined, Output extends AudioNode | undefined> = {
-  input: Input;
-  output: Output;
+  input?: Input;
+  output?: Output;
 };
 
 export type AnyAudioNode = AudioNode | ComplexAudioNode<AudioNode, AudioNode>;

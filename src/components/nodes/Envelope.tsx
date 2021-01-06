@@ -1,15 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
 import useAnimationFrame from "hooks/useAnimationFrame";
 
-enum TriggerType {
-  Automatic = "automatic" as any,
-  Manual = "manual" as any,
+interface EnvelopeNode extends Required<ComplexAudioNode<GainNode, GainNode>> {
+  gate: AudioWorkletNode;
 }
-
-interface EnvelopeNode extends ComplexAudioNode<AnalyserNode, GainNode> {}
 
 interface ADSREnvelope {
   attackTime: number;
@@ -68,31 +65,20 @@ function drawEnvelope(context: CanvasRenderingContext2D, envelope: ADSREnvelope,
 }
 
 function Envelope({ data, id, selected, type }: NodeProps) {
-  const {
-    attackTime = 0.2,
-    decayTime = 0.1,
-    onChange,
-    releaseTime = 0.6,
-    sustainLevel = 0.7,
-    sustainOn = true,
-    triggerType = TriggerType.Manual,
-  } = data;
+  const { attackTime = 0.2, decayTime = 0.1, onChange, releaseTime = 0.6, sustainLevel = 0.7, sustainOn = true } = data;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const keyOnEventTime = useRef(Number.MAX_SAFE_INTEGER);
   const keyOffEventTime = useRef(Number.MAX_SAFE_INTEGER);
-  const [trigger, setTrigger] = useState(false);
 
   // AudioNode
   const node = (useNode(id, context => {
-    const input = context.createAnalyser();
-    const output = context.createGain();
-
-    input.fftSize = 32;
-    input.connect(output);
+    const gain = context.createGain();
+    const gate = new AudioWorkletNode(context, "gate-processor");
 
     return {
-      input,
-      output,
+      gate,
+      input: gain,
+      output: gain,
     };
   }) as unknown) as EnvelopeNode;
 
@@ -112,31 +98,7 @@ function Envelope({ data, id, selected, type }: NodeProps) {
     }
   }, [node, attackTime, decayTime, releaseTime, sustainLevel, sustainOn]);
 
-  // TODO
-  const triggerOff = useCallback(() => {}, []);
-
-  useEffect(() => {
-    if (trigger) {
-      triggerOn();
-    } else {
-      triggerOff();
-    }
-
-    return () => triggerOff();
-  }, [trigger, triggerOn, triggerOff]);
-
-  const start = useCallback(
-    (e: React.MouseEvent | React.KeyboardEvent) => {
-      if ("repeat" in e && e.repeat) {
-        return;
-      }
-
-      triggerOn();
-    },
-    [triggerOn]
-  );
-
-  const stop = useCallback(() => {
+  const triggerOff = useCallback(() => {
     const { currentTime } = node.output.context;
     keyOffEventTime.current = currentTime;
     node.output.gain.cancelScheduledValues(currentTime);
@@ -149,24 +111,21 @@ function Envelope({ data, id, selected, type }: NodeProps) {
     node.output.gain.linearRampToValueAtTime(0, currentTime + releaseTime - releaseTimeUsed);
   }, [node, attackTime, decayTime, releaseTime, sustainOn]);
 
-  const automaticTrigger = useCallback(() => {
-    const bufferLength = node.input.frequencyBinCount;
-    const dataArray = new Float32Array(bufferLength);
-    node.input.getFloatTimeDomainData(dataArray);
-
-    // Naive lo-fi signal detection that triggers if any of the sample frames has any value other than zero
-    if (dataArray.filter(Boolean).length > 0) {
-      setTrigger(true);
-    } else {
-      setTrigger(false);
-    }
-  }, [node]);
+  const gateTrigger = useCallback(
+    ({ data: message }: MessageEvent) => {
+      if (message === "gateOn") {
+        triggerOn();
+      } else if (message === "gateOff") {
+        triggerOff();
+      }
+    },
+    [triggerOff, triggerOn]
+  );
+  useEffect(() => {
+    node.gate.port.onmessage = gateTrigger;
+  }, [node, gateTrigger]);
 
   const tick = useCallback(() => {
-    if (triggerType === TriggerType.Automatic) {
-      automaticTrigger();
-    }
-
     const canvas = canvasRef.current;
     const context = canvas?.getContext("2d");
     if (!canvas || !context) {
@@ -189,27 +148,18 @@ function Envelope({ data, id, selected, type }: NodeProps) {
         keyOnEventTime: keyOnEventTime.current,
       }
     );
-  }, [node, attackTime, automaticTrigger, decayTime, releaseTime, sustainLevel, sustainOn, triggerType]);
+  }, [node, attackTime, decayTime, releaseTime, sustainLevel, sustainOn]);
 
   useAnimationFrame(tick);
 
   return (
-    <Node id={id} inputs={["input"]} outputs={["output"]} type={type}>
-      <div className="customNode_item">
-        <button onMouseDown={start} onMouseUp={stop} onKeyDown={start} onKeyUp={stop}>
-          play
-        </button>
-      </div>
+    <Node id={id} inputs={["input", "gate"]} outputs={["output"]} type={type}>
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
             <canvas ref={canvasRef} height={64} width={256} />
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ triggerType: e.target.value })} value={triggerType}>
-              <option value={TriggerType.Manual}>{TriggerType[TriggerType.Manual]}</option>
-              <option value={TriggerType.Automatic}>{TriggerType[TriggerType.Automatic]}</option>
-            </select>
             <label
               style={{
                 alignItems: "center",

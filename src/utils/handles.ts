@@ -22,15 +22,24 @@ function resolveConnection(
     throw new Error("Invalid connection");
   }
 
-  const connectToNode = connection.targetHandle.startsWith("input");
+  const connectToTargetNode = connection.targetHandle.startsWith("input");
+  const connectToSourceNode = connection.sourceHandle.startsWith("output");
   let source = getNode(connection.source);
   let target = getNode(connection.target);
 
-  if (isComplexAudioNode(source)) {
+  if (isComplexAudioNode(source) && connectToSourceNode) {
+    if (!source.output) {
+      throw new Error("Invalid connection");
+    }
+
     source = source.output;
   }
 
-  if (isComplexAudioNode(target)) {
+  if (isComplexAudioNode(target) && connectToTargetNode) {
+    if (!target.input) {
+      throw new Error("Invalid connection");
+    }
+
     target = target.input;
   }
 
@@ -39,10 +48,13 @@ function resolveConnection(
   }
 
   return {
-    inputIndex: connectToNode ? getChannelIndex(connection.targetHandle) : undefined,
+    inputIndex: connectToTargetNode ? getChannelIndex(connection.targetHandle) : undefined,
     outputIndex: getChannelIndex(connection.sourceHandle),
-    source: source,
-    target: connectToNode
+    source: connectToSourceNode
+      ? source
+      : // @ts-ignore
+        source[connection.sourceHandle],
+    target: connectToTargetNode
       ? target
       : // @ts-ignore
         target[connection.targetHandle],
