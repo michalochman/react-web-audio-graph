@@ -1,16 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import ReactFlow, {
   addEdge,
   isEdge,
   isNode,
   removeElements,
-  useStoreState,
   Background,
   Connection,
   Controls,
   Edge,
   Elements,
-  FlowTransform,
   Node as ReactFlowNode,
   OnLoadParams as ReactFlowInstance,
 } from "react-flow-renderer";
@@ -37,13 +35,9 @@ import OscillatorNote from "components/nodes/OscillatorNote";
 import StereoPanner from "components/nodes/StereoPanner";
 import WaveShaper from "components/nodes/WaveShaper";
 import { useContextMenu } from "context/ContextMenuContext";
-import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
-
-interface Props {
-  elements: Elements;
-  transform: FlowTransform;
-}
+import { useProject } from "context/ProjectContext";
+import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 
 const nodeTypes = {
   Analyser: Analyser,
@@ -93,105 +87,102 @@ async function waitForInitialNodes(initialElements: Elements, audioNodes: Record
   }
 }
 
-const GRID_SIZE = 10;
+export const GRID_SIZE = 10;
 
 function snapToGrid(position: number) {
   return Math.floor(position / GRID_SIZE) * GRID_SIZE;
 }
 
-function Flow({ elements: initialElements, transform: initialTransform }: Props) {
+function Flow() {
+  const { elements, onChangeElementFactory, setElements, setTransform, transform } = useProject();
   const contextMenu = useContextMenu();
-  const transform = useStoreState(store => store.transform);
-
-  const [elements, setElements] = useState<Elements>(initialElements);
   const { nodes: audioNodes } = useNodeContext();
 
   const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
-  const createOnChange = (id: string) => (data: Record<string, any>): void => {
-    setElements(
-      produce((draft: Elements) => {
-        const node = draft.filter(isNode).find(element => element.id === id);
-        if (!node) {
-          return;
-        }
-        Object.keys(data).forEach(property => (node.data[property] = data[property]));
-      })
-    );
-  };
-
   const onLoad = useCallback(
     async (reactFlowInstance: ReactFlowInstance) => {
-      reactFlowInstance.setTransform(initialTransform);
+      reactFlowInstance.setTransform(transform);
 
       // Attach onChange to nodes
       setElements(
         produce((draft: Elements) => {
           draft.filter(isNode).forEach(node => {
-            node.data.onChange = createOnChange(node.id);
+            node.data.onChange = onChangeElementFactory(node.id);
           });
         })
       );
 
       // Wait for nodes to render and handle connections
       // FIXME This should be handled on changes to ReactFlowRenderer state instead.
-      await waitForInitialNodes(initialElements, audioNodes);
-      const edges = initialElements.filter(isEdge);
+      await waitForInitialNodes(elements, audioNodes);
+      const edges = elements.filter(isEdge);
       edges.forEach(edge => onElementsConnect(edge));
     },
-    [audioNodes, initialElements, initialTransform, onElementsConnect]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const onMoveEnd = useCallback(
+    transform => {
+      setTransform(transform);
+    },
+    [setTransform]
   );
 
   const onConnect = useCallback(
     (params: Edge | Connection) => {
-      setElements(elements => addEdge(getEdgeWithColor(params), elements));
+      setElements((elements: Elements) => addEdge(getEdgeWithColor(params), elements));
       onElementsConnect(params);
     },
-    [onElementsConnect]
+    [onElementsConnect, setElements]
   );
   const onElementsRemove = useCallback(
     (elementsToRemove: Elements) => {
       elementsToRemove.filter(isEdge).forEach(edge => onEdgeRemove(edge));
       elementsToRemove.filter(isNode).forEach(node => onNodeRemove(node.id));
 
-      setElements(elements => removeElements(elementsToRemove, elements));
+      setElements((elements: Elements) => removeElements(elementsToRemove, elements));
     },
-    [onEdgeRemove, onNodeRemove]
+    [onEdgeRemove, onNodeRemove, setElements]
   );
   const onEdgeUpdate = useCallback(
     (oldEdge: Edge, newConnection: Connection) => {
       onEdgeRemove(oldEdge);
-      setElements(elements => removeElements([oldEdge], elements));
-      setElements(elements => addEdge(getEdgeWithColor(newConnection), elements));
+      setElements((elements: Elements) => removeElements([oldEdge], elements));
+      setElements((elements: Elements) => addEdge(getEdgeWithColor(newConnection), elements));
       onElementsConnect(newConnection);
     },
-    [onEdgeRemove, onElementsConnect]
+    [onEdgeRemove, onElementsConnect, setElements]
   );
 
-  const onNodeDragStop = useCallback((event: React.MouseEvent<Element, MouseEvent>, draggedNode: ReactFlowNode) => {
-    setElements(
-      produce((draft: Elements) => {
-        const node = draft.filter(isNode).find(element => element.id === draggedNode.id);
-        if (!node) {
-          return;
-        }
-        node.position = {
-          x: snapToGrid(draggedNode.position.x),
-          y: snapToGrid(draggedNode.position.y),
-        };
-      })
-    );
-  }, []);
+  const onNodeDragStop = useCallback(
+    (event: React.MouseEvent<Element, MouseEvent>, draggedNode: ReactFlowNode) => {
+      setElements(
+        produce((draft: Elements) => {
+          const node = draft.filter(isNode).find(element => element.id === draggedNode.id);
+          if (!node) {
+            return;
+          }
+          node.position = {
+            x: snapToGrid(draggedNode.position.x),
+            y: snapToGrid(draggedNode.position.y),
+          };
+        })
+      );
+    },
+    [setElements]
+  );
 
   const addNode = useCallback(
     (type: string) => {
       const id = `${type}-${uuidv4()}`;
-      const onChange = createOnChange(id);
+      const onChange = onChangeElementFactory(id);
       const position = {
-        x: snapToGrid((contextMenu.getRect().left - transform[0]) / transform[2]),
-        y: snapToGrid((contextMenu.getRect().top - transform[1]) / transform[2]),
+        x: snapToGrid((contextMenu.getRect().left - transform.x) / transform.zoom),
+        y: snapToGrid((contextMenu.getRect().top - transform.y) / transform.zoom),
       };
       const node = {
         id,
@@ -199,10 +190,10 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
         type,
         position,
       };
-      setElements(elements => [...elements, node]);
+      setElements((elements: Elements) => [...elements, node]);
       contextMenu.hide();
     },
-    [contextMenu, transform]
+    [contextMenu, onChangeElementFactory, setElements, transform]
   );
 
   const onPaneClick = useCallback(() => {
@@ -221,14 +212,15 @@ function Flow({ elements: initialElements, transform: initialTransform }: Props)
   return (
     <>
       <ReactFlow
-        defaultPosition={[initialTransform.x, initialTransform.y]}
-        defaultZoom={initialTransform.zoom}
+        defaultPosition={[transform.x, transform.y]}
+        defaultZoom={transform.zoom}
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
         onEdgeUpdate={onEdgeUpdate}
         onElementsRemove={onElementsRemove}
         onLoad={onLoad}
+        onMoveEnd={onMoveEnd}
         onNodeDragStop={onNodeDragStop}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}

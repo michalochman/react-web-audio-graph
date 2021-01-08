@@ -1,14 +1,15 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
-import { useStoreState, Elements, FlowTransform } from "react-flow-renderer";
+import { Elements, FlowTransform } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
-
-interface Props {
-  setProject: Dispatch<SetStateAction<ProjectState>>;
-}
+import { useProject } from "context/ProjectContext";
 
 export interface ProjectState {
   elements: Elements;
   id: string;
+  onChangeElementFactory: (id: string) => (data: Record<string, any>) => void;
+  setElements: Dispatch<SetStateAction<Elements>>;
+  setId: Dispatch<SetStateAction<string>>;
+  setTransform: Dispatch<SetStateAction<FlowTransform>>;
   transform: FlowTransform;
 }
 
@@ -49,64 +50,55 @@ export const getDefaultProject = () => ({
   },
 });
 
-function Project({ setProject }: Props) {
+function Project() {
+  const { elements, id, setElements, setId, setTransform, transform } = useProject();
   const [visible, setVisible] = useState(false);
-  const elements = useStoreState(store => store.elements);
-  const transform = useStoreState(store => store.transform);
-  const mappedElements = elements.map(element => ({
-    ...element,
-    __rf: undefined,
-  }));
-  const mappedTransform = {
-    x: transform[0],
-    y: transform[1],
-    zoom: transform[2],
-  };
-  const project = JSON.stringify({
-    elements: mappedElements,
-    transform: mappedTransform,
-  });
   const drawerStyles = useMemo(() => getDrawerStyles(visible), [visible]);
 
   // Load project from URL
   useEffect(() => {
     const project = atob(window.location.hash.substr(1));
     try {
-      const { elements, transform } = JSON.parse(project);
-      setProject({
-        elements,
-        id: uuidv4(),
-        transform,
-      });
+      const { elements, id, transform } = JSON.parse(project);
+      setElements(elements);
+      setId(id ?? uuidv4());
+      setTransform(transform);
     } catch (e) {
       console.error(e);
     }
-  }, [setProject]);
+  }, [setElements, setId, setTransform]);
 
   // Store project in URL
   useEffect(() => {
-    window.location.hash = btoa(project);
-  }, [project]);
+    window.location.hash = btoa(
+      JSON.stringify({
+        elements: elements.map(element => ({ ...element, __rf: undefined })),
+        id,
+        transform,
+      })
+    );
+  }, [elements, id, transform]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       try {
-        const { elements, transform } = JSON.parse(e.target.value);
-        setProject({
-          elements,
-          id: uuidv4(),
-          transform,
-        });
+        const { elements, id, transform } = JSON.parse(e.target.value);
+        setElements(elements);
+        setId(id ?? uuidv4());
+        setTransform(transform);
       } catch (e) {
         console.error(e);
       }
     },
-    [setProject]
+    [setElements, setId, setTransform]
   );
 
   const clearProject = useCallback(() => {
-    setProject(getDefaultProject);
-  }, [setProject]);
+    const defaultProject = getDefaultProject();
+    setElements(defaultProject.elements);
+    setId(defaultProject.id);
+    setTransform(defaultProject.transform);
+  }, [setElements, setId, setTransform]);
   const toggleProjectDrawer = useCallback(() => setVisible(visible => !visible), []);
 
   return (
@@ -116,8 +108,9 @@ function Project({ setProject }: Props) {
         style={textareaStyles}
         value={JSON.stringify(
           {
-            elements: mappedElements,
-            transform: mappedTransform,
+            elements: elements.map(element => ({ ...element, __rf: undefined })),
+            id,
+            transform,
           },
           null,
           2
