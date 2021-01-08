@@ -1,5 +1,9 @@
-import React, { useMemo } from "react";
-import { Handle, NodeProps, Position } from "react-flow-renderer";
+import React, { useCallback, useMemo } from "react";
+import { Elements, Handle, Node as FlowNode, NodeProps, Position } from "react-flow-renderer";
+import { v4 as uuidv4 } from "uuid";
+import { GRID_SIZE } from "components/Flow";
+import { useContextMenu } from "context/ContextMenuContext";
+import { useProject } from "context/ProjectContext";
 
 interface Props {
   children?: React.ReactNode;
@@ -11,6 +15,9 @@ interface Props {
 }
 
 function Node({ children, id, inputs, outputs, title, type }: Props) {
+  const { elements, onChangeElementFactory, setElements } = useProject();
+  const contextMenu = useContextMenu();
+  const node = elements.find(node => node.id === id) as FlowNode;
   const handleStyle = useMemo(
     () => ({
       background: `#${id.substr(-6)}`,
@@ -18,8 +25,45 @@ function Node({ children, id, inputs, outputs, title, type }: Props) {
     [id]
   );
 
+  const cloneNode = useCallback(() => {
+    if (!node) {
+      throw new Error("Node does not exist - this should never happen");
+    }
+
+    const id = `${type}-${uuidv4()}`;
+    const onChange = onChangeElementFactory(id);
+    const newNode = {
+      id,
+      data: { ...node.data, onChange },
+      type: node.type,
+      position: {
+        x: node.position.x + GRID_SIZE,
+        y: node.position.y + GRID_SIZE,
+      },
+    };
+    setElements((elements: Elements) => [...elements, newNode]);
+    contextMenu.hide();
+  }, [contextMenu, onChangeElementFactory, node, setElements, type]);
+
+  const onClick = useCallback(() => {
+    contextMenu.hide();
+  }, [contextMenu]);
+
+  const onContextMenu = useCallback(
+    (event: React.MouseEvent<Element, MouseEvent>) => {
+      event.preventDefault();
+      contextMenu.setRect({ width: 0, height: 0, top: event.clientY, right: 0, bottom: 0, left: event.clientX });
+      contextMenu.show(
+        <ul className="contextMenu">
+          <li onClick={cloneNode}>Clone</li>
+        </ul>
+      );
+    },
+    [cloneNode, contextMenu]
+  );
+
   return (
-    <div className="customNode" title={id}>
+    <div className="customNode" title={id} onClick={onClick} onContextMenu={onContextMenu}>
       <div className="customNode_header">{title ?? type}</div>
       <div className="customNode_body">
         {inputs && (
