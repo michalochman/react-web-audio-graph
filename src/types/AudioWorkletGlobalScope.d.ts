@@ -1,5 +1,5 @@
 // See: https://github.com/microsoft/TypeScript/issues/28308#issuecomment-650802278
-function registerProcessor(
+declare function registerProcessor(
   name: string,
   processorCtor: typeof AudioWorkletProcessor & {
     parameterDescriptors?: AudioParamDescriptor[];
