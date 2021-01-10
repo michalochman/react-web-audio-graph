@@ -1,6 +1,6 @@
 import { createContext, DependencyList, useContext, useEffect, useMemo } from "react";
 import { useStoreState } from "react-flow-renderer";
-import { connectNodes } from "utils/handles";
+import { connectNodes, disconnectNodes } from "utils/handles";
 import { AudioContext } from "context/AudioContext";
 
 export type ComplexAudioNode<Input extends AudioNode | undefined, Output extends AudioNode | undefined> = {
@@ -57,9 +57,11 @@ export function useNode(
     addNode(id, node);
 
     // try reconnecting
-    edges.filter(edge => edge.source === id || edge.target === id).forEach(edge => connectNodes(edge, getNode));
+    const edgesToConnect = edges.filter(edge => edge.source === id || edge.target === id);
+    edgesToConnect.forEach(edge => connectNodes(edge, getNode));
 
     return () => {
+      edgesToConnect.forEach(edge => disconnectNodes(edge, getNode));
       removeNode(id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
