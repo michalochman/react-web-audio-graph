@@ -25,7 +25,7 @@ function Delay({ data, id, selected, type }: NodeProps) {
               className="nodrag"
               max={node.delayTime.maxValue}
               min={node.delayTime.minValue}
-              step={0.1}
+              step={clampDelayTime(maxDelayTime) / 10}
               onChange={e => onChange({ delayTime: +e.target.value })}
               type="range"
               value={delayTime}
