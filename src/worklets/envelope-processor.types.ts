@@ -1,6 +1,3 @@
-const GATE_OFF = 0;
-const GATE_ON = 1;
-
 export enum Mode {
   Exponential = "Exponential",
   Linear = "Linear",
