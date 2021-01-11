@@ -14,6 +14,7 @@ import ReactFlow, {
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
+import ADSR from "components/nodes/ADSR";
 import Analyser from "components/nodes/Analyser";
 import BiquadFilter from "components/nodes/BiquadFilter";
 import ChannelMerger from "components/nodes/ChannelMerger";
@@ -40,6 +41,7 @@ import { useProject } from "context/ProjectContext";
 import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 
 const nodeTypes = {
+  ADSR: ADSR,
   Analyser: Analyser,
   BiquadFilter: BiquadFilter,
   ChannelMerger: ChannelMerger,

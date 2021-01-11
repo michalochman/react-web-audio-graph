@@ -7,6 +7,7 @@ interface Props {
 function FlowContextMenu({ addNode }: Props) {
   return (
     <ul className="contextMenu">
+      <li onClick={() => addNode("ADSR")}>Add ADSR</li>
       <li onClick={() => addNode("Analyser")}>Add Analyser</li>
       <li onClick={() => addNode("BiquadFilter")}>Add Biquad Filter</li>
       <li onClick={() => addNode("ChannelMerger")}>Add Channel Merger</li>

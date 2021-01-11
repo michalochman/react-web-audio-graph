@@ -1,7 +1,8 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { AudioContext } from "context/AudioContext";
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
+import EnvelopeWorkletProcessor from "worklet-loader!worklets/envelope-processor.worklet.ts";
 import GateWorkletProcessor from "worklet-loader!worklets/gate-processor.worklet.ts";
 
 interface Props {
@@ -24,7 +25,10 @@ function Audio({ children }: Props) {
 
   useEffect(() => {
     const awaitAudioWorkletProcessors = async (context: AudioContext) => {
-      await context.audioWorklet.addModule(GateWorkletProcessor);
+      await Promise.all([
+        context.audioWorklet.addModule(EnvelopeWorkletProcessor),
+        context.audioWorklet.addModule(GateWorkletProcessor),
+      ]);
       setReady(true);
     };
 
