@@ -96,6 +96,46 @@ body {
   margin: 0 5px 0 0;
 }
 
+.customNode_editor .toggle {
+  display: block;
+  position: relative;
+}
+
+.customNode_editor .toggle .option {
+  background: #444;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 20px;
+  text-align: center;
+  width: 20px;
+}
+
+.customNode_editor .toggle input {
+  appearance: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  width: 0;
+}
+
+.customNode_editor .toggle input:after {
+  background: #fff;
+  content: "";
+  display: block;
+  height: 14px;
+  left: 0;
+  margin: 3px;
+  position: absolute;
+  top: 0;
+  transform: translateX(0);
+  transition: transform 0.2s ease;
+  width: 14px;
+}
+
+.customNode_editor .toggle input:checked:after {
+  transform: translateX(20px);
+}
+
 .customNode_editor button {
   font-size: inherit;
 }

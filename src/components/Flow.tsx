@@ -28,11 +28,13 @@ import Envelope from "components/nodes/Envelope";
 import FlowContextMenu from "components/FlowContextMenu";
 import Gain from "components/nodes/Gain";
 import Gate from "components/nodes/Gate";
+import InputSwitch from "components/nodes/InputSwitch";
 import Keyboard from "components/nodes/Keyboard";
 import Metronome from "components/nodes/Metronome";
 import Noise from "components/nodes/Noise";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
+import OutputSwitch from "components/nodes/OutputSwitch";
 import StereoPanner from "components/nodes/StereoPanner";
 import WaveShaper from "components/nodes/WaveShaper";
 import { useContextMenu } from "context/ContextMenuContext";
@@ -54,11 +56,13 @@ const nodeTypes = {
   Envelope: Envelope,
   Gain: Gain,
   Gate: Gate,
+  InputSwitch: InputSwitch,
   Keyboard: Keyboard,
   Metronome: Metronome,
   Noise: Noise,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
+  OutputSwitch: OutputSwitch,
   StereoPanner: StereoPanner,
   WaveShaper: WaveShaper,
 };

@@ -20,11 +20,13 @@ function FlowContextMenu({ addNode }: Props) {
       <li onClick={() => addNode("DelayEffect")}>Add DelayEffect</li>
       <li onClick={() => addNode("Gain")}>Add Gain</li>
       <li onClick={() => addNode("Gate")}>Add Gate</li>
+      <li onClick={() => addNode("InputSwitch")}>Add Input Switch</li>
       <li onClick={() => addNode("Keyboard")}>Add Keyboard</li>
       <li onClick={() => addNode("Metronome")}>Add Metronome</li>
       <li onClick={() => addNode("Noise")}>Add Noise</li>
       <li onClick={() => addNode("Oscillator")}>Add Oscillator</li>
       <li onClick={() => addNode("OscillatorNote")}>Add Oscillator Note</li>
+      <li onClick={() => addNode("OutputSwitch")}>Add Output Switch</li>
       <li onClick={() => addNode("StereoPanner")}>Add Stereo Panner</li>
       <li onClick={() => addNode("WaveShaper")}>Add Wave Shaper</li>
     </ul>
