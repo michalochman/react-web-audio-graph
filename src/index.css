@@ -195,9 +195,23 @@ body {
 
 .contextMenu li {
   cursor: pointer;
+  font-size: 14px;
   padding: 4px;
+  position: relative;
+  white-space: nowrap;
 }
 
 .contextMenu li:hover {
   background: #ccc;
+}
+
+.contextMenu .sub {
+  display: none;
+  left: 100%;
+  position: absolute;
+  top: 0;
+}
+
+.contextMenu li:hover .sub {
+  display: block;
 }
