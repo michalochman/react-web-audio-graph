@@ -36,6 +36,7 @@ import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import OutputSwitch from "components/nodes/OutputSwitch";
 import Rectifier from "components/nodes/Rectifier";
+import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
 import WaveShaper from "components/nodes/WaveShaper";
 import { useContextMenu } from "context/ContextMenuContext";
@@ -65,6 +66,7 @@ const nodeTypes = {
   OscillatorNote: OscillatorNote,
   OutputSwitch: OutputSwitch,
   Rectifier: Rectifier,
+  Sign: Sign,
   StereoPanner: StereoPanner,
   WaveShaper: WaveShaper,
 };
