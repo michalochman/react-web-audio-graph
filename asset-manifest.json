@@ -1,27 +1,31 @@
 {
   "files": {
     "main.css": "/react-web-audio-graph/static/css/main.f3aea2d2.chunk.css",
-    "main.js": "/react-web-audio-graph/static/js/main.5d4e5029.chunk.js",
-    "main.js.map": "/react-web-audio-graph/static/js/main.5d4e5029.chunk.js.map",
-    "runtime-main.js": "/react-web-audio-graph/static/js/runtime-main.f2ad7cd8.js",
-    "runtime-main.js.map": "/react-web-audio-graph/static/js/runtime-main.f2ad7cd8.js.map",
-    "static/js/2.9facf185.chunk.js": "/react-web-audio-graph/static/js/2.9facf185.chunk.js",
-    "static/js/2.9facf185.chunk.js.map": "/react-web-audio-graph/static/js/2.9facf185.chunk.js.map",
-    "static/js/3.95c868bf.chunk.js": "/react-web-audio-graph/static/js/3.95c868bf.chunk.js",
-    "static/js/3.95c868bf.chunk.js.map": "/react-web-audio-graph/static/js/3.95c868bf.chunk.js.map",
+    "main.js": "/react-web-audio-graph/static/js/main.329293ec.chunk.js",
+    "main.js.map": "/react-web-audio-graph/static/js/main.329293ec.chunk.js.map",
+    "runtime-main.js": "/react-web-audio-graph/static/js/runtime-main.4a0d6bca.js",
+    "runtime-main.js.map": "/react-web-audio-graph/static/js/runtime-main.4a0d6bca.js.map",
+    "static/js/2.0486a951.chunk.js": "/react-web-audio-graph/static/js/2.0486a951.chunk.js",
+    "static/js/2.0486a951.chunk.js.map": "/react-web-audio-graph/static/js/2.0486a951.chunk.js.map",
+    "static/js/3.21bfc795.chunk.js": "/react-web-audio-graph/static/js/3.21bfc795.chunk.js",
+    "static/js/3.21bfc795.chunk.js.map": "/react-web-audio-graph/static/js/3.21bfc795.chunk.js.map",
+    "02fab5fec625866308db.worklet.js": "/react-web-audio-graph/02fab5fec625866308db.worklet.js",
+    "02fab5fec625866308db.worklet.js.map": "/react-web-audio-graph/02fab5fec625866308db.worklet.js.map",
     "a0235f5e912865b33aba.worklet.js": "/react-web-audio-graph/a0235f5e912865b33aba.worklet.js",
     "a0235f5e912865b33aba.worklet.js.map": "/react-web-audio-graph/a0235f5e912865b33aba.worklet.js.map",
     "a0986bdee6ebf67ad863.worklet.js": "/react-web-audio-graph/a0986bdee6ebf67ad863.worklet.js",
     "a0986bdee6ebf67ad863.worklet.js.map": "/react-web-audio-graph/a0986bdee6ebf67ad863.worklet.js.map",
+    "b6299eee7392c19563d5.worklet.js": "/react-web-audio-graph/b6299eee7392c19563d5.worklet.js",
+    "b6299eee7392c19563d5.worklet.js.map": "/react-web-audio-graph/b6299eee7392c19563d5.worklet.js.map",
     "index.html": "/react-web-audio-graph/index.html",
     "static/css/main.f3aea2d2.chunk.css.map": "/react-web-audio-graph/static/css/main.f3aea2d2.chunk.css.map",
-    "static/js/2.9facf185.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.9facf185.chunk.js.LICENSE.txt",
+    "static/js/2.0486a951.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.0486a951.chunk.js.LICENSE.txt",
     "static/media/bravura.css": "/react-web-audio-graph/static/media/bravura.e69f6822.woff"
   },
   "entrypoints": [
-    "static/js/runtime-main.f2ad7cd8.js",
-    "static/js/2.9facf185.chunk.js",
+    "static/js/runtime-main.4a0d6bca.js",
+    "static/js/2.0486a951.chunk.js",
     "static/css/main.f3aea2d2.chunk.css",
-    "static/js/main.5d4e5029.chunk.js"
+    "static/js/main.329293ec.chunk.js"
   ]
 }
