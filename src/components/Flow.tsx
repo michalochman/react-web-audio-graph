@@ -39,6 +39,9 @@ import Rectifier from "components/nodes/Rectifier";
 import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
 import WaveShaper from "components/nodes/WaveShaper";
+import FM_flow_sourceIP from "components/nodes/FM_flow_sourceIP";
+import FM_match_ip from "components/nodes/FM_match_ip";
+import FM_drop_flow from "components/nodes/FM_drop_flow";
 import { useContextMenu } from "context/ContextMenuContext";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
 import { useProject } from "context/ProjectContext";
@@ -69,6 +72,9 @@ const nodeTypes = {
   Sign: Sign,
   StereoPanner: StereoPanner,
   WaveShaper: WaveShaper,
+  FM_flow_sourceIP: FM_flow_sourceIP,
+  FM_match_ip: FM_match_ip,
+  FM_drop_flow: FM_drop_flow,
 };
 
 function getEdgeWithColor(params: Edge | Connection) {

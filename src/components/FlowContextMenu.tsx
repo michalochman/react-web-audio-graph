@@ -8,6 +8,14 @@ function FlowContextMenu({ addNode }: Props) {
   return (
     <ul className="contextMenu">
       <li>
+        FRESCO
+        <ul className="contextMenu sub">
+          <li onClick={() => addNode("FM_flow_sourceIP")}>Add FM_flow_sourceIP</li>
+          <li onClick={() => addNode("FM_match_ip")}>Add FM_match_ip</li>
+          <li onClick={() => addNode("FM_drop_flow")}>Add FM_drop_flow</li>
+        </ul>
+      </li>
+      <li>
         Sources
         <ul className="contextMenu sub">
           <li onClick={() => addNode("Gate")}>Gate</li>
