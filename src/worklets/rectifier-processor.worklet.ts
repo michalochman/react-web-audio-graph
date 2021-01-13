@@ -1,12 +1,12 @@
 import { Mode } from "worklets/rectifier-processor.types";
 
 class RectifierProcessor extends AudioWorkletProcessor {
-  mode: Mode;
+  stepFunction: (value: number) => number;
 
   constructor(options?: AudioWorkletNodeOptions) {
     super(options);
 
-    this.mode = options?.processorOptions.mode ?? Mode.HalfWave;
+    this.stepFunction = options?.processorOptions.mode === Mode.HalfWave ? stepHalfWave : stepFullWave;
   }
 
   // Depending on the mode, either blocks or inverts negative amplitudes.
@@ -15,26 +15,25 @@ class RectifierProcessor extends AudioWorkletProcessor {
   process(inputs: Float32Array[][], outputs: Float32Array[][]) {
     const input = inputs[0];
     const output = outputs[0];
-    const step = this.mode === Mode.HalfWave ? this.stepHalfWave : this.stepFullWave;
 
     for (let channel = 0; channel < input.length; ++channel) {
       const sampleFrames = input[channel].length;
 
       for (let i = 0; i < sampleFrames; i++) {
-        output[channel][i] = step(input[channel][i]);
+        output[channel][i] = this.stepFunction(input[channel][i]);
       }
     }
 
     return true;
   }
+}
 
-  stepFullWave(value: number): number {
-    return value > 0 ? value : -value;
-  }
+function stepFullWave(value: number): number {
+  return value > 0 ? value : -value;
+}
 
-  stepHalfWave(value: number): number {
-    return value > 0 ? value : 0;
-  }
+function stepHalfWave(value: number): number {
+  return value > 0 ? value : 0;
 }
 
 registerProcessor("rectifier-processor", RectifierProcessor);
