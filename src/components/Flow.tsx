@@ -16,6 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
 import ADSR from "components/nodes/ADSR";
 import Analyser from "components/nodes/Analyser";
+import AndGate from "components/nodes/AndGate";
 import BiquadFilter from "components/nodes/BiquadFilter";
 import ChannelMerger from "components/nodes/ChannelMerger";
 import ChannelSplitter from "components/nodes/ChannelSplitter";
@@ -32,6 +33,8 @@ import InputSwitch from "components/nodes/InputSwitch";
 import Keyboard from "components/nodes/Keyboard";
 import Metronome from "components/nodes/Metronome";
 import Noise from "components/nodes/Noise";
+import NotGate from "components/nodes/NotGate";
+import OrGate from "components/nodes/OrGate";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import OutputSwitch from "components/nodes/OutputSwitch";
@@ -40,6 +43,7 @@ import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
 import Transformer from "components/nodes/Transformer";
 import WaveShaper from "components/nodes/WaveShaper";
+import XorGate from "components/nodes/XorGate";
 import { useContextMenu } from "context/ContextMenuContext";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
 import { useProject } from "context/ProjectContext";
@@ -48,6 +52,7 @@ import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 const nodeTypes = {
   ADSR: ADSR,
   Analyser: Analyser,
+  AndGate: AndGate,
   BiquadFilter: BiquadFilter,
   ChannelMerger: ChannelMerger,
   ChannelSplitter: ChannelSplitter,
@@ -63,6 +68,8 @@ const nodeTypes = {
   Keyboard: Keyboard,
   Metronome: Metronome,
   Noise: Noise,
+  NotGate: NotGate,
+  OrGate: OrGate,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
   OutputSwitch: OutputSwitch,
@@ -71,6 +78,7 @@ const nodeTypes = {
   StereoPanner: StereoPanner,
   Transformer: Transformer,
   WaveShaper: WaveShaper,
+  XorGate: XorGate,
 };
 
 function getEdgeWithColor(params: Edge | Connection) {
