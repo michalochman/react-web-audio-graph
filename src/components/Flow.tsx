@@ -38,6 +38,7 @@ import OutputSwitch from "components/nodes/OutputSwitch";
 import Rectifier from "components/nodes/Rectifier";
 import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
+import Transformer from "components/nodes/Transformer";
 import WaveShaper from "components/nodes/WaveShaper";
 import { useContextMenu } from "context/ContextMenuContext";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
@@ -68,6 +69,7 @@ const nodeTypes = {
   Rectifier: Rectifier,
   Sign: Sign,
   StereoPanner: StereoPanner,
+  Transformer: Transformer,
   WaveShaper: WaveShaper,
 };
 

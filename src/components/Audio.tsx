@@ -6,6 +6,7 @@ import EnvelopeWorkletProcessor from "worklet-loader!worklets/envelope-processor
 import GateWorkletProcessor from "worklet-loader!worklets/gate-processor.worklet.ts";
 import RectifierWorkletProcessor from "worklet-loader!worklets/rectifier-processor.worklet.ts";
 import SignWorkletProcessor from "worklet-loader!worklets/sign-processor.worklet.ts";
+import TransformerWorkletProcessor from "worklet-loader!worklets/transformer-processor.worklet.ts";
 
 interface Props {
   children: React.ReactNode;
@@ -32,6 +33,7 @@ function Audio({ children }: Props) {
         context.audioWorklet.addModule(GateWorkletProcessor),
         context.audioWorklet.addModule(RectifierWorkletProcessor),
         context.audioWorklet.addModule(SignWorkletProcessor),
+        context.audioWorklet.addModule(TransformerWorkletProcessor),
       ]);
       setReady(true);
     };
