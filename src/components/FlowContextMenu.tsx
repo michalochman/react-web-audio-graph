@@ -31,6 +31,7 @@ function FlowContextMenu({ addNode }: Props) {
           <li onClick={() => addNode("Delay")}>Delay</li>
           <li onClick={() => addNode("DelayEffect")}>Delay Effect</li>
           <li onClick={() => addNode("DynamicsCompressor")}>Dynamics Compressor</li>
+          <li onClick={() => addNode("Equalizer")}>Equalizer</li>
           <li onClick={() => addNode("Gain")}>Gain</li>
           <li onClick={() => addNode("Rectifier")}>Rectifier</li>
           <li onClick={() => addNode("Sign")}>Sign</li>

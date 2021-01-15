@@ -26,6 +26,7 @@ import DelayEffect from "components/nodes/DelayEffect";
 import Destination from "components/nodes/Destination";
 import DynamicsCompressor from "components/nodes/DynamicsCompressor";
 import Envelope from "components/nodes/Envelope";
+import Equalizer from "components/nodes/Equalizer";
 import FlowContextMenu from "components/FlowContextMenu";
 import Gain from "components/nodes/Gain";
 import Gate from "components/nodes/Gate";
@@ -62,6 +63,7 @@ const nodeTypes = {
   Destination: Destination,
   DynamicsCompressor: DynamicsCompressor,
   Envelope: Envelope,
+  Equalizer: Equalizer,
   Gain: Gain,
   Gate: Gate,
   InputSwitch: InputSwitch,

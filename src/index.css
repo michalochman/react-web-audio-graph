@@ -136,6 +136,31 @@ body {
   transform: translateX(20px);
 }
 
+.customNode_editor .equalizer {
+  display: flex;
+  font-size: 11px;
+  position: relative;
+  text-align: center;
+}
+
+.customNode_editor .equalizer:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50px;
+  height: 1px;
+  width: 100%;
+  background: #fff;
+}
+
+.customNode_editor .equalizer input[type="range"] {
+  appearance: slider-vertical;
+  display: block;
+  height: 100px;
+  margin-bottom: 4px;
+  width: 24px;
+}
+
 .customNode_editor button {
   font-size: inherit;
 }
