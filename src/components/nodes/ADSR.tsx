@@ -38,26 +38,21 @@ function ADSR({ data, id, selected, type }: NodeProps) {
       type={type}
     >
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
-            <select onChange={e => onChange({ mode: e.target.value })} value={mode}>
+            <select onChange={e => onChange({ mode: e.target.value })} title="Type" value={mode}>
               <option value={Mode.Exponential}>{Mode.Exponential}</option>
               <option value={Mode.Linear}>{Mode.Linear}</option>
               <option value={Mode.Logarithmic}>{Mode.Logarithmic}</option>
             </select>
           </div>
           <div className="customNode_item">
-            <label
-              style={{
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
+            <label>
               <input
-                className="nodrag"
-                type="checkbox"
                 checked={sustainOn}
                 onChange={() => onChange({ sustainOn: !sustainOn })}
+                title="Sustain"
+                type="checkbox"
               />
               sustain on
             </label>

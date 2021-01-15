@@ -19,13 +19,13 @@ function ConstantSource({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} outputs={["output"]} title={`Constant: ${offset}`} type={type}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="number"
               onChange={e => onChange({ offset: +e.target.value })}
               style={{ width: "100%" }}
+              title="Offset"
+              type="number"
               value={offset}
             />
           </div>

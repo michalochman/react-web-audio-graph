@@ -24,59 +24,59 @@ function DynamicsCompressor({ data, id, selected, type }: NodeProps) {
       type={type}
     >
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
-              max="0"
               min="-100"
-              step="1"
+              max="0"
               onChange={e => onChange({ threshold: +e.target.value })}
+              step="1"
+              title={`Threshold: ${threshold} dB`}
+              type="range"
               value={threshold}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
-              max="40"
               min="0"
-              step="1"
+              max="40"
               onChange={e => onChange({ knee: +e.target.value })}
+              step="1"
+              title={`Knee: ${knee} dB`}
+              type="range"
               value={knee}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
-              max="20"
               min="1"
-              step="1"
+              max="20"
               onChange={e => onChange({ ratio: +e.target.value })}
+              step="1"
+              title={`Ratio: ${ratio} dB`}
+              type="range"
               value={ratio}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
-              max="1"
               min="0"
-              step="0.001"
+              max="1"
               onChange={e => onChange({ attack: +e.target.value })}
+              step="0.001"
+              title={`Attack: ${attack} s`}
+              type="range"
               value={attack}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
-              max="1"
               min="0"
-              step="0.001"
+              max="1"
               onChange={e => onChange({ release: +e.target.value })}
+              step="0.001"
+              title={`Release: ${release} s`}
+              type="range"
               value={release}
             />
           </div>

@@ -74,8 +74,8 @@ function Equalizer({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title="EQ" type={type}>
       {selected && (
-        <div className="customNode_editor">
-          <div className="customNode_item nodrag">
+        <div className="customNode_editor nodrag">
+          <div className="customNode_item">
             <div className="equalizer">
               {node.filters.map((filter, index) => (
                 <div key={index}>
@@ -86,6 +86,7 @@ function Equalizer({ data, id, selected, type }: NodeProps) {
                       onChange({ gains: produce(gains, (draft: number[]) => void (draft[index] = +e.target.value)) })
                     }
                     step={0.1}
+                    title={`Gain: ${gains[index]} dB`}
                     type="range"
                     value={gains[index]}
                   />
@@ -94,12 +95,13 @@ function Equalizer({ data, id, selected, type }: NodeProps) {
               ))}
             </div>
           </div>
-          <div className="customNode_item nodrag">
+          <div className="customNode_item">
             <input
               max={4}
               min={0.5}
               step={0.5}
               onChange={e => onChange({ bandwidth: +e.target.value })}
+              title={`Bandwidth: ${bandwidth} octaves`}
               type="range"
               value={bandwidth}
             />

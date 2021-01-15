@@ -9,7 +9,7 @@ interface Props {
 
 function Toggle({ checked, labelOff = "off", labelOn = "on", onChange }: Props) {
   return (
-    <label className="nodrag toggle">
+    <label className="toggle">
       <input checked={checked} onChange={onChange} type="checkbox" />
       <span className="option">{labelOn}</span>
       <span className="option">{labelOff}</span>

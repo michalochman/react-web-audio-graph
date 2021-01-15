@@ -15,7 +15,7 @@ function Rectifier({ data, id, selected, type }: NodeProps) {
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
-            <select onChange={e => onChange({ mode: e.target.value })} value={mode}>
+            <select onChange={e => onChange({ mode: e.target.value })} title="Type" value={mode}>
               <option value={Mode.FullWave}>{Mode.FullWave}</option>
               <option value={Mode.HalfWave}>{Mode.HalfWave}</option>
             </select>

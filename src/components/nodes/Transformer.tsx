@@ -28,31 +28,37 @@ function Transformer({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title="Transformer" type={type}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
               onChange={e => onChange({ inputMin: +e.target.value })}
               style={inputStyle}
+              title={`Input min`}
               type="number"
               value={inputMin}
             />
+            <span>&rarr;</span>
             <input
-              onChange={e => onChange({ inputMax: +e.target.value })}
+              onChange={e => onChange({ outputMin: +e.target.value })}
               style={inputStyle}
+              title={`Output min`}
               type="number"
-              value={inputMax}
+              value={outputMin}
             />
           </div>
           <div className="customNode_item">
             <input
-              onChange={e => onChange({ outputMin: +e.target.value })}
+              onChange={e => onChange({ inputMax: +e.target.value })}
               style={inputStyle}
+              title={`Input max`}
               type="number"
-              value={outputMin}
+              value={inputMax}
             />
+            <span>&rarr;</span>
             <input
               onChange={e => onChange({ outputMax: +e.target.value })}
               style={inputStyle}
+              title={`Output max`}
               type="number"
               value={outputMax}
             />

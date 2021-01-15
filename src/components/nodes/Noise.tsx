@@ -3,6 +3,12 @@ import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
+enum NoiseType {
+  Brown = "brown" as any,
+  Pink = "pink" as any,
+  White = "white" as any,
+}
+
 // See: https://noisehack.com/generate-noise-web-audio-api/
 function generateWhiteNoise(buffer: AudioBuffer) {
   const bufferSize = buffer.length;
@@ -57,7 +63,7 @@ function generateBrownNoise(buffer: AudioBuffer) {
 }
 
 function Noise({ data, id, selected, type: nodeType }: NodeProps) {
-  const { onChange, type = "white" } = data;
+  const { onChange, type = NoiseType.White } = data;
 
   // AudioNode
   const node = useNode(
@@ -66,9 +72,9 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
       // Will create buffer with 5 seconds of noise
       const bufferSize = 5 * context.sampleRate;
       const generators = {
-        brown: generateBrownNoise,
-        pink: generatePinkNoise,
-        white: generateWhiteNoise,
+        [NoiseType.Brown]: generateBrownNoise,
+        [NoiseType.Pink]: generatePinkNoise,
+        [NoiseType.White]: generateWhiteNoise,
       };
       const generator = generators[type as keyof typeof generators];
       const buffer = generator(context.createBuffer(1, bufferSize, context.sampleRate));
@@ -90,10 +96,10 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
       {selected && (
         <div className="customNode_editor">
           <div className="customNode_item">
-            <select onChange={e => onChange({ type: e.target.value })} value={type}>
-              <option value="white">white</option>
-              <option value="pink">pink</option>
-              <option value="brown">brown</option>
+            <select onChange={e => onChange({ type: e.target.value })} title="Type" value={type}>
+              <option value={NoiseType.White}>{NoiseType[NoiseType.White]}</option>
+              <option value={NoiseType.Pink}>{NoiseType[NoiseType.Pink]}</option>
+              <option value={NoiseType.Brown}>{NoiseType[NoiseType.Brown]}</option>
             </select>
           </div>
         </div>

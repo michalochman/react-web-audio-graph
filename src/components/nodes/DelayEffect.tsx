@@ -2,6 +2,8 @@ import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import Slider, { SliderType } from "components/controls/Slider";
+import { float32toDb } from "utils/units";
 
 function DelayEffect({ data, id, selected, type }: NodeProps) {
   const { delayTime = 0.2, feedback = 0.7, mix = 0.5, onChange } = data;
@@ -49,37 +51,34 @@ function DelayEffect({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title={`DelayEffect`} type={type}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
               max="1"
               min="0"
-              step="0.01"
               onChange={e => onChange({ mix: +e.target.value })}
+              step="0.01"
+              title={`Mix: ${(1 - mix) * 100}% dry / ${mix * 100}% wet`}
+              type="range"
               value={mix}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              type="range"
               max="1"
               min="0"
-              step="0.01"
               onChange={e => onChange({ delayTime: +e.target.value })}
+              step="0.01"
+              title={`Delay: ${delayTime} s`}
+              type="range"
               value={delayTime}
             />
           </div>
           <div className="customNode_item">
-            <input
-              className="nodrag"
-              type="range"
-              max="1"
-              min="0"
-              step="0.01"
-              onChange={e => onChange({ feedback: +e.target.value })}
+            <Slider
+              onChange={feedback => onChange({ feedback })}
+              title={`Feedback: ${float32toDb(feedback).toFixed(2)} dB`}
+              type={SliderType.Linear}
               value={feedback}
             />
           </div>

@@ -73,32 +73,33 @@ function Metronome({ data, id, selected, type: nodeType }: NodeProps) {
   return (
     <Node id={id} outputs={["output"]} title={`Metronome: ${beatsPerMinute} BPM`} type={nodeType}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
               max={208}
               min={40}
               onChange={e => onChange({ beatsPerMinute: +e.target.value })}
+              title="Beats Per Minute"
               type="number"
               value={beatsPerMinute}
             />
             <input
-              className="nodrag"
               max={8}
               min={1}
               onChange={e => onChange({ beatsPerMeasure: +e.target.value })}
+              title="Beats Per Measure"
               type="number"
               value={beatsPerMeasure}
             />
           </div>
           <div className="customNode_item">
-            <span className="nodrag" style={{ alignItems: "center", display: "flex", justifyContent: "space-between" }}>
+            <span style={{ alignItems: "center", display: "flex", justifyContent: "space-between" }}>
               {[NoteValue.Whole, NoteValue.Half, NoteValue.Quarter, NoteValue.Eight, NoteValue.Sixteenth].map(note => (
                 <button
                   key={note}
                   onClick={() => toggleNote(note)}
                   style={{ ...noteStyle, color: notes.includes(note) ? "#0d0" : "#d00" }}
+                  title={`${NoteValue[note]} note`}
                 >
                   {NoteSymbol[NoteValue[note] as any]}
                 </button>

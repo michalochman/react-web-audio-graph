@@ -24,10 +24,9 @@ function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
         <Visualiser type={type} node={node} paused={paused} height={64} width={256} />
       </div>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
               type="range"
               max="15"
               min="5"
@@ -38,22 +37,12 @@ function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
             {Math.pow(2, fftSizeExp)}
           </div>
           <div className="customNode_item" style={{ justifyContent: "space-between" }}>
-            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+            <select onChange={e => onChange({ type: e.target.value })} title="Type" value={type}>
               <option value={DataType.Frequency}>{DataType.Frequency}</option>
               <option value={DataType.TimeDomain}>{DataType.TimeDomain}</option>
             </select>
-            <label
-              style={{
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
-              <input
-                className="nodrag"
-                type="checkbox"
-                checked={paused}
-                onChange={e => onChange({ paused: !paused })}
-              />
+            <label>
+              <input checked={paused} onChange={e => onChange({ paused: !paused })} title="Pause" type="checkbox" />
               Paused
             </label>
           </div>

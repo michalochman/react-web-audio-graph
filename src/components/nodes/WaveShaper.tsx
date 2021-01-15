@@ -48,19 +48,19 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} type={type}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item" style={{ flexWrap: "wrap" }}>
             <textarea
-              className="nodrag"
               onChange={e => setCurveFn(e.target.value)}
               rows={8}
               style={{ width: "100%" }}
+              title="Curve function"
               value={curveFn}
             />
             <button onClick={updateCurve}>save</button>
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ oversample: e.target.value })} value={oversample}>
+            <select onChange={e => onChange({ oversample: e.target.value })} title="Oversample" value={oversample}>
               <option value="none">none</option>
               <option value="2x">2x</option>
               <option value="4x">4x</option>

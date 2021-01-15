@@ -20,19 +20,12 @@ function ChannelMerger({ data, id, selected, type }: NodeProps) {
       type={type}
     >
       {selected && (
-        <div className="customNode_editor">
-          <div
-            className="customNode_item"
-            style={{
-              alignItems: "flex-start",
-              flexDirection: "column",
-            }}
-          >
+        <div className="customNode_editor nodrag">
+          <div className="customNode_item" style={{ alignItems: "flex-start", flexDirection: "column" }}>
             {Object.keys(channelCounts).map(channelCount => (
-              <label key={channelCount}>
+              <label key={channelCount} title="Channel configuration">
                 <input
                   checked={inputs === +channelCount}
-                  className="nodrag"
                   onChange={e => onChange({ inputs: +e.target.value })}
                   type="radio"
                   value={+channelCount}

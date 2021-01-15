@@ -28,6 +28,8 @@ function FlowContextMenu({ addNode }: Props) {
         Effects
         <ul className="contextMenu sub">
           <li onClick={() => addNode("BiquadFilter")}>Biquad Filter</li>
+          <li onClick={() => addNode("ChannelMerger")}>Channel Merger</li>
+          <li onClick={() => addNode("ChannelSplitter")}>Channel Splitter</li>
           <li onClick={() => addNode("Delay")}>Delay</li>
           <li onClick={() => addNode("DelayEffect")}>Delay Effect</li>
           <li onClick={() => addNode("DynamicsCompressor")}>Dynamics Compressor</li>
@@ -38,8 +40,6 @@ function FlowContextMenu({ addNode }: Props) {
           <li onClick={() => addNode("StereoPanner")}>Stereo Panner</li>
           <li onClick={() => addNode("Transformer")}>Transformer</li>
           <li onClick={() => addNode("WaveShaper")}>Wave Shaper</li>
-          <li onClick={() => addNode("ChannelMerger")}>Channel Merger</li>
-          <li onClick={() => addNode("ChannelSplitter")}>Channel Splitter</li>
         </ul>
       </li>
       <li>

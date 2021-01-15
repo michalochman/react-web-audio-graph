@@ -2,6 +2,7 @@ import React from "react";
 import { getNoteFrequency, getNoteName } from "utils/notes";
 
 interface Props {
+  detune: number;
   octave: number;
   twelfth: number;
 }
@@ -21,16 +22,21 @@ const accidentalStyles: React.CSSProperties = {
   verticalAlign: "super",
 };
 
-function Note({ octave, twelfth }: Props) {
+function Note({ detune, octave, twelfth }: Props) {
   const [name, accidental] = getNoteName(twelfth).split("");
   const frequency = getNoteFrequency(octave, twelfth);
+  const frequencyDetuned = frequency * Math.pow(2, detune / 1200);
 
   return (
     <span>
       {name}
       <small style={octaveStyles}>{octave}</small>
       {accidental && <small style={accidentalStyles}>{accidental}</small>}
-      <small> ({frequency.toFixed(2)} Hz)</small>
+      &nbsp;
+      <small>
+        ({frequency.toFixed(2)} Hz
+        {detune !== 0 && <> &rarr; {frequencyDetuned.toFixed(2)} Hz</>})
+      </small>
     </span>
   );
 }

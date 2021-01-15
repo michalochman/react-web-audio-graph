@@ -155,62 +155,57 @@ function Envelope({ data, id, selected, type }: NodeProps) {
   return (
     <Node id={id} inputs={["input", "gate"]} outputs={["output"]} type={type}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <canvas ref={canvasRef} height={64} width={256} />
           </div>
           <div className="customNode_item">
-            <label
-              style={{
-                alignItems: "center",
-                display: "flex",
-              }}
-            >
+            <label>
               <input
-                className="nodrag"
-                type="checkbox"
                 checked={sustainOn}
                 onChange={e => onChange({ sustainOn: !sustainOn })}
+                title="Sustain"
+                type="checkbox"
               />
               sustain on
             </label>
           </div>
           <div className="customNode_item" style={{ width: 276 }}>
             <input
-              className="nodrag"
               min={0}
               onChange={e => onChange({ attackTime: +e.target.value })}
               step={0.05}
-              type="number"
               style={{ width: "25%" }}
+              title="Attack time"
+              type="number"
               value={attackTime}
             />
             <input
-              className="nodrag"
               min={0}
               onChange={e => onChange({ decayTime: +e.target.value })}
-              type="number"
               step={0.05}
               style={{ width: "25%" }}
+              title="Decay time"
+              type="number"
               value={decayTime}
             />
             <input
-              className="nodrag"
               max={1}
               min={0}
               onChange={e => onChange({ sustainLevel: +e.target.value })}
               step={0.01}
-              type="number"
               style={{ width: "25%" }}
+              title="Sustain level"
+              type="number"
               value={sustainLevel}
             />
             <input
-              className="nodrag"
               min={0}
               onChange={e => onChange({ releaseTime: +e.target.value })}
               step={0.05}
-              type="number"
               style={{ width: "25%" }}
+              title="Release time"
+              type="number"
               value={releaseTime}
             />
           </div>
