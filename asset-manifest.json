@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/react-web-audio-graph/static/css/main.f3aea2d2.chunk.css",
-    "main.js": "/react-web-audio-graph/static/js/main.d9bd50fb.chunk.js",
-    "main.js.map": "/react-web-audio-graph/static/js/main.d9bd50fb.chunk.js.map",
+    "main.css": "/react-web-audio-graph/static/css/main.8e804675.chunk.css",
+    "main.js": "/react-web-audio-graph/static/js/main.3b395bdb.chunk.js",
+    "main.js.map": "/react-web-audio-graph/static/js/main.3b395bdb.chunk.js.map",
     "runtime-main.js": "/react-web-audio-graph/static/js/runtime-main.0b49da17.js",
     "runtime-main.js.map": "/react-web-audio-graph/static/js/runtime-main.0b49da17.js.map",
-    "static/js/2.072f9f5c.chunk.js": "/react-web-audio-graph/static/js/2.072f9f5c.chunk.js",
-    "static/js/2.072f9f5c.chunk.js.map": "/react-web-audio-graph/static/js/2.072f9f5c.chunk.js.map",
+    "static/js/2.7628431c.chunk.js": "/react-web-audio-graph/static/js/2.7628431c.chunk.js",
+    "static/js/2.7628431c.chunk.js.map": "/react-web-audio-graph/static/js/2.7628431c.chunk.js.map",
     "static/js/3.84b4992f.chunk.js": "/react-web-audio-graph/static/js/3.84b4992f.chunk.js",
     "static/js/3.84b4992f.chunk.js.map": "/react-web-audio-graph/static/js/3.84b4992f.chunk.js.map",
     "02fab5fec625866308db.worklet.js": "/react-web-audio-graph/02fab5fec625866308db.worklet.js",
@@ -28,14 +28,14 @@
     "fd3cf5a6a173d7df4717.worklet.js": "/react-web-audio-graph/fd3cf5a6a173d7df4717.worklet.js",
     "fd3cf5a6a173d7df4717.worklet.js.map": "/react-web-audio-graph/fd3cf5a6a173d7df4717.worklet.js.map",
     "index.html": "/react-web-audio-graph/index.html",
-    "static/css/main.f3aea2d2.chunk.css.map": "/react-web-audio-graph/static/css/main.f3aea2d2.chunk.css.map",
-    "static/js/2.072f9f5c.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.072f9f5c.chunk.js.LICENSE.txt",
+    "static/css/main.8e804675.chunk.css.map": "/react-web-audio-graph/static/css/main.8e804675.chunk.css.map",
+    "static/js/2.7628431c.chunk.js.LICENSE.txt": "/react-web-audio-graph/static/js/2.7628431c.chunk.js.LICENSE.txt",
     "static/media/bravura.css": "/react-web-audio-graph/static/media/bravura.e69f6822.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.0b49da17.js",
-    "static/js/2.072f9f5c.chunk.js",
-    "static/css/main.f3aea2d2.chunk.css",
-    "static/js/main.d9bd50fb.chunk.js"
+    "static/js/2.7628431c.chunk.js",
+    "static/css/main.8e804675.chunk.css",
+    "static/js/main.3b395bdb.chunk.js"
   ]
 }
