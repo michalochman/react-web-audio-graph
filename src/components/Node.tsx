@@ -5,7 +5,7 @@ import { GRID_SIZE } from "components/Flow";
 import { useContextMenu } from "context/ContextMenuContext";
 import { useProject } from "context/ProjectContext";
 
-interface Props {
+interface Props extends Omit<React.HTMLProps<HTMLDivElement>, "id" | "title"> {
   children?: React.ReactNode;
   id: NodeProps["id"];
   inputs?: string[];
@@ -14,7 +14,7 @@ interface Props {
   type: NodeProps["type"];
 }
 
-function Node({ children, id, inputs, outputs, title, type }: Props) {
+function Node({ children, id, inputs, outputs, title, type, ...props }: Props) {
   const { elements, onChangeElementFactory, setElements } = useProject();
   const contextMenu = useContextMenu();
   const node = elements.find(node => node.id === id) as FlowNode;
@@ -63,7 +63,7 @@ function Node({ children, id, inputs, outputs, title, type }: Props) {
   );
 
   return (
-    <div className="customNode" title={id} onClick={onClick} onContextMenu={onContextMenu}>
+    <div className="customNode" title={id} onClick={onClick} onContextMenu={onContextMenu} {...props}>
       <div className="customNode_header">{title ?? type}</div>
       <div className="customNode_body">
         {inputs && (

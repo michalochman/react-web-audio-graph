@@ -96,6 +96,10 @@ body {
   margin: 0 5px 0 0;
 }
 
+.customNode_editor input[type="file"] {
+  width: 85px;
+}
+
 .customNode_editor .toggle {
   display: block;
   position: relative;

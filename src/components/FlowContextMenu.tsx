@@ -10,6 +10,7 @@ function FlowContextMenu({ addNode }: Props) {
       <li>
         Sources
         <ul className="contextMenu sub">
+          <li onClick={() => addNode("AudioBufferSource")}>Audio Buffer Source</li>
           <li onClick={() => addNode("Gate")}>Gate</li>
           <li onClick={() => addNode("Keyboard")}>Keyboard</li>
           <li onClick={() => addNode("Metronome")}>Metronome</li>
