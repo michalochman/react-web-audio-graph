@@ -3,7 +3,7 @@ import { Connection, Edge } from "react-flow-renderer";
 import { AnyAudioNode, isComplexAudioNode, useNodeContext } from "context/NodeContext";
 import { nodeCleanup } from "components/Nodes";
 
-function getChannelIndex(handle: string): number {
+export function getChannelIndex(handle: string): number {
   return +(handle.match(/-(\d+)$/)?.[1] ?? 0);
 }
 

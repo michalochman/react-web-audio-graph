@@ -4,7 +4,7 @@ import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
 function FM_match_ip({ data, id, selected, type: nodeType }: NodeProps) {
-  const { ipAddress = "0", onChange } = data;
+  const { ipAddress = "0", event = "PUSH", onChange } = data;
 
   // AudioNode
   const node = useNode(id, context => {
@@ -25,6 +25,9 @@ function FM_match_ip({ data, id, selected, type: nodeType }: NodeProps) {
         <div className="customNode_editor">
           <div className="customNode_item">
             <input onChange={e => onChange({ ipAddress: e.target.value })} value={ipAddress} />
+          </div>
+          <div className="customNode_item">
+            <input onChange={e => onChange({ event: e.target.value })} value={event} />
           </div>
         </div>
       )}

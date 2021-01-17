@@ -3,7 +3,9 @@ import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
-function FM_drop_flow({ id, type }: NodeProps) {
+function FM_drop_flow({ data, id, type }: NodeProps) {
+  const { event = "PUSH" } = data;
+
   // AudioNode
   useNode(id, context => context.destination);
 

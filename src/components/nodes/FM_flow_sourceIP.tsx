@@ -4,6 +4,8 @@ import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
 function FM_flow_sourceIP({ data, id, selected, type: nodeType }: NodeProps) {
+  const { event = "INCOMMING_FLOW" } = data;
+
   // AudioNode
   const node = useNode(id, context => {
     // Will create buffer with 5 seconds of noise
@@ -18,6 +20,7 @@ function FM_flow_sourceIP({ data, id, selected, type: nodeType }: NodeProps) {
     return () => node.stop();
   }, [node]);
 
+  console.log(event);
   return <Node id={id} outputs={["IP Address"]} type={nodeType} />;
 }
 

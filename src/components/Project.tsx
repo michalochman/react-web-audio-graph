@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
-import { Elements, FlowTransform } from "react-flow-renderer";
+import { AnyAudioNode, useNodeContext } from "context/NodeContext";
+// eslint-disable-next-line
+import { Elements, Edge, FlowTransform, isNode, isEdge } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import { useProject } from "context/ProjectContext";
 
@@ -93,6 +95,8 @@ function Project() {
     [setElements, setId, setTransform]
   );
 
+  const { getNode } = useNodeContext();
+
   const clearProject = useCallback(() => {
     const defaultProject = getDefaultProject();
     setElements(defaultProject.elements);
@@ -103,19 +107,7 @@ function Project() {
 
   return (
     <div style={drawerStyles}>
-      <textarea
-        onChange={onChange}
-        style={textareaStyles}
-        value={JSON.stringify(
-          {
-            elements: elements.map(element => ({ ...element, __rf: undefined })),
-            id,
-            transform,
-          },
-          null,
-          2
-        )}
-      />
+      <textarea onChange={onChange} style={textareaStyles} value={buildApp(elements, getNode)} />
       <div style={controlsStyles}>
         <button onClick={clearProject} style={{ marginRight: 10 }}>
           clear
@@ -123,6 +115,98 @@ function Project() {
         <button onClick={toggleProjectDrawer}>{visible ? "hide" : "show"}</button>
       </div>
     </div>
+  );
+}
+
+export function buildApp(elements: Elements, getNode: (id: string) => AnyAudioNode) {
+  const template: any = {
+    id: "1",
+    type: "FM_output_int",
+    event: "INCOMMING_FLOW",
+    parameters: [],
+    inputs: [],
+  };
+
+  let idCount = 0;
+  let idMap = new Map();
+  let frescoIdMap = new Map();
+  let elementsLength = elements.length;
+  let frescoElements = [];
+
+  // Loop through every node
+  for (let i = 0; i < elementsLength; i++) {
+    if (!isNode(elements[i])) {
+      continue;
+    }
+
+    // Deep copy template. for some reason shallow copy doesn't work
+    let currTemplate = JSON.parse(JSON.stringify(template));
+    console.log(elements[i]);
+    idMap.set(elements[i].id, i);
+    frescoIdMap.set(elements[i].id, idCount);
+
+    // Set ID and type
+    currTemplate.id = idCount.toString();
+    currTemplate.type = elements[i].type!;
+
+    // Set params
+    let currData = elements[i].data;
+    for (const [, value] of Object.entries(currData)) {
+      if (!(typeof value === "function")) {
+        console.log("currTemplate" + currTemplate);
+        currTemplate.parameters.push(value);
+      }
+    }
+
+    // Temporary
+    if (idCount === 1) {
+      currTemplate.event = "PUSH";
+    }
+    if (idCount === 2) {
+      currTemplate.event = "PUSH";
+    }
+
+    frescoElements.push(currTemplate);
+    idCount++;
+  }
+
+  // Loop through every edge
+  for (let i = 0; i < elementsLength; i++) {
+    if (!isEdge(elements[i])) {
+      continue;
+    }
+
+    let inputNum = 1;
+    let sourceId = -1;
+    let outputNum = 1;
+
+    let currEdge = elements[i] as Edge;
+
+    // FRESCO Elements
+    let targetFrescoId = frescoIdMap.get(currEdge.target);
+    if (typeof targetFrescoId === undefined) {
+      continue;
+    }
+
+    let sourceFrescoId = frescoIdMap.get(currEdge.source);
+    if (typeof sourceFrescoId === undefined) {
+      continue;
+    }
+
+    sourceId = sourceFrescoId;
+    let inputString = inputNum + ":" + sourceId + ":" + outputNum;
+    frescoElements[targetFrescoId].inputs.push(inputString);
+
+    inputNum++;
+  }
+
+  return JSON.stringify(
+    {
+      //elements: elements.map(element => ({ ...element, __rf: undefined })),
+      frescoElements: frescoElements.map(element => ({ ...element, __rf: undefined })),
+    },
+    null,
+    2
   );
 }
 
