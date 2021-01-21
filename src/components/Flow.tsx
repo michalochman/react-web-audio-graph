@@ -33,6 +33,7 @@ import Gain from "components/nodes/Gain";
 import Gate from "components/nodes/Gate";
 import InputSwitch from "components/nodes/InputSwitch";
 import Keyboard from "components/nodes/Keyboard";
+import Meter from "components/nodes/Meter";
 import Metronome from "components/nodes/Metronome";
 import Noise from "components/nodes/Noise";
 import NotGate from "components/nodes/NotGate";
@@ -70,6 +71,7 @@ const nodeTypes = {
   Gate: Gate,
   InputSwitch: InputSwitch,
   Keyboard: Keyboard,
+  Meter: Meter,
   Metronome: Metronome,
   Noise: Noise,
   NotGate: NotGate,

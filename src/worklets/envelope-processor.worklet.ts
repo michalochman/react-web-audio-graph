@@ -1,4 +1,5 @@
 import { Mode, Parameters, Stage } from "./envelope-processor.types";
+import { exponential, linear, logarithmic } from "utils/scale";
 
 const GATE_OFF = 0;
 const GATE_ON = 1;
@@ -231,18 +232,6 @@ registerProcessor("envelope-processor", EnvelopeProcessor);
 
 function clamp(t: number, min: number, max: number) {
   return Math.min(Math.max(t, min), max);
-}
-
-function exponential(t: number): number {
-  return (Math.pow(10, t) - 1) / 9;
-}
-
-function linear(t: number): number {
-  return t;
-}
-
-function logarithmic(t: number): number {
-  return Math.log10(1 + t * 9);
 }
 
 // Fixes TypeScript error TS1208:

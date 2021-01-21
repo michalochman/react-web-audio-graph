@@ -66,6 +66,7 @@ function FlowContextMenu({ addNode }: Props) {
         Analysers
         <ul className="contextMenu sub">
           <li onClick={() => addNode("Analyser")}>Analyser</li>
+          <li onClick={() => addNode("Meter")}>Meter</li>
         </ul>
       </li>
     </ul>
