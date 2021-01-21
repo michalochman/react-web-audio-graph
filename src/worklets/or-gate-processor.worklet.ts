@@ -1,4 +1,6 @@
-class OrGateProcessor extends AudioWorkletProcessor {
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
+
+class OrGateProcessor extends StoppableAudioWorkletProcessor {
   process(inputs: Float32Array[][], outputs: Float32Array[][]) {
     const output = outputs[0];
 
@@ -10,7 +12,7 @@ class OrGateProcessor extends AudioWorkletProcessor {
       }
     }
 
-    return true;
+    return this.running;
   }
 }
 

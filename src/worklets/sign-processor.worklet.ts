@@ -1,4 +1,6 @@
-class SignProcessor extends AudioWorkletProcessor {
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
+
+class SignProcessor extends StoppableAudioWorkletProcessor {
   // Returns sign of the signal amplitude, i.e. 1 for positive amplitude, -1 for negative and 0 for 0
   process(inputs: Float32Array[][], outputs: Float32Array[][]) {
     const input = inputs[0];
@@ -12,7 +14,7 @@ class SignProcessor extends AudioWorkletProcessor {
       }
     }
 
-    return true;
+    return this.running;
   }
 }
 

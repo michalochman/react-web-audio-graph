@@ -1,10 +1,11 @@
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
 import { Mode, Parameters, Stage } from "./envelope-processor.types";
 import { exponential, linear, logarithmic } from "utils/scale";
 
 const GATE_OFF = 0;
 const GATE_ON = 1;
 
-class EnvelopeProcessor extends AudioWorkletProcessor {
+class EnvelopeProcessor extends StoppableAudioWorkletProcessor {
   lastGain: number;
   lastGainAtStageChange: number;
   lastStage: Stage;
@@ -61,7 +62,7 @@ class EnvelopeProcessor extends AudioWorkletProcessor {
   process(inputs: Float32Array[][], outputs: Float32Array[][], parameters: Record<string, Float32Array>) {
     const input = inputs?.[0]?.[0];
     if (input == null) {
-      return true;
+      return this.running;
     }
     const isGateOn = this.isGateOn(input);
 
@@ -90,7 +91,7 @@ class EnvelopeProcessor extends AudioWorkletProcessor {
       output[i] = this.lastGain;
     }
 
-    return true;
+    return this.running;
   }
 
   getGain(stage: Stage, parameters: Record<Parameters, Float32Array>): number {

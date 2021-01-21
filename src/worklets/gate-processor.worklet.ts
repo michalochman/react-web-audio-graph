@@ -1,14 +1,15 @@
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
 const GATE_OFF = "gateOff";
 const GATE_ON = "gateOn";
 
-class GateProcessor extends AudioWorkletProcessor {
+class GateProcessor extends StoppableAudioWorkletProcessor {
   lastMessage?: string;
 
   // Naive lo-fi signal detection that triggers if any of the sample frames has any value other than zero
   process(inputs: Float32Array[][]) {
     const input = inputs?.[0]?.[0];
     if (input == null) {
-      return true;
+      return this.running;
     }
 
     const sampleFrames = input.length;
@@ -23,7 +24,7 @@ class GateProcessor extends AudioWorkletProcessor {
       }
     }
 
-    return true;
+    return this.running;
   }
 }
 

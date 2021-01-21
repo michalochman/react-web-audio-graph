@@ -1,4 +1,6 @@
-class TransformerProcessor extends AudioWorkletProcessor {
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
+
+class TransformerProcessor extends StoppableAudioWorkletProcessor {
   transform: (value: number) => number;
 
   constructor(options?: AudioWorkletNodeOptions) {
@@ -24,7 +26,7 @@ class TransformerProcessor extends AudioWorkletProcessor {
       }
     }
 
-    return true;
+    return this.running;
   }
 }
 

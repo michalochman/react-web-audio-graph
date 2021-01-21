@@ -1,13 +1,15 @@
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
+
 const MESSAGE_CHANNELS = "channels";
 const MESSAGE_LEVEL = "level";
 
-class MeterProcessor extends AudioWorkletProcessor {
+class MeterProcessor extends StoppableAudioWorkletProcessor {
   process(inputs: Float32Array[][]) {
     const input = inputs[0];
     if (input.length === 0) {
       this.port.postMessage({ payload: { channel: 0, level: 0 }, type: MESSAGE_LEVEL });
       this.port.postMessage({ payload: { channels: input.length }, type: MESSAGE_CHANNELS });
-      return true;
+      return this.running;
     }
 
     for (let channel = 0; channel < input.length; ++channel) {
@@ -17,7 +19,7 @@ class MeterProcessor extends AudioWorkletProcessor {
 
     this.port.postMessage({ payload: { channels: input.length }, type: MESSAGE_CHANNELS });
 
-    return true;
+    return this.running;
   }
 }
 

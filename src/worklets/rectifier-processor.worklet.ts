@@ -1,6 +1,7 @@
+import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
 import { Mode } from "worklets/rectifier-processor.types";
 
-class RectifierProcessor extends AudioWorkletProcessor {
+class RectifierProcessor extends StoppableAudioWorkletProcessor {
   stepFunction: (value: number) => number;
 
   constructor(options?: AudioWorkletNodeOptions) {
@@ -24,7 +25,7 @@ class RectifierProcessor extends AudioWorkletProcessor {
       }
     }
 
-    return true;
+    return this.running;
   }
 }
 
