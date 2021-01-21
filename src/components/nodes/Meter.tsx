@@ -80,7 +80,7 @@ function Meter({ id, type }: NodeProps) {
   const canvasWidth = (WIDTH + LEVEL_GAP) * (channels + 1);
 
   // AudioNode
-  const node = useNode(id, context => new AudioWorkletNode(context, "meter-processor"));
+  const node = useNode(id, context => new AudioWorkletNode(context, "meter-processor", { numberOfOutputs: 0 }));
 
   const handleMessage = useCallback(
     ({ data: event }: ChannelMessageEvent | LevelMessageEvent) => {
