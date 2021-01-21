@@ -57,6 +57,7 @@ function FlowContextMenu({ addNode }: Props) {
         Logic
         <ul className="contextMenu sub">
           <li onClick={() => addNode("AndGate")}>AND Gate</li>
+          <li onClick={() => addNode("Comparator")}>Comparator</li>
           <li onClick={() => addNode("NotGate")}>NOT Gate</li>
           <li onClick={() => addNode("OrGate")}>OR Gate</li>
           <li onClick={() => addNode("XorGate")}>XOR Gate</li>
