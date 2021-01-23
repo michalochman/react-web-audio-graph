@@ -95,10 +95,10 @@ class EnvelopeProcessor extends StoppableAudioWorkletProcessor {
   }
 
   getGain(stage: Stage, parameters: Record<Parameters, Float32Array>): number {
-    const attackTime = parameters.attack[0];
-    const decayTime = parameters.decay[0];
-    const releaseTime = parameters.release[0];
-    const sustainLevel = parameters.sustain[0];
+    const attackTime = parameters[Parameters.AttackTime][0];
+    const decayTime = parameters[Parameters.DecayTime][0];
+    const releaseTime = parameters[Parameters.ReleaseTime][0];
+    const sustainLevel = parameters[Parameters.SustainLevel][0];
     const timeToValue = this.getTimeToValue();
     const valueToTime = this.getValueToTime();
 
@@ -172,8 +172,8 @@ class EnvelopeProcessor extends StoppableAudioWorkletProcessor {
 
   getStage(input: Float32Array, parameters: Record<string, Float32Array>): Stage {
     const isGateOn = this.isGateOn(input);
-    const attackTime = parameters.attack[0];
-    const decayTime = parameters.decay[0];
+    const attackTime = parameters[Parameters.AttackTime][0];
+    const decayTime = parameters[Parameters.DecayTime][0];
 
     if (this.lastTriggerTime[GATE_OFF] > this.lastTriggerTime[GATE_ON]) {
       return Stage.Release;

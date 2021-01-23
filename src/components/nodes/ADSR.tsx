@@ -16,14 +16,14 @@ function ADSR({ data, id, selected, type }: NodeProps) {
       });
 
       return {
-        attack: envelope.parameters.get(Parameters.AttackTime),
-        decay: envelope.parameters.get(Parameters.DecayTime),
+        [Parameters.AttackTime]: envelope.parameters.get(Parameters.AttackTime),
+        [Parameters.DecayTime]: envelope.parameters.get(Parameters.DecayTime),
         gain: envelope,
         gate: envelope,
         input: undefined,
         output: undefined,
-        release: envelope.parameters.get(Parameters.ReleaseTime),
-        sustain: envelope.parameters.get(Parameters.SustainLevel),
+        [Parameters.ReleaseTime]: envelope.parameters.get(Parameters.ReleaseTime),
+        [Parameters.SustainLevel]: envelope.parameters.get(Parameters.SustainLevel),
       };
     },
     [mode, sustainOn]
