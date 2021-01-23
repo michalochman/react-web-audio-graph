@@ -10,6 +10,7 @@ import RectifierWorkletProcessor from "worklet-loader!worklets/rectifier-process
 import MeterWorkletProcessor from "worklet-loader!worklets/meter-processor.worklet.ts";
 import NotGateWorkletProcessor from "worklet-loader!worklets/not-gate-processor.worklet.ts";
 import OrGateWorkletProcessor from "worklet-loader!worklets/or-gate-processor.worklet.ts";
+import SampleAndHoldWorkletProcessor from "worklet-loader!worklets/sample-and-hold-processor.worklet.ts";
 import SignWorkletProcessor from "worklet-loader!worklets/sign-processor.worklet.ts";
 import TransformerWorkletProcessor from "worklet-loader!worklets/transformer-processor.worklet.ts";
 import XorGateWorkletProcessor from "worklet-loader!worklets/xor-gate-processor.worklet.ts";
@@ -43,6 +44,7 @@ function Audio({ children }: Props) {
         context.audioWorklet.addModule(NotGateWorkletProcessor),
         context.audioWorklet.addModule(OrGateWorkletProcessor),
         context.audioWorklet.addModule(RectifierWorkletProcessor),
+        context.audioWorklet.addModule(SampleAndHoldWorkletProcessor),
         context.audioWorklet.addModule(SignWorkletProcessor),
         context.audioWorklet.addModule(TransformerWorkletProcessor),
         context.audioWorklet.addModule(XorGateWorkletProcessor),

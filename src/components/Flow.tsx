@@ -43,6 +43,7 @@ import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import OutputSwitch from "components/nodes/OutputSwitch";
 import Rectifier from "components/nodes/Rectifier";
+import SampleAndHold from "components/nodes/SampleAndHold";
 import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
 import Transformer from "components/nodes/Transformer";
@@ -82,6 +83,7 @@ const nodeTypes = {
   OscillatorNote: OscillatorNote,
   OutputSwitch: OutputSwitch,
   Rectifier: Rectifier,
+  SampleAndHold: SampleAndHold,
   Sign: Sign,
   StereoPanner: StereoPanner,
   Transformer: Transformer,
