@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import ReactFlow, {
   addEdge,
   isEdge,
@@ -10,6 +10,7 @@ import ReactFlow, {
   Edge,
   Elements,
   Node as ReactFlowNode,
+  OnConnectStartParams,
   OnLoadParams as ReactFlowInstance,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
@@ -125,6 +126,7 @@ function Flow() {
   const { elements, onChangeElementFactory, setElements, setTransform, transform } = useProject();
   const contextMenu = useContextMenu();
   const { nodes: audioNodes } = useNodeContext();
+  const [tryingToConnect, setTryingToConnect] = useState<OnConnectStartParams | null>(null);
 
   const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
@@ -160,6 +162,10 @@ function Flow() {
     [setTransform]
   );
 
+  const onConnectStart = useCallback((e: React.MouseEvent, params: OnConnectStartParams) => {
+    setTryingToConnect(params);
+  }, []);
+  const onConnectStop = useCallback((e: MouseEvent) => setTryingToConnect(null), []);
   const onConnect = useCallback(
     (params: Edge | Connection) => {
       setElements((elements: Elements) => addEdge(getEdgeWithColor(params), elements));
@@ -240,11 +246,14 @@ function Flow() {
   return (
     <>
       <ReactFlow
+        data-connecting-handletype={tryingToConnect ? tryingToConnect.handleType : undefined}
         defaultPosition={[transform.x, transform.y]}
         defaultZoom={transform.zoom}
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
+        onConnectStart={onConnectStart}
+        onConnectStop={onConnectStop}
         onEdgeUpdate={onEdgeUpdate}
         onElementsRemove={onElementsRemove}
         onLoad={onLoad}
@@ -253,6 +262,7 @@ function Flow() {
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
         onlyRenderVisibleElements={false}
+        selectNodesOnDrag={false}
         snapToGrid
         snapGrid={[GRID_SIZE, GRID_SIZE]}
         // TODO figure out why this is needed for flow container not to cover context menu
