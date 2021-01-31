@@ -31,6 +31,7 @@ const items = [
       { label: "Dynamics Compressor", node: "DynamicsCompressor" },
       { label: "Equalizer", node: "Equalizer" },
       { label: "Gain", node: "Gain" },
+      { label: "Quantizer", node: "Quantizer" },
       { label: "Rectifier", node: "Rectifier" },
       { label: "Sample and Hold", node: "SampleAndHold" },
       { label: "Sign", node: "Sign" },
