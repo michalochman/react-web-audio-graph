@@ -114,7 +114,7 @@ function Meter({ id, type }: NodeProps) {
 
   return (
     <Node id={id} inputs={["input"]} title="Meter" type={type}>
-      <div className="customNode_editor">
+      <div className="customNode_editor nodrag">
         <div className="customNode_item">
           <canvas
             ref={canvasRef}

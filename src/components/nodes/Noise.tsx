@@ -17,7 +17,7 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
   return (
     <Node id={id} outputs={["output"]} title={`Noise: ${type}`} type={nodeType}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <select onChange={e => onChange({ type: e.target.value })} title="Type" value={type}>
               <option value={NoiseType.White}>{NoiseType.White}</option>
