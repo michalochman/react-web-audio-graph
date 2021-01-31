@@ -1,11 +1,11 @@
 import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
-import { Mode, Parameters, Stage } from "./envelope-processor.types";
+import { Mode, Parameters, Stage } from "./adsr-processor.types";
 import { exponential, linear, logarithmic } from "utils/scale";
 
 const GATE_OFF = 0;
 const GATE_ON = 1;
 
-class EnvelopeProcessor extends StoppableAudioWorkletProcessor {
+class ADSRProcessor extends StoppableAudioWorkletProcessor {
   lastGainGetter: (time: number) => number;
   lastGainGetterAtStageChange: (time: number) => number;
   lastStage: Stage;
@@ -230,7 +230,7 @@ class EnvelopeProcessor extends StoppableAudioWorkletProcessor {
   }
 }
 
-registerProcessor("envelope-processor", EnvelopeProcessor);
+registerProcessor("adsr-processor", ADSRProcessor);
 
 function clamp(t: number, min: number, max: number) {
   return Math.min(Math.max(t, min), max);

@@ -2,9 +2,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { AudioContext } from "context/AudioContext";
 
+import ADSRWorkletProcessor from "worklet-loader!worklets/adsr-processor.worklet.ts";
 import AndGateWorkletProcessor from "worklet-loader!worklets/and-gate-processor.worklet.ts";
 import ComparatorWorkletProcessor from "worklet-loader!worklets/comparator-processor.worklet.ts";
-import EnvelopeWorkletProcessor from "worklet-loader!worklets/envelope-processor.worklet.ts";
 import GateWorkletProcessor from "worklet-loader!worklets/gate-processor.worklet.ts";
 import RectifierWorkletProcessor from "worklet-loader!worklets/rectifier-processor.worklet.ts";
 import MeterWorkletProcessor from "worklet-loader!worklets/meter-processor.worklet.ts";
@@ -37,9 +37,9 @@ function Audio({ children }: Props) {
   useEffect(() => {
     const awaitAudioWorkletProcessors = async (context: AudioContext) => {
       await Promise.all([
+        context.audioWorklet.addModule(ADSRWorkletProcessor),
         context.audioWorklet.addModule(AndGateWorkletProcessor),
         context.audioWorklet.addModule(ComparatorWorkletProcessor),
-        context.audioWorklet.addModule(EnvelopeWorkletProcessor),
         context.audioWorklet.addModule(GateWorkletProcessor),
         context.audioWorklet.addModule(MeterWorkletProcessor),
         context.audioWorklet.addModule(NoiseWorkletProcessor),

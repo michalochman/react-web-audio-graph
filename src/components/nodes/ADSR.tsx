@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
-import { Mode, Parameters } from "worklets/envelope-processor.types";
+import { Mode, Parameters } from "worklets/adsr-processor.types";
 
 interface ADSRNode extends Required<ComplexAudioNode<undefined, undefined>> {
   [Parameters.AttackTime]: AudioParam;
@@ -28,7 +28,7 @@ function ADSR({ data, id, selected, type }: NodeProps) {
   const node = (useNode(
     id,
     context => {
-      const envelope = new AudioWorkletNode(context, "envelope-processor", {
+      const envelope = new AudioWorkletNode(context, "adsr-processor", {
         processorOptions: { sustainOn, mode },
       });
 
