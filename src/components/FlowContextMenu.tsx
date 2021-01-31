@@ -9,6 +9,7 @@ function FlowContextMenu({ addNode }: Props) {
     <ul className="contextMenu">
       <li>
         Sources
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("AudioBufferSource")}>Audio Buffer Source</li>
           <li onClick={() => addNode("Gate")}>Gate</li>
@@ -21,12 +22,14 @@ function FlowContextMenu({ addNode }: Props) {
       </li>
       <li>
         Destinations
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("Destination")}>Destination</li>
         </ul>
       </li>
       <li>
         Effects
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("BiquadFilter")}>Biquad Filter</li>
           <li onClick={() => addNode("ChannelMerger")}>Channel Merger</li>
@@ -46,6 +49,7 @@ function FlowContextMenu({ addNode }: Props) {
       </li>
       <li>
         Controllers
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("ADSR")}>ADSR</li>
           <li onClick={() => addNode("ConstantSource")}>Constant Source</li>
@@ -55,6 +59,7 @@ function FlowContextMenu({ addNode }: Props) {
       </li>
       <li>
         Logic
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("AndGate")}>AND Gate</li>
           <li onClick={() => addNode("Comparator")}>Comparator</li>
@@ -65,6 +70,7 @@ function FlowContextMenu({ addNode }: Props) {
       </li>
       <li>
         Analysers
+        <span>&#x276F;</span>
         <ul className="contextMenu sub">
           <li onClick={() => addNode("Analyser")}>Analyser</li>
           <li onClick={() => addNode("Meter")}>Meter</li>
