@@ -4,78 +4,88 @@ interface Props {
   addNode: (node: string) => void;
 }
 
+const items = [
+  {
+    items: [
+      { label: "Audio Buffer Source", node: "AudioBufferSource" },
+      { label: "Gate", node: "Gate" },
+      { label: "Keyboard", node: "Keyboard" },
+      { label: "Metronome", node: "Metronome" },
+      { label: "Noise", node: "Noise" },
+      { label: "Oscillator", node: "Oscillator" },
+      { label: "Oscillator Note", node: "OscillatorNote" },
+    ],
+    label: "Sources",
+  },
+  {
+    items: [{ label: "Destination", node: "Destination" }],
+    label: "Destinations",
+  },
+  {
+    items: [
+      { label: "Biquad Filter", node: "BiquadFilter" },
+      { label: "Channel Merger", node: "ChannelMerger" },
+      { label: "Channel Splitter", node: "ChannelSplitter" },
+      { label: "Delay", node: "Delay" },
+      { label: "Delay Effect", node: "DelayEffect" },
+      { label: "Dynamics Compressor", node: "DynamicsCompressor" },
+      { label: "Equalizer", node: "Equalizer" },
+      { label: "Gain", node: "Gain" },
+      { label: "Rectifier", node: "Rectifier" },
+      { label: "Sample and Hold", node: "SampleAndHold" },
+      { label: "Sign", node: "Sign" },
+      { label: "Stereo Panner", node: "StereoPanner" },
+      { label: "Transformer", node: "Transformer" },
+      { label: "Wave Shaper", node: "WaveShaper" },
+    ],
+    label: "Effects",
+  },
+  {
+    items: [
+      { label: "ADSR", node: "ADSR" },
+      { label: "Constant Source", node: "ConstantSource" },
+      { label: "Input Switch", node: "InputSwitch" },
+      { label: "Output Switch", node: "OutputSwitch" },
+    ],
+    label: "Controllers",
+  },
+  {
+    items: [
+      { label: "AND Gate", node: "AndGate" },
+      { label: "Comparator", node: "Comparator" },
+      { label: "NOT Gate", node: "NotGate" },
+      { label: "OR Gate", node: "OrGate" },
+      { label: "XOR Gate", node: "XorGate" },
+    ],
+    label: "Logic",
+  },
+  {
+    items: [
+      { label: "Analyser", node: "Analyser" },
+      { label: "Meter", node: "Meter" },
+    ],
+    label: "Analysers",
+  },
+];
+
 function FlowContextMenu({ addNode }: Props) {
   return (
     <ul className="contextMenu">
-      <li>
-        Sources
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("AudioBufferSource")}>Audio Buffer Source</li>
-          <li onClick={() => addNode("Gate")}>Gate</li>
-          <li onClick={() => addNode("Keyboard")}>Keyboard</li>
-          <li onClick={() => addNode("Metronome")}>Metronome</li>
-          <li onClick={() => addNode("Noise")}>Noise</li>
-          <li onClick={() => addNode("Oscillator")}>Oscillator</li>
-          <li onClick={() => addNode("OscillatorNote")}>Oscillator Note</li>
-        </ul>
-      </li>
-      <li>
-        Destinations
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("Destination")}>Destination</li>
-        </ul>
-      </li>
-      <li>
-        Effects
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("BiquadFilter")}>Biquad Filter</li>
-          <li onClick={() => addNode("ChannelMerger")}>Channel Merger</li>
-          <li onClick={() => addNode("ChannelSplitter")}>Channel Splitter</li>
-          <li onClick={() => addNode("Delay")}>Delay</li>
-          <li onClick={() => addNode("DelayEffect")}>Delay Effect</li>
-          <li onClick={() => addNode("DynamicsCompressor")}>Dynamics Compressor</li>
-          <li onClick={() => addNode("Equalizer")}>Equalizer</li>
-          <li onClick={() => addNode("Gain")}>Gain</li>
-          <li onClick={() => addNode("Rectifier")}>Rectifier</li>
-          <li onClick={() => addNode("SampleAndHold")}>Sample and Hold</li>
-          <li onClick={() => addNode("Sign")}>Sign</li>
-          <li onClick={() => addNode("StereoPanner")}>Stereo Panner</li>
-          <li onClick={() => addNode("Transformer")}>Transformer</li>
-          <li onClick={() => addNode("WaveShaper")}>Wave Shaper</li>
-        </ul>
-      </li>
-      <li>
-        Controllers
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("ADSR")}>ADSR</li>
-          <li onClick={() => addNode("ConstantSource")}>Constant Source</li>
-          <li onClick={() => addNode("InputSwitch")}>Input Switch</li>
-          <li onClick={() => addNode("OutputSwitch")}>Output Switch</li>
-        </ul>
-      </li>
-      <li>
-        Logic
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("AndGate")}>AND Gate</li>
-          <li onClick={() => addNode("Comparator")}>Comparator</li>
-          <li onClick={() => addNode("NotGate")}>NOT Gate</li>
-          <li onClick={() => addNode("OrGate")}>OR Gate</li>
-          <li onClick={() => addNode("XorGate")}>XOR Gate</li>
-        </ul>
-      </li>
-      <li>
-        Analysers
-        <span>&#x276F;</span>
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("Analyser")}>Analyser</li>
-          <li onClick={() => addNode("Meter")}>Meter</li>
-        </ul>
-      </li>
+      {items.map(item => (
+        <li key={item.label}>
+          {item.label}
+          <span>&#x276F;</span>
+          {item.items && (
+            <ul className="contextMenu sub">
+              {item.items.map(subitem => (
+                <li key={subitem.label} onClick={() => addNode(subitem.node)}>
+                  {subitem.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
     </ul>
   );
 }
