@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
+import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
 import { Mode, Parameters } from "worklets/envelope-processor.types";
 
+interface ADSRNode extends Required<ComplexAudioNode<undefined, undefined>> {
+  [Parameters.AttackTime]: AudioParam;
+  [Parameters.DecayTime]: AudioParam;
+  gain: AudioWorkletNode;
+  gate: AudioWorkletNode;
+  [Parameters.ReleaseTime]: AudioParam;
+  [Parameters.SustainLevel]: AudioParam;
+}
+
 function ADSR({ data, id, selected, type }: NodeProps) {
-  const { mode = Mode.Linear, onChange, sustainOn = true } = data;
+  const {
+    attackTime = 0.2,
+    decayTime = 0.1,
+    mode = Mode.Linear,
+    onChange,
+    releaseTime = 0.6,
+    sustainLevel = 0.7,
+    sustainOn = true,
+  } = data;
 
   // AudioNode
-  useNode(
+  const node = (useNode(
     id,
     context => {
       const envelope = new AudioWorkletNode(context, "envelope-processor", {
@@ -27,7 +44,13 @@ function ADSR({ data, id, selected, type }: NodeProps) {
       };
     },
     [mode, sustainOn]
-  );
+  ) as unknown) as ADSRNode;
+
+  // AudioParam
+  useEffect(() => void (node[Parameters.AttackTime].value = attackTime), [node, attackTime]);
+  useEffect(() => void (node[Parameters.DecayTime].value = decayTime), [node, decayTime]);
+  useEffect(() => void (node[Parameters.ReleaseTime].value = releaseTime), [node, releaseTime]);
+  useEffect(() => void (node[Parameters.SustainLevel].value = sustainLevel), [node, sustainLevel]);
 
   return (
     <Node
@@ -56,6 +79,47 @@ function ADSR({ data, id, selected, type }: NodeProps) {
               />
               sustain on
             </label>
+          </div>
+          <div className="customNode_item" style={{ width: 138 }}>
+            <input
+              min={0}
+              onChange={e => onChange({ attackTime: +e.target.value })}
+              step={0.05}
+              style={{ width: "50%" }}
+              title="Attack time"
+              type="number"
+              value={attackTime}
+            />
+            <input
+              min={0}
+              onChange={e => onChange({ decayTime: +e.target.value })}
+              step={0.05}
+              style={{ width: "50%" }}
+              title="Decay time"
+              type="number"
+              value={decayTime}
+            />
+          </div>
+          <div className="customNode_item" style={{ width: 138 }}>
+            <input
+              min={0}
+              onChange={e => onChange({ releaseTime: +e.target.value })}
+              step={0.05}
+              style={{ width: "50%" }}
+              title="Release time"
+              type="number"
+              value={releaseTime}
+            />
+            <input
+              max={1}
+              min={0}
+              onChange={e => onChange({ sustainLevel: +e.target.value })}
+              step={0.01}
+              style={{ width: "50%" }}
+              title="Sustain level"
+              type="number"
+              value={sustainLevel}
+            />
           </div>
         </div>
       )}
