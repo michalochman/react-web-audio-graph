@@ -1,13 +1,16 @@
 import StoppableAudioWorkletProcessor from "./StoppableAudioWorkletProcessor";
-import { Mode } from "worklets/rectifier-processor.types";
 
-class RectifierProcessor extends StoppableAudioWorkletProcessor {
-  stepFunction: (value: number) => number;
+class QuantizerProcessor extends StoppableAudioWorkletProcessor {
+  levels: number;
+  max: number;
+  min: number;
 
   constructor(options?: AudioWorkletNodeOptions) {
     super(options);
 
-    this.stepFunction = options?.processorOptions.mode === Mode.HalfWave ? stepHalfWave : stepFullWave;
+    this.levels = options?.processorOptions.levels ?? 256;
+    this.max = options?.processorOptions.max ?? 1;
+    this.min = options?.processorOptions.min ?? -1;
   }
 
   // Depending on the mode, either blocks or inverts negative amplitudes.
@@ -21,7 +24,7 @@ class RectifierProcessor extends StoppableAudioWorkletProcessor {
       const sampleFrames = input[channel].length;
 
       for (let i = 0; i < sampleFrames; i++) {
-        output[channel][i] = this.stepFunction(input[channel][i]);
+        output[channel][i] = quantize(this.min, this.max, this.levels, input[channel][i]);
       }
     }
 
@@ -29,15 +32,27 @@ class RectifierProcessor extends StoppableAudioWorkletProcessor {
   }
 }
 
-function stepFullWave(value: number): number {
-  return value > 0 ? value : -value;
+function quantize(min: number, max: number, levels: number, value: number): number {
+  if (value <= min) {
+    return min;
+  }
+
+  if (value >= max) {
+    return max;
+  }
+
+  const quantum = (max - min) / levels;
+
+  if (!quantum) {
+    return 0;
+  }
+
+  const remainder = value % quantum;
+
+  return value - remainder;
 }
 
-function stepHalfWave(value: number): number {
-  return value > 0 ? value : 0;
-}
-
-registerProcessor("rectifier-processor", RectifierProcessor);
+registerProcessor("quantizer-processor", QuantizerProcessor);
 
 // Fixes TypeScript error TS1208:
 // File cannot be compiled under '--isolatedModules' because it is considered a global script file.

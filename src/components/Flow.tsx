@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import ReactFlow, {
   addEdge,
   isEdge,
@@ -10,38 +10,49 @@ import ReactFlow, {
   Edge,
   Elements,
   Node as ReactFlowNode,
+  OnConnectStartParams,
   OnLoadParams as ReactFlowInstance,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
 import ADSR from "components/nodes/ADSR";
 import Analyser from "components/nodes/Analyser";
+import AndGate from "components/nodes/AndGate";
+import AudioBufferSource from "components/nodes/AudioBufferSource";
 import BiquadFilter from "components/nodes/BiquadFilter";
 import ChannelMerger from "components/nodes/ChannelMerger";
 import ChannelSplitter from "components/nodes/ChannelSplitter";
+import Comparator from "components/nodes/Comparator";
 import ConstantSource from "components/nodes/ConstantSource";
 import Delay from "components/nodes/Delay";
 import DelayEffect from "components/nodes/DelayEffect";
 import Destination from "components/nodes/Destination";
 import DynamicsCompressor from "components/nodes/DynamicsCompressor";
-import Envelope from "components/nodes/Envelope";
+import Equalizer from "components/nodes/Equalizer";
 import FlowContextMenu from "components/FlowContextMenu";
 import Gain from "components/nodes/Gain";
 import Gate from "components/nodes/Gate";
 import InputSwitch from "components/nodes/InputSwitch";
 import Keyboard from "components/nodes/Keyboard";
+import Meter from "components/nodes/Meter";
 import Metronome from "components/nodes/Metronome";
 import Noise from "components/nodes/Noise";
+import NotGate from "components/nodes/NotGate";
+import OrGate from "components/nodes/OrGate";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import OutputSwitch from "components/nodes/OutputSwitch";
+import Quantizer from "components/nodes/Quantizer";
 import Rectifier from "components/nodes/Rectifier";
+import SampleAndHold from "components/nodes/SampleAndHold";
 import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
+import Transformer from "components/nodes/Transformer";
 import WaveShaper from "components/nodes/WaveShaper";
 import FM_flow_sourceIP from "components/nodes/FM_flow_sourceIP";
 import FM_match_ip from "components/nodes/FM_match_ip";
 import FM_drop_flow from "components/nodes/FM_drop_flow";
+import XorGate from "components/nodes/XorGate";
 import { useContextMenu } from "context/ContextMenuContext";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
 import { useProject } from "context/ProjectContext";
@@ -50,31 +61,41 @@ import { useOnConnect, useOnEdgeRemove, useOnNodeRemove } from "utils/handles";
 const nodeTypes = {
   ADSR: ADSR,
   Analyser: Analyser,
+  AndGate: AndGate,
+  AudioBufferSource: AudioBufferSource,
   BiquadFilter: BiquadFilter,
   ChannelMerger: ChannelMerger,
   ChannelSplitter: ChannelSplitter,
+  Comparator: Comparator,
   ConstantSource: ConstantSource,
   Delay: Delay,
   DelayEffect: DelayEffect,
   Destination: Destination,
   DynamicsCompressor: DynamicsCompressor,
-  Envelope: Envelope,
+  Equalizer: Equalizer,
   Gain: Gain,
   Gate: Gate,
   InputSwitch: InputSwitch,
   Keyboard: Keyboard,
+  Meter: Meter,
   Metronome: Metronome,
   Noise: Noise,
+  NotGate: NotGate,
+  OrGate: OrGate,
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
   OutputSwitch: OutputSwitch,
+  Quantizer: Quantizer,
   Rectifier: Rectifier,
+  SampleAndHold: SampleAndHold,
   Sign: Sign,
   StereoPanner: StereoPanner,
+  Transformer: Transformer,
   WaveShaper: WaveShaper,
   FM_flow_sourceIP: FM_flow_sourceIP,
   FM_match_ip: FM_match_ip,
   FM_drop_flow: FM_drop_flow,
+  XorGate: XorGate,
 };
 
 function getEdgeWithColor(params: Edge | Connection) {
@@ -113,6 +134,7 @@ function Flow() {
   const { elements, onChangeElementFactory, setElements, setTransform, transform } = useProject();
   const contextMenu = useContextMenu();
   const { nodes: audioNodes } = useNodeContext();
+  const [tryingToConnect, setTryingToConnect] = useState<OnConnectStartParams | null>(null);
 
   const onElementsConnect = useOnConnect();
   const onEdgeRemove = useOnEdgeRemove();
@@ -148,6 +170,10 @@ function Flow() {
     [setTransform]
   );
 
+  const onConnectStart = useCallback((e: React.MouseEvent, params: OnConnectStartParams) => {
+    setTryingToConnect(params);
+  }, []);
+  const onConnectStop = useCallback((e: MouseEvent) => setTryingToConnect(null), []);
   const onConnect = useCallback(
     (params: Edge | Connection) => {
       setElements((elements: Elements) => addEdge(getEdgeWithColor(params), elements));
@@ -228,11 +254,14 @@ function Flow() {
   return (
     <>
       <ReactFlow
+        data-connecting-handletype={tryingToConnect ? tryingToConnect.handleType : undefined}
         defaultPosition={[transform.x, transform.y]}
         defaultZoom={transform.zoom}
         elements={elements}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
+        onConnectStart={onConnectStart}
+        onConnectStop={onConnectStop}
         onEdgeUpdate={onEdgeUpdate}
         onElementsRemove={onElementsRemove}
         onLoad={onLoad}
@@ -241,6 +270,7 @@ function Flow() {
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
         onlyRenderVisibleElements={false}
+        selectNodesOnDrag={false}
         snapToGrid
         snapGrid={[GRID_SIZE, GRID_SIZE]}
         // TODO figure out why this is needed for flow container not to cover context menu

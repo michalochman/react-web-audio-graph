@@ -4,44 +4,101 @@ interface Props {
   addNode: (node: string) => void;
 }
 
+const items = [
+  {
+    items: [
+      { label: "FM_flow_sourceIP", node: "FM_flow_sourceIP" },
+      { label: "FM_match_ip", node: "FM_match_ip" },
+      { label: "FM_drop_flow", node: "FM_drop_flow" },
+    ],
+    label: "Flow Utilities",
+  },
+  {
+    items: [{ label: "Destination", node: "Destination" }],
+    label: "Basic Operations",
+  },
+  {
+    items: [
+      { label: "Audio Buffer Source", node: "AudioBufferSource" },
+      { label: "Gate", node: "Gate" },
+      { label: "Keyboard", node: "Keyboard" },
+      { label: "Metronome", node: "Metronome" },
+      { label: "Noise", node: "Noise" },
+      { label: "Oscillator", node: "Oscillator" },
+      { label: "Oscillator Note", node: "OscillatorNote" },
+    ],
+    label: "Sources",
+  },
+  {
+    items: [{ label: "Destination", node: "Destination" }],
+    label: "Destinations",
+  },
+  {
+    items: [
+      { label: "Biquad Filter", node: "BiquadFilter" },
+      { label: "Channel Merger", node: "ChannelMerger" },
+      { label: "Channel Splitter", node: "ChannelSplitter" },
+      { label: "Delay", node: "Delay" },
+      { label: "Delay Effect", node: "DelayEffect" },
+      { label: "Dynamics Compressor", node: "DynamicsCompressor" },
+      { label: "Equalizer", node: "Equalizer" },
+      { label: "Gain", node: "Gain" },
+      { label: "Quantizer", node: "Quantizer" },
+      { label: "Rectifier", node: "Rectifier" },
+      { label: "Sample and Hold", node: "SampleAndHold" },
+      { label: "Sign", node: "Sign" },
+      { label: "Stereo Panner", node: "StereoPanner" },
+      { label: "Transformer", node: "Transformer" },
+      { label: "Wave Shaper", node: "WaveShaper" },
+    ],
+    label: "Effects",
+  },
+  {
+    items: [
+      { label: "ADSR", node: "ADSR" },
+      { label: "Constant Source", node: "ConstantSource" },
+      { label: "Input Switch", node: "InputSwitch" },
+      { label: "Output Switch", node: "OutputSwitch" },
+    ],
+    label: "Controllers",
+  },
+  {
+    items: [
+      { label: "AND Gate", node: "AndGate" },
+      { label: "Comparator", node: "Comparator" },
+      { label: "NOT Gate", node: "NotGate" },
+      { label: "OR Gate", node: "OrGate" },
+      { label: "XOR Gate", node: "XorGate" },
+    ],
+    label: "Logic",
+  },
+  {
+    items: [
+      { label: "Analyser", node: "Analyser" },
+      { label: "Meter", node: "Meter" },
+    ],
+    label: "Analysers",
+  },
+];
+
 function FlowContextMenu({ addNode }: Props) {
   return (
     <ul className="contextMenu">
-      <li>
-        Flow Utilites
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("FM_flow_sourceIP")}>Add FM_flow_sourceIP</li>
-          <li onClick={() => addNode("FM_match_ip")}>Add FM_destinationIP</li>
-          <li onClick={() => addNode("FM_drop_flow")}>Add FM_sourcePort</li>
-        </ul>
-      </li>
-      <li>
-        Basic Operations
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("FM_match_ip")}>Add FM_match_ip</li>
-          <li onClick={() => addNode("FM_match_ip")}>Add FM_match_port</li>
-          <li onClick={() => addNode("FM_match_ip")}>Add FM_logic_and</li>
-          <li onClick={() => addNode("FM_match_ip")}>Add FM_logic_or</li>
-        </ul>
-      </li>
-      <li>
-        Security Actions
-        <ul className="contextMenu sub">
-          <li onClick={() => addNode("FM_drop_flow")}>Add FM_drop_flow</li>
-        </ul>
-      </li>
-      <li>
-        Network Attack Detection
-        <ul className="contextMenu sub"></ul>
-      </li>
-      <li>
-        Network Service
-        <ul className="contextMenu sub"></ul>
-      </li>
-      <li>
-        Third Party
-        <ul className="contextMenu sub"></ul>
-      </li>
+      {items.map(item => (
+        <li key={item.label}>
+          {item.label}
+          <span>&#x276F;</span>
+          {item.items && (
+            <ul className="contextMenu sub">
+              {item.items.map(subitem => (
+                <li key={subitem.label} onClick={() => addNode(subitem.node)}>
+                  {subitem.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
     </ul>
   );
 }

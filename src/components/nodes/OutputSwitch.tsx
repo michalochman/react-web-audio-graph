@@ -45,7 +45,7 @@ function OutputSwitch({ data, id, selected, type: nodeType }: NodeProps) {
   return (
     <Node id={id} inputs={["input"]} outputs={["A", "B"]} title={`Output: ${output}`} type={nodeType}>
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <Toggle checked={output === "A"} labelOff="B" labelOn="A" onChange={toggleOutput} />
           </div>

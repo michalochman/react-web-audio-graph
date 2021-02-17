@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 
-interface Props {
+interface Props
+  extends Omit<React.HTMLProps<HTMLInputElement>, "max" | "min" | "onChange" | "step" | "type" | "value"> {
   onChange: (value: number) => void;
   type: SliderType;
   value: number;
@@ -19,7 +20,7 @@ function log2lin(value: number): number {
   return Math.log10(1 + value * 9);
 }
 
-function Slider({ onChange, type, value }: Props) {
+function Slider({ onChange, type, value, ...props }: Props) {
   const min = 0;
   const max = 1;
   let step = 0.001;
@@ -41,7 +42,7 @@ function Slider({ onChange, type, value }: Props) {
     [onChange, type]
   );
 
-  return <input className="nodrag" type="range" max={max} min={min} step={step} onChange={change} value={valueShown} />;
+  return <input {...props} type="range" max={max} min={min} step={step} onChange={change} value={valueShown} />;
 }
 
 export default Slider;

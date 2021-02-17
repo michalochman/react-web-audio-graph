@@ -26,25 +26,30 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
       id={id}
       inputs={["detune"]}
       outputs={["output"]}
-      title={<Note octave={octave} twelfth={twelfth} />}
+      title={<Note detune={detune} octave={octave} twelfth={twelfth} />}
       type={nodeType}
     >
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
-              min={-100}
               max={100}
+              min={-100}
               onChange={e => onChange({ detune: +e.target.value })}
               step={1}
               style={{ width: "100%" }}
+              title={`Detune: ${detune} cents`}
               type="range"
               value={detune}
             />
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ twelfth: +e.target.value })} style={{ width: "50%" }} value={twelfth}>
+            <select
+              onChange={e => onChange({ twelfth: +e.target.value })}
+              style={{ width: "50%" }}
+              title="Note"
+              value={twelfth}
+            >
               {Array(12)
                 .fill(0)
                 .map((_, twelfth) => (
@@ -53,7 +58,12 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
                   </option>
                 ))}
             </select>
-            <select onChange={e => onChange({ octave: +e.target.value })} style={{ width: "50%" }} value={octave}>
+            <select
+              onChange={e => onChange({ octave: +e.target.value })}
+              style={{ width: "50%" }}
+              title="Octave"
+              value={octave}
+            >
               {Array(11)
                 .fill(0)
                 .map((_, octave) => (
@@ -64,7 +74,12 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
             </select>
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ type: e.target.value })} style={{ width: "100%" }} value={type}>
+            <select
+              onChange={e => onChange({ type: e.target.value })}
+              style={{ width: "100%" }}
+              title="Wave"
+              value={type}
+            >
               <option value="sawtooth">sawtooth</option>
               <option value="square">square</option>
               <option value="sine">sine</option>

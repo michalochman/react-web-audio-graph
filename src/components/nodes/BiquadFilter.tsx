@@ -94,49 +94,49 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
       type={nodeType}
     >
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
               min={-100}
               max={100}
               onChange={e => onChange({ detune: +e.target.value })}
               step={1}
+              title={`Detune: ${detune} cents`}
               type="range"
               value={detune}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
               min={10}
               max={node.context.sampleRate / 2}
               onChange={e => onChange({ frequency: +e.target.value })}
               step={1}
+              title={`Frequency: ${frequency} Hz`}
               type="range"
               value={frequency}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
               disabled={!canUseGain}
               min={-40}
               max={40}
               onChange={e => onChange({ gain: +e.target.value })}
               step={0.1}
+              title={`Gain: ${gain} dB`}
               type="range"
               value={gain}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
               disabled={!canUseQ}
               min={0.0001}
               max={[BiquadFilterType.lowpass, BiquadFilterType.highpass].includes(type) ? 10 : 1000}
               onChange={e => onChange({ Q: +e.target.value })}
               step={[BiquadFilterType.lowpass, BiquadFilterType.highpass].includes(type) ? 0.1 : 10}
+              title={`Q: ${Q}`}
               type="range"
               value={Q}
             />

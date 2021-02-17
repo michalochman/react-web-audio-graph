@@ -56,67 +56,69 @@ function Keyboard({ data, id, type }: NodeProps) {
 
   return (
     <Node id={id} outputs={["frequency", "gate"]} title={`Keyboard`} type={type}>
-      <div className="customNode_item nodrag">
-        <div className="keyboard" onMouseDown={playNote} onMouseLeave={stopNote} onMouseUp={stopNote}>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 9)}>
-            1
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave - 1, 10)}>
-            2
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 11)}>
-            3
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 0)}>
-            4
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave, 1)}>
-            5
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 2)}>
-            6
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave, 3)}>
-            7
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 4)}>
-            8
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 5)}>
-            9
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave, 6)}>
-            10
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 7)}>
-            11
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave, 8)}>
-            12
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 9)}>
-            13
-          </button>
-          <button className={keyBlack} onMouseEnter={() => setNote(octave, 10)}>
-            14
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave, 11)}>
-            15
-          </button>
-          <button className={keyWhite} onMouseEnter={() => setNote(octave + 1, 0)}>
-            16
-          </button>
+      <div className="customNode_editor nodrag">
+        <div className="customNode_item">
+          <div className="keyboard" onMouseDown={playNote} onMouseLeave={stopNote} onMouseUp={stopNote}>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 9)}>
+              1
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave - 1, 10)}>
+              2
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 11)}>
+              3
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 0)}>
+              4
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave, 1)}>
+              5
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 2)}>
+              6
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave, 3)}>
+              7
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 4)}>
+              8
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 5)}>
+              9
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave, 6)}>
+              10
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 7)}>
+              11
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave, 8)}>
+              12
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 9)}>
+              13
+            </button>
+            <button className={keyBlack} onMouseEnter={() => setNote(octave, 10)}>
+              14
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave, 11)}>
+              15
+            </button>
+            <button className={keyWhite} onMouseEnter={() => setNote(octave + 1, 0)}>
+              16
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="customNode_item">
-        <input
-          className="nodrag"
-          min={1}
-          max={6}
-          onChange={e => onChange({ octave: +e.target.value })}
-          type="number"
-          value={octave}
-        />
+        <div className="customNode_item">
+          <input
+            min={1}
+            max={6}
+            onChange={e => onChange({ octave: +e.target.value })}
+            title="Octave"
+            type="number"
+            value={octave}
+          />
+        </div>
       </div>
     </Node>
   );

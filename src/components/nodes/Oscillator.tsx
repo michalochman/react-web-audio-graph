@@ -5,6 +5,7 @@ import Node from "components/Node";
 
 function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, frequency = 440, onChange, type = "sine" } = data;
+  const frequencyDetuned = frequency * Math.pow(2, detune / 1200);
 
   // AudioNode
   const node = useNode(id, context => context.createOscillator());
@@ -23,34 +24,35 @@ function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
       id={id}
       inputs={["detune", "frequency"]}
       outputs={["output"]}
-      title={`${frequency} Hz ${type}`}
+      title={`${frequencyDetuned.toFixed(2)} Hz ${type}`}
       type={nodeType}
     >
       {selected && (
-        <div className="customNode_editor">
+        <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <input
-              className="nodrag"
-              min={-100}
               max={100}
+              min={-100}
               onChange={e => onChange({ detune: +e.target.value })}
               step={1}
-              type="number"
+              style={{ width: "100%" }}
+              title={`Detune: ${detune} cents`}
+              type="range"
               value={detune}
             />
           </div>
           <div className="customNode_item">
             <input
-              className="nodrag"
-              min={0}
               max={20000}
+              min={0}
               onChange={e => onChange({ frequency: +e.target.value })}
+              title="Frequency"
               type="number"
               value={frequency}
             />
           </div>
           <div className="customNode_item">
-            <select onChange={e => onChange({ type: e.target.value })} value={type}>
+            <select onChange={e => onChange({ type: e.target.value })} title="Wave" value={type}>
               <option value="sawtooth">sawtooth</option>
               <option value="square">square</option>
               <option value="sine">sine</option>
