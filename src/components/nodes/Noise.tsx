@@ -2,6 +2,7 @@ import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import { AudioWorkletNode } from "utils/audioContext";
 import { NoiseType } from "worklets/noise-processor.types";
 
 function Noise({ data, id, selected, type: nodeType }: NodeProps) {
@@ -10,7 +11,7 @@ function Noise({ data, id, selected, type: nodeType }: NodeProps) {
   // AudioNode
   useNode(
     id,
-    context => new AudioWorkletNode(context, "noise-processor", { numberOfInputs: 0, processorOptions: { type } }),
+    context => new AudioWorkletNode!(context, "noise-processor", { numberOfInputs: 0, processorOptions: { type } }),
     [type]
   );
 

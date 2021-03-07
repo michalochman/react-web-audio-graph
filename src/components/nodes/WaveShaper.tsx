@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { AudioContext } from "context/AudioContext";
+import { AudioContextContext } from "context/AudioContextContext";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 
@@ -20,7 +20,7 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
   const [lastValidCurveFn, setLastValidCurveFn] = useState(curveFn);
 
   // AudioNode
-  const context = useContext(AudioContext);
+  const context = useContext(AudioContextContext);
   const node = useNode(id, () => context.createWaveShaper());
 
   const curve = useMemo(() => {

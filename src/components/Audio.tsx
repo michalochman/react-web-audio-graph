@@ -1,6 +1,7 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { AudioContext } from "context/AudioContext";
+import { AudioContextContext } from "context/AudioContextContext";
+import { AudioContext } from "utils/audioContext";
 
 import ADSRWorkletProcessor from "worklet-loader!worklets/adsr-processor.worklet.ts";
 import AndGateWorkletProcessor from "worklet-loader!worklets/and-gate-processor.worklet.ts";
@@ -26,17 +27,16 @@ function Audio({ children }: Props) {
 
   const context = useMemo(() => {
     try {
-      if (!window.AudioContext) {
-        // @ts-ignore
-        window.AudioContext = window.webkitAudioContext;
-      }
-
-      return new window.AudioContext();
+      return new AudioContext();
     } catch {}
   }, []);
 
   useEffect(() => {
     const awaitAudioWorkletProcessors = async (context: AudioContext) => {
+      if (!context.audioWorklet) {
+        return;
+      }
+
       await Promise.all([
         context.audioWorklet.addModule(ADSRWorkletProcessor),
         context.audioWorklet.addModule(AndGateWorkletProcessor),
@@ -78,7 +78,7 @@ function Audio({ children }: Props) {
 
   return (
     <div onClick={resume}>
-      <AudioContext.Provider value={context}>{children}</AudioContext.Provider>
+      <AudioContextContext.Provider value={context}>{children}</AudioContextContext.Provider>
     </div>
   );
 }

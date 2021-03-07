@@ -2,13 +2,14 @@ import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import { AudioWorkletNode } from "utils/audioContext";
 import { Mode } from "worklets/rectifier-processor.types";
 
 function Rectifier({ data, id, selected, type }: NodeProps) {
   const { mode = Mode.HalfWave, onChange } = data;
 
   // AudioNode
-  useNode(id, context => new AudioWorkletNode(context, "rectifier-processor", { processorOptions: { mode } }), [mode]);
+  useNode(id, context => new AudioWorkletNode!(context, "rectifier-processor", { processorOptions: { mode } }), [mode]);
 
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title="Rectifier" type={type}>

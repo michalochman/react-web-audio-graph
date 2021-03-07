@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
+import produce from "immer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
-import produce from "immer";
+import { AudioNode, GainNode } from "utils/audioContext";
 
 // const BANDS_WINAMP = [60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000];
 const BANDS_OCTAVES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];

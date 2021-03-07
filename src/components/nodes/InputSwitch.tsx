@@ -3,6 +3,7 @@ import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Toggle from "components/controls/Toggle";
+import { GainNode } from "utils/audioContext";
 
 interface InputSwitchNode extends ComplexAudioNode<undefined, GainNode> {
   A: GainNode;

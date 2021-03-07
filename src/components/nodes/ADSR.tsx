@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
+import { AudioContext, AudioWorkletNode } from "utils/audioContext";
 import { Mode, Parameters } from "worklets/adsr-processor.types";
 
 interface ADSRNode extends Required<ComplexAudioNode<undefined, undefined>> {
   [Parameters.AttackTime]: AudioParam;
   [Parameters.DecayTime]: AudioParam;
-  gain: AudioWorkletNode;
-  gate: AudioWorkletNode;
+  gain: AudioWorkletNode<AudioContext>;
+  gate: AudioWorkletNode<AudioContext>;
   [Parameters.ReleaseTime]: AudioParam;
   [Parameters.SustainLevel]: AudioParam;
 }
@@ -28,7 +29,7 @@ function ADSR({ data, id, selected, type }: NodeProps) {
   const node = (useNode(
     id,
     context => {
-      const envelope = new AudioWorkletNode(context, "adsr-processor", {
+      const envelope = new AudioWorkletNode!(context, "adsr-processor", {
         processorOptions: { sustainOn, mode },
       });
 

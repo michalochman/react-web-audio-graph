@@ -4,6 +4,7 @@ import { exponential, linear, logarithmic } from "utils/scale";
 
 const GATE_OFF = 0;
 const GATE_ON = 1;
+const EPSILON = 0.01;
 
 class ADSRProcessor extends StoppableAudioWorkletProcessor {
   lastGainGetter: (time: number) => number;
@@ -222,7 +223,7 @@ class ADSRProcessor extends StoppableAudioWorkletProcessor {
 
     // Naive lo-fi signal detection that triggers if all of the sample frames are high
     for (let i = 0; i < length; i++) {
-      if (input[i] !== GATE_ON) {
+      if (input[i] < GATE_ON - EPSILON) {
         return false;
       }
     }

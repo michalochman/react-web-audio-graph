@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import { BiquadFilterNode } from "utils/audioContext";
 
 enum BiquadFilterType {
   lowpass = "lowpass",

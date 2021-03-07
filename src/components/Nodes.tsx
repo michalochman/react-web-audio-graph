@@ -1,5 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { AnyAudioNode, NodeContext, NodeContextType, isComplexAudioNode } from "context/NodeContext";
+import { AudioWorkletNode } from "utils/audioContext";
 
 interface Props {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ export function nodeCleanup(node: AnyAudioNode) {
     (node as any).stop?.();
     node.disconnect();
 
-    if (node instanceof AudioWorkletNode) {
+    if (node instanceof AudioWorkletNode!) {
       node.port.postMessage("stop");
     }
   }

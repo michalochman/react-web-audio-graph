@@ -2,6 +2,7 @@ import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import { AudioWorkletNode } from "utils/audioContext";
 
 function Rectifier({ data, id, selected, type }: NodeProps) {
   const { levels = 256, max = 1, min = -1, onChange } = data;
@@ -9,7 +10,7 @@ function Rectifier({ data, id, selected, type }: NodeProps) {
   // AudioNode
   useNode(
     id,
-    context => new AudioWorkletNode(context, "quantizer-processor", { processorOptions: { levels, max, min } }),
+    context => new AudioWorkletNode!(context, "quantizer-processor", { processorOptions: { levels, max, min } }),
     [levels, max, min]
   );
 

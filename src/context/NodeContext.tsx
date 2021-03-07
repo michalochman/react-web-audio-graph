@@ -1,7 +1,8 @@
 import { createContext, DependencyList, useContext, useEffect, useMemo } from "react";
 import { useStoreState } from "react-flow-renderer";
+import { AudioContext, AudioNode } from "utils/audioContext";
 import { connectNodes, disconnectNodes } from "utils/handles";
-import { AudioContext } from "context/AudioContext";
+import { AudioContextContext } from "context/AudioContextContext";
 
 export type ComplexAudioNode<Input extends AudioNode | undefined, Output extends AudioNode | undefined> = {
   input?: Input;
@@ -46,7 +47,7 @@ export function useNode(
   nodeFactory: ComplexNodeFactory<AudioNode, AudioNode>,
   dependencies: DependencyList = []
 ) {
-  const context = useContext(AudioContext);
+  const context = useContext(AudioContextContext);
   const { addNode, getNode, removeNode } = useNodeContext();
   const edges = useStoreState(store => store.edges);
 
