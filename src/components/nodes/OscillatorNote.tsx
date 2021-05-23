@@ -26,7 +26,7 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
       id={id}
       inputs={["detune"]}
       outputs={["output"]}
-      title={<Note detune={detune} octave={octave} twelfth={twelfth} />}
+      title={<Note detailed detune={detune} octave={octave} twelfth={twelfth} />}
       type={nodeType}
     >
       {selected && (

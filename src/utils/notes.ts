@@ -24,7 +24,7 @@ export function assertOctaveValid(octave: number) {
 
 export function assertTwelfthValid(twelfth: number) {
   if (twelfth < 0 || twelfth > 11) {
-    throw new RangeError(`Octave must be between 0 and 11, is ${twelfth}`);
+    throw new RangeError(`Twelfth must be between 0 and 11, is ${twelfth}`);
   }
 }
 

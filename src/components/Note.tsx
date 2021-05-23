@@ -2,7 +2,8 @@ import React from "react";
 import { getNoteFrequency, getNoteName } from "utils/notes";
 
 interface Props {
-  detune: number;
+  detailed?: boolean;
+  detune?: number;
   octave: number;
   twelfth: number;
 }
@@ -10,7 +11,7 @@ interface Props {
 const modifierStyles: React.CSSProperties = {
   display: "inline-block",
   textAlign: "center",
-  width: 7,
+  width: "0.7em",
 };
 const octaveStyles: React.CSSProperties = {
   ...modifierStyles,
@@ -22,7 +23,7 @@ const accidentalStyles: React.CSSProperties = {
   verticalAlign: "super",
 };
 
-function Note({ detune, octave, twelfth }: Props) {
+function Note({ detailed = false, detune = 0, octave, twelfth }: Props) {
   const [name, accidental] = getNoteName(twelfth).split("");
   const frequency = getNoteFrequency(octave, twelfth);
   const frequencyDetuned = frequency * Math.pow(2, detune / 1200);
@@ -32,11 +33,15 @@ function Note({ detune, octave, twelfth }: Props) {
       {name}
       <small style={octaveStyles}>{octave}</small>
       {accidental && <small style={accidentalStyles}>{accidental}</small>}
-      &nbsp;
-      <small>
-        ({frequency.toFixed(2)} Hz
-        {detune !== 0 && <> &rarr; {frequencyDetuned.toFixed(2)} Hz</>})
-      </small>
+      {detailed && (
+        <>
+          &nbsp;
+          <small>
+            ({frequency.toFixed(2)} Hz
+            {detune !== 0 && <> &rarr; {frequencyDetuned.toFixed(2)} Hz</>})
+          </small>
+        </>
+      )}
     </span>
   );
 }

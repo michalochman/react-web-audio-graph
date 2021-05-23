@@ -12,6 +12,7 @@
   justify-content: center;
   outline: none;
   padding: 0;
+  white-space: nowrap;
 }
 
 .keyboard .key.key-black {
@@ -23,6 +24,11 @@
   position: relative;
   width: 10px;
   z-index: 1;
+}
+
+.keyboard .key.key-black span {
+  position: relative;
+  left: 2px;
 }
 
 .keyboard .key.key-white {

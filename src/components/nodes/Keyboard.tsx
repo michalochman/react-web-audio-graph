@@ -2,9 +2,12 @@ import React, { useCallback, useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
+import Note from "components/Note";
 import { getNoteFrequency } from "utils/notes";
 import "./Keyboard.css";
 
+const keysOptions = [16, 28, 40, 64, 88];
+const keyTwelfthOffset = -3;
 const keyBlack = "key key-black";
 const keyWhite = "key key-white";
 
@@ -14,7 +17,7 @@ interface KeyboardNode extends ComplexAudioNode<undefined, undefined> {
 }
 
 function Keyboard({ data, id, type }: NodeProps) {
-  const { octave = 2, onChange } = data;
+  const { keys = 16, octave = 2, onChange } = data;
 
   // AudioNode
   const node = (useNode(id, context => {
@@ -59,54 +62,23 @@ function Keyboard({ data, id, type }: NodeProps) {
       <div className="customNode_editor nodrag">
         <div className="customNode_item">
           <div className="keyboard" onMouseDown={playNote} onMouseLeave={stopNote} onMouseUp={stopNote}>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 9)}>
-              1
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave - 1, 10)}>
-              2
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave - 1, 11)}>
-              3
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 0)}>
-              4
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave, 1)}>
-              5
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 2)}>
-              6
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave, 3)}>
-              7
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 4)}>
-              8
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 5)}>
-              9
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave, 6)}>
-              10
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 7)}>
-              11
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave, 8)}>
-              12
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 9)}>
-              13
-            </button>
-            <button className={keyBlack} onMouseEnter={() => setNote(octave, 10)}>
-              14
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave, 11)}>
-              15
-            </button>
-            <button className={keyWhite} onMouseEnter={() => setNote(octave + 1, 0)}>
-              16
-            </button>
+            {Array(keys)
+              .fill(null)
+              .map((_, keyIndex) => {
+                const keyTwelfth = (((keyIndex + keyTwelfthOffset) % 12) + 12) % 12;
+                const keyOctave = octave + Math.floor((keyIndex + keyTwelfthOffset) / 12);
+                const keyClassName = [1, 3, 6, 8, 10].includes(keyTwelfth) ? keyBlack : keyWhite;
+
+                return (
+                  <button
+                    className={keyClassName}
+                    key={`${keyOctave}_${keyTwelfth}`}
+                    onMouseEnter={() => setNote(keyOctave, keyTwelfth)}
+                  >
+                    <Note octave={keyOctave} twelfth={keyTwelfth} />
+                  </button>
+                );
+              })}
           </div>
         </div>
         <div className="customNode_item">
@@ -114,10 +86,23 @@ function Keyboard({ data, id, type }: NodeProps) {
             min={1}
             max={6}
             onChange={e => onChange({ octave: +e.target.value })}
+            style={{ width: "50%" }}
             title="Octave"
             type="number"
             value={octave}
           />
+          <select
+            onChange={e => onChange({ keys: +e.target.value })}
+            style={{ width: "50%" }}
+            title="Keys"
+            value={keys}
+          >
+            {keysOptions.map(keys => (
+              <option key={keys} value={keys}>
+                {keys}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </Node>
