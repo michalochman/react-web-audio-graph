@@ -1,25 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import Note from "components/Note";
-import { useNode } from "context/NodeContext";
 import { getNoteFrequency, getNoteName } from "utils/notes";
 import Node from "components/Node";
+import useOscillatorNode from "hooks/nodes/useOscillatorNode";
 
 function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, octave = 4, onChange, twelfth = 0, type = "sine" } = data;
   const frequency = getNoteFrequency(octave, twelfth);
-
-  // AudioNode
-  const node = useNode(id, context => context.createOscillator());
-  useEffect(() => {
-    node.start();
-    return () => node.stop();
-  }, [node]);
-
-  // AudioParam
-  useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);
-  useEffect(() => void (node.frequency.value = frequency), [node, frequency]);
-  useEffect(() => void (node.type = type ?? "sine"), [node, type]);
+  useOscillatorNode(id, { detune, frequency, type });
 
   return (
     <Node

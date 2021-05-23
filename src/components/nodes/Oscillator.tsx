@@ -1,23 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useOscillatorNode from "hooks/nodes/useOscillatorNode";
 
 function Oscillator({ data, id, selected, type: nodeType }: NodeProps) {
   const { detune = 0, frequency = 440, onChange, type = "sine" } = data;
   const frequencyDetuned = frequency * Math.pow(2, detune / 1200);
-
-  // AudioNode
-  const node = useNode(id, context => context.createOscillator());
-  useEffect(() => {
-    node.start();
-    return () => node.stop();
-  }, [node]);
-
-  // AudioParam
-  useEffect(() => void (node.detune.value = detune ?? 0), [node, detune]);
-  useEffect(() => void (node.frequency.value = frequency ?? 440), [node, frequency]);
-  useEffect(() => void (node.type = type ?? "sine"), [node, type]);
+  useOscillatorNode(id, { detune, frequency, type });
 
   return (
     <Node

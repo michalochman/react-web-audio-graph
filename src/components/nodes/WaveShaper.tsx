@@ -1,8 +1,8 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useMemo, useState } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { AudioContextContext } from "context/AudioContextContext";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useWaveShaperNode from "hooks/nodes/useWaveShaperNode";
 
 // See: https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode#Example
 const distortion = `const k = 50;
@@ -19,23 +19,19 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
   const [curveFn, setCurveFn] = useState(data.curveFn ?? distortion);
   const [lastValidCurveFn, setLastValidCurveFn] = useState(curveFn);
 
-  // AudioNode
   const context = useContext(AudioContextContext);
-  const node = useNode(id, () => context.createWaveShaper());
-
   const curve = useMemo(() => {
     const curve = new Float32Array(context.sampleRate);
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-new-func
     return new Function("curve", lastValidCurveFn)(curve);
   }, [context.sampleRate, lastValidCurveFn]);
+  // AudioNode
 
-  // AudioParam
-  useEffect(() => void (node.curve = curve), [node, curve]);
-  useEffect(() => void (node.oversample = oversample), [node, oversample]);
+  useWaveShaperNode(id, { curve, oversample });
 
   const updateCurve = useCallback(() => {
     try {
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-new-func
       new Function("curve", curveFn)(new Float32Array(context.sampleRate));
 
       setLastValidCurveFn(curveFn);

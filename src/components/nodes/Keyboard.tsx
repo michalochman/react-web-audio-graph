@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { ComplexAudioNode, useNode } from "context/NodeContext";
+import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Note from "components/Note";
+import useConstantSourceNode from "hooks/nodes/useConstantSourceNode";
 import { getNoteFrequency } from "utils/notes";
 import "./Keyboard.css";
 
@@ -11,51 +12,35 @@ const keyTwelfthOffset = -3;
 const keyBlack = "key key-black";
 const keyWhite = "key key-white";
 
-interface KeyboardNode extends ComplexAudioNode<undefined, undefined> {
-  gate: ConstantSourceNode;
-  frequency: ConstantSourceNode;
-}
-
 function Keyboard({ data, id, type }: NodeProps) {
   const { keys = 16, octave = 2, onChange } = data;
 
-  // AudioNode
-  const node = (useNode(id, context => {
-    // Interface
-    const gate = context.createConstantSource();
-    const frequency = context.createConstantSource();
-
-    return {
-      frequency,
-      gate,
-      input: undefined,
-      output: undefined,
-    };
-  }) as unknown) as KeyboardNode;
-  useEffect(() => {
-    node.frequency.offset.value = 0;
-    node.frequency.start();
-    node.gate.offset.value = 0;
-    node.gate.start();
-
-    return () => {
-      node.gate.disconnect();
-      node.gate.stop();
-      node.frequency.disconnect();
-      node.frequency.stop();
-    };
-  }, [node]);
+  // Interface
+  const gateNode = useConstantSourceNode(`${id}_gate`, {});
+  const frequencyNode = useConstantSourceNode(`${id}_frequency`, {});
 
   const setNote = useCallback(
     (octave: number, twelfth: number) => {
-      const { context } = node.frequency;
+      const { context } = frequencyNode;
       const noteFrequency = getNoteFrequency(octave, twelfth);
-      node.frequency.offset.setTargetAtTime(noteFrequency, context.currentTime, 0.015);
+      frequencyNode.offset.setTargetAtTime(noteFrequency, context.currentTime, 0.015);
     },
-    [node]
+    [frequencyNode]
   );
-  const playNote = useCallback(() => void (node.gate.offset.value = 1), [node]);
-  const stopNote = useCallback(() => void (node.gate.offset.value = 0), [node]);
+  const playNote = useCallback(() => void (gateNode.offset.value = 1), [gateNode]);
+  const stopNote = useCallback(() => void (gateNode.offset.value = 0), [gateNode]);
+
+  // AudioNode
+  useNode(
+    id,
+    () => ({
+      frequency: frequencyNode,
+      gate: gateNode,
+      input: undefined,
+      output: undefined,
+    }),
+    [frequencyNode, gateNode]
+  );
 
   return (
     <Node id={id} outputs={["frequency", "gate"]} title={`Keyboard`} type={type}>

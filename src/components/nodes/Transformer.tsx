@@ -1,8 +1,7 @@
 import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
-import { AudioWorkletNode } from "utils/audioContext";
+import useAudioWorkletNode from "hooks/nodes/useAudioWorkletNode";
 
 const inputStyle = {
   width: 50,
@@ -10,19 +9,17 @@ const inputStyle = {
 
 function Transformer({ data, id, selected, type }: NodeProps) {
   const { inputMax = 1, inputMin = -1, onChange, outputMax = 1, outputMin = 0 } = data;
-
-  // AudioNode
-  useNode(
+  useAudioWorkletNode(
     id,
-    context =>
-      new AudioWorkletNode!(context, "transformer-processor", {
-        processorOptions: {
-          inputMin,
-          inputMax,
-          outputMin,
-          outputMax,
-        },
-      }),
+    "transformer-processor",
+    {
+      processorOptions: {
+        inputMin,
+        inputMax,
+        outputMin,
+        outputMax,
+      },
+    },
     [inputMin, inputMax, outputMin, outputMax]
   );
 

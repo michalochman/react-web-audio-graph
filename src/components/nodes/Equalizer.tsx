@@ -1,76 +1,72 @@
 import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import produce from "immer";
-import { ComplexAudioNode, useNode } from "context/NodeContext";
+import { useNode } from "context/NodeContext";
 import Node from "components/Node";
-import { AudioNode, GainNode } from "utils/audioContext";
+import useBiquadFilterNode from "hooks/nodes/useBiquadFilterNode";
+import useGainNode from "hooks/nodes/useGainNode";
+import { AudioNode } from "utils/audioContext";
 
 // const BANDS_WINAMP = [60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000];
 const BANDS_OCTAVES = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
+const FILTER_BANDS = BANDS_OCTAVES;
+const FILTER_GAINS = Array(BANDS_OCTAVES.length).fill(0);
 
 function octaveBandwidthToQ(bandwidth: number): number {
   const frequencyRatio = Math.pow(2, bandwidth);
   return Math.sqrt(frequencyRatio) / (frequencyRatio - 1);
 }
-
 function formatFrequency(frequency: number): string {
   if (frequency >= 1000) {
     return `${Math.floor(frequency / 1000)}k`;
   }
-
   return `${frequency}`;
 }
 
-interface EqualizerNode extends ComplexAudioNode<GainNode, GainNode> {
-  filters: BiquadFilterNode[];
-}
-
 function Equalizer({ data, id, selected, type }: NodeProps) {
-  const { bandwidth = 1, gains = Array(BANDS_OCTAVES.length).fill(0), onChange } = data;
+  const { bandwidth = 1, gains = FILTER_GAINS, onChange } = data;
 
-  // AudioNode
-  const node = (useNode(id, context => {
-    const input = context.createGain();
-    const output = context.createGain();
+  // Interface
+  const inputNode = useGainNode(`${id}_input`, {});
+  const outputNode = useGainNode(`${id}_output`, {});
 
-    const filters = BANDS_OCTAVES.map((frequency, index, frequencies) => {
-      const isLowShelf = index === 0;
-      const isHighShelf = index === frequencies.length - 1;
-      const isBandPass = !isLowShelf && !isHighShelf;
+  const filterNodes = FILTER_BANDS.map((frequency, index, frequencies) => {
+    const isLowShelf = index === 0;
+    const isHighShelf = index === frequencies.length - 1;
+    const isBandPass = !isLowShelf && !isHighShelf;
 
-      const gain = isBandPass ? gains[index] : 0;
-      const type = isLowShelf ? "lowshelf" : isHighShelf ? "highshelf" : "peaking";
-      const Q = octaveBandwidthToQ(bandwidth);
+    const gain = isBandPass ? gains[index] : 0;
+    const type = isLowShelf ? "lowshelf" : isHighShelf ? "highshelf" : "peaking";
+    const Q = octaveBandwidthToQ(bandwidth);
 
-      const filter = context.createBiquadFilter();
-      filter.frequency.value = frequency;
-      filter.gain.value = gain;
-      filter.type = type;
-      filter.Q.value = Q;
+    // While illegal by rules of hooks, the bands array is never changed in runtime so hook call order is preserved
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useBiquadFilterNode(`${id}_filter_${frequency}`, { frequency, gain, type, Q });
+  });
 
-      return filter;
-    });
+  useEffect(
+    () => {
+      (filterNodes as AudioNode[])
+        .concat(outputNode)
+        .reduce((source, destination) => source.connect(destination), inputNode);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [inputNode, outputNode, ...filterNodes]
+  );
 
-    (filters as AudioNode[]).concat(output).reduce((source, destination) => source.connect(destination), input);
-
-    return {
-      filters,
-      input,
-      output,
-    };
-  }) as unknown) as EqualizerNode;
+  useNode(id, () => ({ input: inputNode, output: outputNode }), [inputNode, outputNode]);
 
   // AudioParam;
   useEffect(() => {
-    node.filters.forEach((filter, index) => {
+    filterNodes.forEach((filter, index) => {
       filter.gain.setTargetAtTime(gains[index], filter.context.currentTime, 0.015);
     });
-  }, [node, gains]);
+  }, [filterNodes, gains]);
   useEffect(() => {
-    node.filters.forEach(filter => {
+    filterNodes.forEach(filter => {
       filter.Q.setTargetAtTime(octaveBandwidthToQ(bandwidth), filter.context.currentTime, 0.015);
     });
-  }, [node, bandwidth]);
+  }, [filterNodes, bandwidth]);
 
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title="EQ" type={type}>
@@ -78,7 +74,7 @@ function Equalizer({ data, id, selected, type }: NodeProps) {
         <div className="customNode_editor nodrag">
           <div className="customNode_item">
             <div className="equalizer">
-              {node.filters.map((filter, index) => (
+              {filterNodes.map((filter, index) => (
                 <div key={index}>
                   <input
                     max={12}

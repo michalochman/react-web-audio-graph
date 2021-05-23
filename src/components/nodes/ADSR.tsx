@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { ComplexAudioNode, useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useAudioWorkletNode from "hooks/nodes/useAudioWorkletNode";
 import { AudioContext, AudioWorkletNode } from "utils/audioContext";
 import { Mode, Parameters } from "worklets/adsr-processor.types";
 
@@ -25,25 +26,28 @@ function ADSR({ data, id, selected, type }: NodeProps) {
     sustainOn = true,
   } = data;
 
+  const workletNode = useAudioWorkletNode(
+    id,
+    "adsr-processor",
+    {
+      processorOptions: { sustainOn, mode },
+    },
+    [mode, sustainOn]
+  );
+
   // AudioNode
   const node = (useNode(
     id,
-    context => {
-      const envelope = new AudioWorkletNode!(context, "adsr-processor", {
-        processorOptions: { sustainOn, mode },
-      });
-
-      return {
-        [Parameters.AttackTime]: envelope.parameters.get(Parameters.AttackTime),
-        [Parameters.DecayTime]: envelope.parameters.get(Parameters.DecayTime),
-        gain: envelope,
-        gate: envelope,
-        input: undefined,
-        output: undefined,
-        [Parameters.ReleaseTime]: envelope.parameters.get(Parameters.ReleaseTime),
-        [Parameters.SustainLevel]: envelope.parameters.get(Parameters.SustainLevel),
-      };
-    },
+    () => ({
+      [Parameters.AttackTime]: workletNode.parameters.get(Parameters.AttackTime),
+      [Parameters.DecayTime]: workletNode.parameters.get(Parameters.DecayTime),
+      gain: workletNode,
+      gate: workletNode,
+      input: undefined,
+      output: undefined,
+      [Parameters.ReleaseTime]: workletNode.parameters.get(Parameters.ReleaseTime),
+      [Parameters.SustainLevel]: workletNode.parameters.get(Parameters.SustainLevel),
+    }),
     [mode, sustainOn]
   ) as unknown) as ADSRNode;
 

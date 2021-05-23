@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import useAnimationFrame from "hooks/useAnimationFrame";
-import { AudioWorkletNode } from "utils/audioContext";
+import useAudioWorkletNode from "hooks/nodes/useAudioWorkletNode";
 import { logarithmic } from "utils/scale";
 import { float32toDb } from "utils/units";
 
@@ -80,8 +79,7 @@ function Meter({ id, type }: NodeProps) {
   const canvasHeight = BUCKETS * HEIGHT + 10;
   const canvasWidth = (WIDTH + LEVEL_GAP) * (channels + 1);
 
-  // AudioNode
-  const node = useNode(id, context => new AudioWorkletNode!(context, "meter-processor", { numberOfOutputs: 0 }));
+  const node = useAudioWorkletNode(id, "meter-processor", { numberOfOutputs: 0 });
 
   const handleMessage = useCallback(
     ({ data: event }: ChannelMessageEvent | LevelMessageEvent) => {

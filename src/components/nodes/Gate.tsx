@@ -1,17 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useConstantSourceNode from "hooks/nodes/useConstantSourceNode";
 
 function Gate({ data, id, type }: NodeProps) {
   const { isOn = false, onChange } = data;
 
   // AudioNode
-  const node = useNode(id, context => context.createConstantSource());
-  useEffect(() => {
-    node.start();
-    return () => node.stop();
-  }, [node]);
+  const node = useConstantSourceNode(id, {});
 
   // AudioParam
   useEffect(() => void node.offset.setTargetAtTime(isOn ? 1 : 0, node.context.currentTime, 0.015), [node, isOn]);
