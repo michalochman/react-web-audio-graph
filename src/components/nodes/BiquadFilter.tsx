@@ -127,7 +127,7 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
               <option value="highshelf">highshelf</option>
               <option value="peaking">peaking</option>
               <option value="notch">notch</option>
-              <option value="notch">notch</option>
+              <option value="allpass">allpass</option>
             </select>
           </div>
           <div className="customNode_item">
