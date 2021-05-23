@@ -1,52 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
 import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Slider, { SliderType } from "components/controls/Slider";
+import useDelayNode from "hooks/nodes/useDelayNode";
+import useGainNode from "hooks/nodes/useGainNode";
 import { float32toDb } from "utils/units";
 
 function DelayEffect({ data, id, selected, type }: NodeProps) {
   const { delayTime = 0.2, feedback = 0.7, mix = 0.5, onChange } = data;
 
+  // Interface
+  const inputNode = useGainNode(`${id}_input`, {});
+  const outputNode = useGainNode(`${id}_output`, {});
+  // Mixing
+  const dryNode = useGainNode(`${id}_dry`, { gain: Math.cos(mix * 0.5 * Math.PI) });
+  const wetNode = useGainNode(`${id}_wet`, { gain: Math.cos((1.0 - mix) * 0.5 * Math.PI) });
+  // Delay
+  const delayNode = useDelayNode(`${id}_delay`, { delayTime });
+  // Feedback
+  const feedbackNode = useGainNode(`${id}_feedback`, { gain: feedback });
+
+  // Dry chain
+  useEffect(() => {
+    inputNode.connect(dryNode);
+    dryNode.connect(outputNode);
+  }, [dryNode, inputNode, outputNode]);
+  // Wet chain
+  useEffect(() => {
+    inputNode.connect(delayNode);
+    delayNode.connect(wetNode);
+    wetNode.connect(outputNode);
+  }, [delayNode, inputNode, outputNode, wetNode]);
+  // Feedback chain
+  useEffect(() => {
+    wetNode.connect(feedbackNode);
+    feedbackNode.connect(delayNode);
+  }, [delayNode, feedbackNode, wetNode]);
+
   // AudioNode
-  useNode(
-    id,
-    context => {
-      // Interface
-      const input = context.createGain();
-      const output = context.createGain();
-      // Mixing
-      const dry = context.createGain();
-      const wet = context.createGain();
-      // Delay
-      const delayNode = context.createDelay(1);
-      delayNode.delayTime.value = delayTime;
-      // Feedback
-      const feedbackNode = context.createGain();
-      feedbackNode.gain.setTargetAtTime(feedback, feedbackNode.context.currentTime, 0.015);
-
-      // Mix using equal power crossfade
-      dry.gain.setTargetAtTime(Math.cos(mix * 0.5 * Math.PI), dry.context.currentTime, 0.015);
-      wet.gain.setTargetAtTime(Math.cos((1.0 - mix) * 0.5 * Math.PI), wet.context.currentTime, 0.015);
-
-      // Dry
-      input.connect(dry);
-      dry.connect(output);
-      // Wet
-      input.connect(delayNode);
-      delayNode.connect(wet);
-      wet.connect(output);
-      // Feedback
-      wet.connect(feedbackNode);
-      feedbackNode.connect(delayNode);
-
-      return {
-        input,
-        output,
-      };
-    },
-    [delayTime, feedback, mix]
-  );
+  useNode(id, () => ({ input: inputNode, output: outputNode }), [inputNode, outputNode]);
 
   return (
     <Node id={id} inputs={["input"]} outputs={["output"]} title={`DelayEffect`} type={type}>

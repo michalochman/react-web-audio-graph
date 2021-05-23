@@ -1,11 +1,10 @@
 import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useDestinationNode from "hooks/nodes/useDestinationNode";
 
 function Destination({ id, type }: NodeProps) {
-  // AudioNode
-  useNode(id, context => context.destination);
+  useDestinationNode(id);
 
   return <Node id={id} inputs={["input"]} type={type} />;
 }

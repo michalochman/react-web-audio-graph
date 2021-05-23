@@ -1,19 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
-import { BiquadFilterNode } from "utils/audioContext";
+import useBiquadFilterNode from "hooks/nodes/useBiquadFilterNode";
+import { BiquadFilterNode, TBiquadFilterType } from "utils/audioContext";
 
-enum BiquadFilterType {
-  lowpass = "lowpass",
-  highpass = "highpass",
-  bandpass = "bandpass",
-  lowshelf = "lowshelf",
-  highshelf = "highshelf",
-  peaking = "peaking",
-  notch = "notch",
-  allpass = "allpass",
-}
+const filtersUsingGain: TBiquadFilterType[] = ["lowshelf", "highshelf", "peaking"];
+const filtersUsingQ: TBiquadFilterType[] = ["lowpass", "highpass", "bandpass", "peaking", "notch", "allpass"];
 
 function drawFrequencyResponse(context: CanvasRenderingContext2D, data: Float32Array, node: BiquadFilterNode) {
   let x = 0;
@@ -45,18 +37,9 @@ function drawFrequencyResponse(context: CanvasRenderingContext2D, data: Float32A
 }
 
 function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
-  const { detune = 0, gain = 0, frequency = 350, Q = 1, onChange, type = BiquadFilterType.lowpass } = data;
+  const { detune = 0, gain = 0, frequency = 350, Q = 1, onChange, type = "lowpass" } = data;
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  // AudioNode
-  const node = useNode(id, context => context.createBiquadFilter());
-
-  // AudioParam
-  useEffect(() => void (node.detune.value = detune), [node, detune]);
-  useEffect(() => void (node.frequency.value = frequency), [node, frequency]);
-  useEffect(() => void (node.gain.value = gain), [node, gain]);
-  useEffect(() => void (node.Q.value = Q), [node, Q]);
-  useEffect(() => void (node.type = type), [node, type]);
+  const node = useBiquadFilterNode(id, { detune, frequency, gain, Q, type });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -76,15 +59,8 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
     drawFrequencyResponse(context, magnitudes, node);
   }, [node, detune, gain, frequency, Q, selected, type]);
 
-  const canUseGain = [BiquadFilterType.lowshelf, BiquadFilterType.highshelf, BiquadFilterType.peaking].includes(type);
-  const canUseQ = [
-    BiquadFilterType.lowpass,
-    BiquadFilterType.highpass,
-    BiquadFilterType.bandpass,
-    BiquadFilterType.peaking,
-    BiquadFilterType.notch,
-    BiquadFilterType.allpass,
-  ].includes(type);
+  const canUseGain = filtersUsingGain.includes(type);
+  const canUseQ = filtersUsingQ.includes(type);
 
   return (
     <Node
@@ -134,9 +110,9 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
             <input
               disabled={!canUseQ}
               min={0.0001}
-              max={[BiquadFilterType.lowpass, BiquadFilterType.highpass].includes(type) ? 10 : 1000}
+              max={["lowpass", "highpass"].includes(type) ? 10 : 1000}
               onChange={e => onChange({ Q: +e.target.value })}
-              step={[BiquadFilterType.lowpass, BiquadFilterType.highpass].includes(type) ? 0.1 : 10}
+              step={["lowpass", "highpass"].includes(type) ? 0.1 : 10}
               title={`Q: ${Q}`}
               type="range"
               value={Q}
@@ -144,11 +120,14 @@ function BiquadFilter({ data, id, selected, type: nodeType }: NodeProps) {
           </div>
           <div className="customNode_item">
             <select onChange={e => onChange({ type: e.target.value })} value={type}>
-              {Object.values(BiquadFilterType).map(filterType => (
-                <option key={filterType} value={filterType}>
-                  {filterType}
-                </option>
-              ))}
+              <option value="lowpass">lowpass</option>
+              <option value="highpass">highpass</option>
+              <option value="bandpass">bandpass</option>
+              <option value="lowshelf">lowshelf</option>
+              <option value="highshelf">highshelf</option>
+              <option value="peaking">peaking</option>
+              <option value="notch">notch</option>
+              <option value="notch">notch</option>
             </select>
           </div>
           <div className="customNode_item">

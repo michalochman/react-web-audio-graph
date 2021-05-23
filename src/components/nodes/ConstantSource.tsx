@@ -1,20 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useConstantSourceNode from "hooks/nodes/useConstantSourceNode";
 
 function ConstantSource({ data, id, selected, type }: NodeProps) {
   const { offset = 1, onChange } = data;
-
-  // AudioNode
-  const node = useNode(id, context => context.createConstantSource());
-  useEffect(() => {
-    node.start();
-    return () => node.stop();
-  }, [node]);
-
-  // AudioParam
-  useEffect(() => (node.offset.value = offset), [node, offset]);
+  useConstantSourceNode(id, { offset });
 
   return (
     <Node id={id} outputs={["output"]} title={`Constant: ${offset}`} type={type}>

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Visualiser from "./Visualiser";
 import Node from "components/Node";
+import useAnalyserNode from "hooks/nodes/useAnalyserNode";
 
 export enum DataType {
   Frequency = "Frequency",
@@ -11,12 +11,7 @@ export enum DataType {
 
 function Analyser({ data, id, selected, type: nodeType }: NodeProps) {
   const { fftSizeExp = 11, onChange, paused = false, type = DataType.TimeDomain } = data;
-
-  // AudioNode
-  const node = useNode(id, context => context.createAnalyser());
-
-  // AudioParam
-  useEffect(() => void (node.fftSize = Math.pow(2, fftSizeExp)), [node, fftSizeExp]);
+  const node = useAnalyserNode(id, { fftSizeExp });
 
   return (
     <Node id={id} inputs={["input", "fftSize"]} outputs={["output"]} title={`Analyser: ${type}`} type={nodeType}>

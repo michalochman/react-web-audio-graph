@@ -1,21 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Slider, { SliderType } from "components/controls/Slider";
+import useGainNode from "hooks/nodes/useGainNode";
 import { float32toDb } from "utils/units";
 
 function Gain({ data, id, selected, type: nodeType }: NodeProps) {
   const { gain = 1, onChange, type = SliderType.Log } = data;
   const title = `Gain: ${float32toDb(gain).toFixed(2)} dB`;
-
-  // AudioNode
-  const node = useNode(id, context => context.createGain());
-
-  // AudioParam
-  useEffect(() => {
-    node.gain.setTargetAtTime(gain, node.context.currentTime, 0.015);
-  }, [node, gain]);
+  useGainNode(id, { gain });
 
   return (
     <Node id={id} inputs={["input", "gain"]} outputs={["output"]} title={title} type={nodeType}>

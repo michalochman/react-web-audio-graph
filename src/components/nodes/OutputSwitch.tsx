@@ -1,47 +1,47 @@
 import React, { useCallback, useEffect } from "react";
 import { NodeProps } from "react-flow-renderer";
-import { ComplexAudioNode, useNode } from "context/NodeContext";
+import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Toggle from "components/controls/Toggle";
-import { GainNode } from "utils/audioContext";
-
-interface OutputSwitchNode extends ComplexAudioNode<GainNode, undefined> {
-  A: GainNode;
-  B: GainNode;
-}
+import useGainNode from "hooks/nodes/useGainNode";
 
 function OutputSwitch({ data, id, selected, type: nodeType }: NodeProps) {
   const { onChange, output = "A" } = data;
 
-  // AudioNode
-  const node = (useNode(id, context => {
-    const input = context.createGain();
-    const A = context.createGain();
-    const B = context.createGain();
+  // Interface
+  const inputNode = useGainNode(`${id}_input`, {});
+  // Outputs
+  const outputANode = useGainNode(`${id}_outputA`, {});
+  const outputBNode = useGainNode(`${id}_outputB`, {});
 
-    input.connect(A);
-    input.connect(B);
-
-    return {
-      A,
-      B,
-      input,
-      output: undefined,
-    };
-  }) as unknown) as OutputSwitchNode;
-
-  // AudioParam
+  // Connections
   useEffect(() => {
-    if (output === "A") {
-      node.A.gain.setTargetAtTime(1, node.A.context.currentTime, 0.015);
-      node.B.gain.setTargetAtTime(0, node.A.context.currentTime, 0.015);
-    } else {
-      node.A.gain.setTargetAtTime(0, node.A.context.currentTime, 0.015);
-      node.B.gain.setTargetAtTime(1, node.A.context.currentTime, 0.015);
-    }
-  }, [node, output]);
+    inputNode.connect(outputANode);
+    inputNode.connect(outputBNode);
+  }, [inputNode, outputANode, outputBNode]);
 
   const toggleOutput = useCallback(() => onChange({ output: output === "A" ? "B" : "A" }), [onChange, output]);
+  useEffect(() => {
+    if (output === "A") {
+      outputANode.gain.setTargetAtTime(1, outputANode.context.currentTime, 0.015);
+      outputBNode.gain.setTargetAtTime(0, outputBNode.context.currentTime, 0.015);
+    } else {
+      outputANode.gain.setTargetAtTime(0, outputANode.context.currentTime, 0.015);
+      outputBNode.gain.setTargetAtTime(1, outputBNode.context.currentTime, 0.015);
+    }
+  }, [output, outputANode, outputBNode]);
+
+  // AudioNode
+  useNode(
+    id,
+    () => ({
+      input: inputNode,
+      A: outputANode,
+      B: outputBNode,
+      output: undefined,
+    }),
+    [inputNode, outputANode, outputBNode]
+  );
 
   return (
     <Node id={id} inputs={["input"]} outputs={["A", "B"]} title={`Output: ${output}`} type={nodeType}>

@@ -1,14 +1,12 @@
 import React from "react";
 import { NodeProps } from "react-flow-renderer";
-import { useNode } from "context/NodeContext";
 import Node from "components/Node";
+import useChannelSplitterNode from "hooks/nodes/useChannelSplitterNode";
 import { channelCounts } from "utils/channels";
 
 function ChannelSplitter({ data, id, selected, type }: NodeProps) {
   const { onChange, outputs = 2 } = data;
-
-  // AudioNode
-  const node = useNode(id, context => context.createChannelSplitter(outputs), [outputs]);
+  const node = useChannelSplitterNode(id, { outputs });
 
   return (
     <Node
