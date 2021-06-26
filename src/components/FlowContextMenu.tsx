@@ -47,6 +47,7 @@ const items = [
       { label: "Constant Source", node: "ConstantSource" },
       { label: "Input Switch", node: "InputSwitch" },
       { label: "Output Switch", node: "OutputSwitch" },
+      { label: "XY Pad", node: "XYPad" },
     ],
     label: "Controllers",
   },

@@ -50,6 +50,7 @@ import StereoPanner from "components/nodes/StereoPanner";
 import Transformer from "components/nodes/Transformer";
 import WaveShaper from "components/nodes/WaveShaper";
 import XorGate from "components/nodes/XorGate";
+import XYPad from "components/nodes/XYPad";
 import { useContextMenu } from "context/ContextMenuContext";
 import { AnyAudioNode, useNodeContext } from "context/NodeContext";
 import { useProject } from "context/ProjectContext";
@@ -90,6 +91,7 @@ const nodeTypes = {
   Transformer: Transformer,
   WaveShaper: WaveShaper,
   XorGate: XorGate,
+  XYPad: XYPad,
 };
 
 function getEdgeWithColor(params: Edge | Connection) {
