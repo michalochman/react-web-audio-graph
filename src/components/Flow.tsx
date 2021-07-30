@@ -22,6 +22,7 @@ import AudioBufferSource from "components/nodes/AudioBufferSource";
 import BiquadFilter from "components/nodes/BiquadFilter";
 import ChannelMerger from "components/nodes/ChannelMerger";
 import ChannelSplitter from "components/nodes/ChannelSplitter";
+import Clipper from "components/nodes/Clipper";
 import Comparator from "components/nodes/Comparator";
 import ConstantSource from "components/nodes/ConstantSource";
 import Delay from "components/nodes/Delay";
@@ -64,6 +65,7 @@ const nodeTypes = {
   BiquadFilter: BiquadFilter,
   ChannelMerger: ChannelMerger,
   ChannelSplitter: ChannelSplitter,
+  Clipper: Clipper,
   Comparator: Comparator,
   ConstantSource: ConstantSource,
   Delay: Delay,

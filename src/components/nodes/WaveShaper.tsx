@@ -25,8 +25,8 @@ function WaveShaper({ data, id, selected, type }: NodeProps) {
     // eslint-disable-next-line no-new-func
     return new Function("curve", lastValidCurveFn)(curve);
   }, [context.sampleRate, lastValidCurveFn]);
-  // AudioNode
 
+  // AudioNode
   useWaveShaperNode(id, { curve, oversample });
 
   const updateCurve = useCallback(() => {

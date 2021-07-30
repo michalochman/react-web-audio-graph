@@ -26,6 +26,7 @@ const items = [
       { label: "Biquad Filter", node: "BiquadFilter" },
       { label: "Channel Merger", node: "ChannelMerger" },
       { label: "Channel Splitter", node: "ChannelSplitter" },
+      { label: "Clipper", node: "Clipper" },
       { label: "Delay", node: "Delay" },
       { label: "Delay Effect", node: "DelayEffect" },
       { label: "Dynamics Compressor", node: "DynamicsCompressor" },
