@@ -243,7 +243,14 @@ function Flow() {
   const onPaneContextMenu = useCallback(
     (event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
-      contextMenu.setRect({ width: 0, height: 0, top: event.clientY, right: 0, bottom: 0, left: event.clientX });
+      contextMenu.setRect({
+        width: 0,
+        height: 0,
+        top: event.clientY,
+        right: 0,
+        bottom: 0,
+        left: event.clientX,
+      } as DOMRect);
       contextMenu.show(<FlowContextMenu addNode={addNode} />);
     },
     [addNode, contextMenu]
