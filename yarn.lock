@@ -10588,7 +10588,7 @@ stackframe@^1.1.1:
   resolved "https://registry.yarnpkg.com/stackframe/-/stackframe-1.2.0.tgz#52429492d63c62eb989804c11552e3d22e779303"
   integrity sha512-GrdeshiRmS1YLMYgzF16olf2jJ/IzxXY9lhKOskuVziubpTYcYqyOwYeJKzQkwy7uN0fYSsbsC4RQaXf9LCrYA==
 
-standardized-audio-context@^25.1.9:
+standardized-audio-context@^25.3.14:
   version "25.3.14"
   resolved "https://registry.yarnpkg.com/standardized-audio-context/-/standardized-audio-context-25.3.14.tgz#f6d98f7eb339df3814179ddeeb53918f63eb99e4"
   integrity sha512-MjceX0rGa6+n243mTkubOdc/8ycwaR9XoUNmhcEd+LLhjzYtJnOPUdNikIVEMgdpO05OILzq9LfUNDa7WGn5Cg==
