@@ -8,7 +8,14 @@ function useAudioWorkletNode(
   options?: Partial<IAudioWorkletNodeOptions>,
   dependencies?: DependencyList
 ) {
-  return useNode(id, context => new AudioWorkletNode!(context, name, options), dependencies);
+  return useNode(
+    id,
+    context => {
+      console.log(`Creating AudioWorkletNode ${id}`);
+      return new AudioWorkletNode!(context, name, options);
+    },
+    dependencies
+  );
 }
 
 export default useAudioWorkletNode;

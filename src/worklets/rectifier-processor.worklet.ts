@@ -7,6 +7,8 @@ class RectifierProcessor extends StoppableAudioWorkletProcessor {
   constructor(options?: AudioWorkletNodeOptions) {
     super(options);
 
+    console.log("Starting rectifier");
+
     this.stepFunction = options?.processorOptions.mode === Mode.HalfWave ? stepHalfWave : stepFullWave;
   }
 
