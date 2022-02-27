@@ -1,8 +1,8 @@
 class StoppableAudioWorkletProcessor extends AudioWorkletProcessor {
   running = true;
 
-  constructor(options?: AudioWorkletNodeOptions) {
-    super(options);
+  constructor() {
+    super();
 
     this.port.onmessage = event => {
       if (event.data === "stop") {

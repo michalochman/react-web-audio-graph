@@ -5,7 +5,7 @@ class NoiseProcessor extends StoppableAudioWorkletProcessor {
   fillWithNoise: (data: Float32Array) => void;
 
   constructor(options?: AudioWorkletNodeOptions) {
-    super(options);
+    super();
 
     const type: NoiseType = options?.processorOptions.type ?? NoiseType.White;
     this.fillWithNoise = generators[type];

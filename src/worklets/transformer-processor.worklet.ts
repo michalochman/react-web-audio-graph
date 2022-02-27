@@ -4,7 +4,7 @@ class TransformerProcessor extends StoppableAudioWorkletProcessor {
   transform: (value: number) => number;
 
   constructor(options?: AudioWorkletNodeOptions) {
-    super(options);
+    super();
 
     const inputMax = options?.processorOptions.inputMax ?? 1;
     const inputMin = options?.processorOptions.inputMin ?? -1;

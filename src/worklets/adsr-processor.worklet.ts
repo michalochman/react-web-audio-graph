@@ -16,7 +16,7 @@ class ADSRProcessor extends StoppableAudioWorkletProcessor {
   mode: Mode;
 
   constructor(options?: AudioWorkletNodeOptions) {
-    super(options);
+    super();
 
     this.lastGainGetter = () => 0;
     this.lastGainGetterAtStageChange = () => 0;

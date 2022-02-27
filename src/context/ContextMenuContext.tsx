@@ -1,10 +1,19 @@
 import { createContext, useContext } from "react";
 
+interface Rect {
+  width: number;
+  height: number;
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
 interface ContextMenuContextType {
-  getRect: () => ClientRect | DOMRect;
+  getRect: () => Rect;
   hide: () => void;
   show: (foo: any) => void;
-  setRect: (bbox: ClientRect | DOMRect) => void;
+  setRect: (bbox: Rect) => void;
 }
 
 export const ContextMenuContext = createContext<ContextMenuContextType>(null!);

@@ -6,7 +6,7 @@ class QuantizerProcessor extends StoppableAudioWorkletProcessor {
   min: number;
 
   constructor(options?: AudioWorkletNodeOptions) {
-    super(options);
+    super();
 
     this.levels = options?.processorOptions.levels ?? 256;
     this.max = options?.processorOptions.max ?? 1;

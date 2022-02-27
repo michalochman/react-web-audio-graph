@@ -4,26 +4,21 @@
   "private": true,
   "homepage": "https://michalochman.github.io/react-web-audio-graph",
   "dependencies": {
-    "@popperjs/core": "^2.5.4",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
-    "@types/uuid": "^8.3.0",
-    "immer": "^8.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-flow-renderer": "^8.1.1",
-    "react-popper": "^2.2.4",
-    "react-scripts": "4.0.1",
-    "standardized-audio-context": "^25.1.9",
-    "typescript": "^4.0.3",
-    "uuid": "^8.3.1",
-    "web-vitals": "^0.2.4",
-    "worklet-loader": "^1.0.0"
+    "@popperjs/core": "2.11.2",
+    "@types/audioworklet": "0.0.23",
+    "@types/react": "17.0.39",
+    "@types/react-dom": "17.0.11",
+    "@types/uuid": "8.3.4",
+    "immer": "9.0.12",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-flow-renderer": "9.7.4",
+    "react-popper": "2.2.5",
+    "react-scripts": "5.0.0",
+    "standardized-audio-context": "25.3.21",
+    "typescript": "4.5.5",
+    "uuid": "8.3.2",
+    "worklet-loader": "2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,7 +28,8 @@
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .ts,.tsx src",
-    "format": "prettier --write src/**/*.{ts,tsx,json,css,md}"
+    "format": "prettier --write src/**/*.{ts,tsx,json,css,md}",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -54,19 +50,16 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0",
-    "husky": "^4.3.0",
-    "lint-staged": "^10.5.2",
-    "prettier": "^2.2.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "eslint": "8.10.0",
+    "gh-pages": "3.2.3",
+    "husky": "7.0.4",
+    "lint-staged": "12.3.4",
+    "prettier": "2.5.1"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,json,css}": [
       "prettier --write"
-    ]
+    ],
+    "*.{ts,tsx,json,css,md}": "prettier --write"
   }
 }
