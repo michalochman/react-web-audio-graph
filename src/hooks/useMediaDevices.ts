@@ -4,10 +4,13 @@ export default function useMediaDevices(kind: "audioinput" | "audiooutput"): Med
   const [mediaDevices, setMediaDevices] = useState<MediaDeviceInfo[]>([]);
 
   useEffect(() => {
-    navigator.mediaDevices
-      .enumerateDevices()
-      .then(devices => setMediaDevices(devices.filter(device => device.kind === kind)))
-      .catch(() => {});
+    (async () => {
+      await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      navigator.mediaDevices
+        .enumerateDevices()
+        .then(devices => setMediaDevices(devices.filter(device => device.kind === kind)))
+        .catch(() => {});
+    })();
   }, [kind]);
 
   return mediaDevices;
