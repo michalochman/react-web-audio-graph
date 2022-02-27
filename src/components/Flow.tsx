@@ -33,6 +33,7 @@ import Equalizer from "components/nodes/Equalizer";
 import FlowContextMenu from "components/FlowContextMenu";
 import Gain from "components/nodes/Gain";
 import Gate from "components/nodes/Gate";
+import InputAudioStream from "components/nodes/InputAudioStream";
 import InputSwitch from "components/nodes/InputSwitch";
 import Keyboard from "components/nodes/Keyboard";
 import Meter from "components/nodes/Meter";
@@ -75,6 +76,7 @@ const nodeTypes = {
   Equalizer: Equalizer,
   Gain: Gain,
   Gate: Gate,
+  InputAudioStream: InputAudioStream,
   InputSwitch: InputSwitch,
   Keyboard: Keyboard,
   Meter: Meter,

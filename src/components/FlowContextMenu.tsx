@@ -8,6 +8,7 @@ const items = [
   {
     items: [
       { label: "Audio Buffer Source", node: "AudioBufferSource" },
+      { label: "Audio Input Stream", node: "InputAudioStream" },
       { label: "Gate", node: "Gate" },
       { label: "Keyboard", node: "Keyboard" },
       { label: "Metronome", node: "Metronome" },
