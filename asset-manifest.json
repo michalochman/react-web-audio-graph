@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-web-audio-graph/static/css/main.80735f37.css",
-    "main.js": "/react-web-audio-graph/static/js/main.0353d69d.js",
+    "main.js": "/react-web-audio-graph/static/js/main.8eb15c9a.js",
     "static/media/St Nicolaes Church.wav": "/react-web-audio-graph/static/media/St Nicolaes Church.2da362c205904776fecf.wav",
     "static/media/Large Wide Echo Hall.wav": "/react-web-audio-graph/static/media/Large Wide Echo Hall.14eba2172dc8b48ae89a.wav",
     "static/media/Large Long Echo Hall.wav": "/react-web-audio-graph/static/media/Large Long Echo Hall.631c32b4900a9080a10d.wav",
@@ -45,10 +45,10 @@
     "static/media/Direct Cabinet N1.wav": "/react-web-audio-graph/static/media/Direct Cabinet N1.f9f7b504806f3c4b5b04.wav",
     "index.html": "/react-web-audio-graph/index.html",
     "main.80735f37.css.map": "/react-web-audio-graph/static/css/main.80735f37.css.map",
-    "main.0353d69d.js.map": "/react-web-audio-graph/static/js/main.0353d69d.js.map"
+    "main.8eb15c9a.js.map": "/react-web-audio-graph/static/js/main.8eb15c9a.js.map"
   },
   "entrypoints": [
     "static/css/main.80735f37.css",
-    "static/js/main.0353d69d.js"
+    "static/js/main.8eb15c9a.js"
   ]
 }
