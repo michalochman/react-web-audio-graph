@@ -25,6 +25,7 @@ import ChannelSplitter from "components/nodes/ChannelSplitter";
 import Clipper from "components/nodes/Clipper";
 import Comparator from "components/nodes/Comparator";
 import ConstantSource from "components/nodes/ConstantSource";
+import Convolver from "components/nodes/Convolver/Convolver";
 import Delay from "components/nodes/Delay";
 import DelayEffect from "components/nodes/DelayEffect";
 import Destination from "components/nodes/Destination";
@@ -69,6 +70,7 @@ const nodeTypes = {
   Clipper: Clipper,
   Comparator: Comparator,
   ConstantSource: ConstantSource,
+  Convolver: Convolver,
   Delay: Delay,
   DelayEffect: DelayEffect,
   Destination: Destination,

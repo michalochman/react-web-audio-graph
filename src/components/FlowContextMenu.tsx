@@ -28,6 +28,7 @@ const items = [
       { label: "Channel Merger", node: "ChannelMerger" },
       { label: "Channel Splitter", node: "ChannelSplitter" },
       { label: "Clipper", node: "Clipper" },
+      { label: "Convolver", node: "Convolver" },
       { label: "Delay", node: "Delay" },
       { label: "Delay Effect", node: "DelayEffect" },
       { label: "Dynamics Compressor", node: "DynamicsCompressor" },
