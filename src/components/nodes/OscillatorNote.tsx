@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps } from "react-flow-renderer";
 import Note from "components/Note";
-import { getNoteFrequency, getNoteName } from "utils/notes";
+import { OCTAVES, TWELFTHS, getNoteFrequency, getNoteName } from "utils/notes";
 import Node from "components/Node";
 import useOscillatorNode from "hooks/nodes/useOscillatorNode";
 
@@ -39,7 +39,7 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
               title="Note"
               value={twelfth}
             >
-              {Array(12)
+              {Array(TWELFTHS)
                 .fill(0)
                 .map((_, twelfth) => (
                   <option key={twelfth} value={twelfth}>
@@ -53,7 +53,7 @@ function OscillatorNote({ data, id, selected, type: nodeType }: NodeProps) {
               title="Octave"
               value={octave}
             >
-              {Array(11)
+              {Array(OCTAVES)
                 .fill(0)
                 .map((_, octave) => (
                   <option key={octave} value={octave}>
