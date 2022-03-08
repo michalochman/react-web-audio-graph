@@ -8,6 +8,7 @@ import AndGateWorkletProcessor from "worklet-loader!worklets/and-gate-processor.
 import ComparatorWorkletProcessor from "worklet-loader!worklets/comparator-processor.worklet.ts";
 import GateWorkletProcessor from "worklet-loader!worklets/gate-processor.worklet.ts";
 import MeterWorkletProcessor from "worklet-loader!worklets/meter-processor.worklet.ts";
+import PitchDetectorWorkletProcessor from "worklet-loader!worklets/pitch-detector-processor.worklet.ts";
 import NoiseWorkletProcessor from "worklet-loader!worklets/noise-processor.worklet.ts";
 import NotGateWorkletProcessor from "worklet-loader!worklets/not-gate-processor.worklet.ts";
 import OrGateWorkletProcessor from "worklet-loader!worklets/or-gate-processor.worklet.ts";
@@ -46,6 +47,7 @@ function Audio({ children }: Props) {
         context.audioWorklet.addModule(NoiseWorkletProcessor),
         context.audioWorklet.addModule(NotGateWorkletProcessor),
         context.audioWorklet.addModule(OrGateWorkletProcessor),
+        context.audioWorklet.addModule(PitchDetectorWorkletProcessor),
         context.audioWorklet.addModule(QuantizerWorkletProcessor),
         context.audioWorklet.addModule(RectifierWorkletProcessor),
         context.audioWorklet.addModule(SampleAndHoldWorkletProcessor),

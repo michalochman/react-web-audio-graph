@@ -45,6 +45,7 @@ import OrGate from "components/nodes/OrGate";
 import Oscillator from "components/nodes/Oscillator";
 import OscillatorNote from "components/nodes/OscillatorNote";
 import OutputSwitch from "components/nodes/OutputSwitch";
+import PitchDetector from "components/nodes/PitchDetector";
 import Quantizer from "components/nodes/Quantizer";
 import Rectifier from "components/nodes/Rectifier";
 import SampleAndHold from "components/nodes/SampleAndHold";
@@ -89,6 +90,7 @@ const nodeTypes = {
   Oscillator: Oscillator,
   OscillatorNote: OscillatorNote,
   OutputSwitch: OutputSwitch,
+  PitchDetector: PitchDetector,
   Quantizer: Quantizer,
   Rectifier: Rectifier,
   SampleAndHold: SampleAndHold,

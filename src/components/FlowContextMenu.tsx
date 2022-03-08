@@ -68,6 +68,7 @@ const items = [
     items: [
       { label: "Analyser", node: "Analyser" },
       { label: "Meter", node: "Meter" },
+      { label: "Pitch Detector", node: "PitchDetector" },
     ],
     label: "Analysers",
   },
