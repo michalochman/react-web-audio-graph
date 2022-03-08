@@ -6,11 +6,13 @@
   "dependencies": {
     "@popperjs/core": "2.11.2",
     "@types/audioworklet": "0.0.23",
+    "@types/canvas-gauges": "2.1.4",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
     "@types/uuid": "8.3.4",
     "ahooks": "3.1.13",
     "aubiojs": "0.0.1",
+    "canvas-gauges": "2.1.7",
     "immer": "9.0.12",
     "react": "17.0.2",
     "react-dom": "17.0.2",

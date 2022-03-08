@@ -4,7 +4,7 @@ import { useNode } from "context/NodeContext";
 import Node from "components/Node";
 import Note from "components/Note";
 import useConstantSourceNode from "hooks/nodes/useConstantSourceNode";
-import { getNoteFrequency } from "utils/notes";
+import { TWELFTHS, getNoteFrequency } from "utils/notes";
 import "./Keyboard.css";
 
 const keysOptions = [16, 28, 40, 64, 88];
@@ -50,8 +50,8 @@ function Keyboard({ data, id, type }: NodeProps) {
             {Array(keys)
               .fill(null)
               .map((_, keyIndex) => {
-                const keyTwelfth = (((keyIndex + keyTwelfthOffset) % 12) + 12) % 12;
-                const keyOctave = octave + Math.floor((keyIndex + keyTwelfthOffset) / 12);
+                const keyTwelfth = (((keyIndex + keyTwelfthOffset) % TWELFTHS) + TWELFTHS) % TWELFTHS;
+                const keyOctave = octave + Math.floor((keyIndex + keyTwelfthOffset) / TWELFTHS);
                 const keyClassName = [1, 3, 6, 8, 10].includes(keyTwelfth) ? keyBlack : keyWhite;
 
                 return (

@@ -16,28 +16,51 @@ export enum NoteValue {
   Sixteenth = 16 as any,
 }
 
-export function assertOctaveValid(octave: number) {
-  if (octave < 0 || octave > 10) {
-    throw new RangeError(`Octave must be between 0 and 10, is ${octave}`);
-  }
-}
+export const OCTAVES = 11;
+export const TWELFTHS = 12;
+const ALL_NOTES = Array(OCTAVES)
+  .fill(0)
+  .flatMap((_, octave) => {
+    return Array(TWELFTHS)
+      .fill(0)
+      .map((_, twelfth) => [octave, twelfth, getNoteFrequency(octave, twelfth)]);
+  });
 
-export function assertTwelfthValid(twelfth: number) {
-  if (twelfth < 0 || twelfth > 11) {
-    throw new RangeError(`Twelfth must be between 0 and 11, is ${twelfth}`);
+export function findClosestNote(pitch: number) {
+  let noteIndex = ALL_NOTES.findIndex(([, , frequency]) => frequency > pitch);
+  if (noteIndex < 1) {
+    noteIndex = 29;
   }
+
+  const notesOffset = Math.abs(ALL_NOTES[noteIndex - 1][2] - pitch) < Math.abs(ALL_NOTES[noteIndex][2] - pitch) ? 0 : 1;
+  const [octave, twelfth] = ALL_NOTES[noteIndex + notesOffset - 1];
+  const cents = 1200 * Math.log2(pitch / ALL_NOTES[noteIndex + notesOffset - 1][2]);
+
+  return [octave, twelfth, cents];
 }
 
 export function getNoteFrequency(octave: number, twelfth: number) {
-  assertOctaveValid(octave);
-  assertTwelfthValid(twelfth);
+  // @ts-ignore
+  [twelfth, octave] = normalizeNote(twelfth, octave);
 
   const C0 = 16.3516;
-  return C0 * Math.pow(2, octave + twelfth / 12);
+  return C0 * Math.pow(2, octave + twelfth / TWELFTHS);
 }
 
-export function getNoteName(twelfth: number) {
-  assertTwelfthValid(twelfth);
+export function getNoteName(twelfth: number, octave?: number) {
+  [twelfth, octave] = normalizeNote(twelfth, octave);
 
-  return NOTES[twelfth];
+  const note = NOTES[twelfth].split("");
+  if (octave != null) {
+    note.splice(1, 0, `${octave}`);
+  }
+
+  return note.join("");
+}
+
+function normalizeNote(twelfth: number, octave?: number): [number, number?] {
+  octave = octave ? octave + Math.floor(twelfth / TWELFTHS) : octave;
+  twelfth = Math.abs(((twelfth % TWELFTHS) + TWELFTHS) % TWELFTHS);
+
+  return [twelfth, octave];
 }
