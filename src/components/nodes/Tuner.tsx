@@ -37,15 +37,15 @@ function Tuner({ id, type }: NodeProps) {
 
   const [octave, twelfth, cents] = findClosestNote(pitch);
   const noteFrequency = getNoteFrequency(octave, twelfth);
-  const quarterStepRange = frequencyRange(noteFrequency, HALF_STEP_CENTS / 2);
-  const justNoticableRange = frequencyRange(noteFrequency, JUST_NOTICABLE_CENTS);
-  const nearPerfectRange = frequencyRange(noteFrequency, NEAR_PERFECT_CENTS);
+  const quarterStepRange = useMemo(() => frequencyRange(noteFrequency, HALF_STEP_CENTS / 2), [noteFrequency]);
+  const justNoticableRange = useMemo(() => frequencyRange(noteFrequency, JUST_NOTICABLE_CENTS), [noteFrequency]);
+  const nearPerfectRange = useMemo(() => frequencyRange(noteFrequency, NEAR_PERFECT_CENTS), [noteFrequency]);
   const highlights = useMemo(
     () => [
       { from: justNoticableRange[0], to: justNoticableRange[1], color: "#dd0" },
       { from: nearPerfectRange[0], to: nearPerfectRange[1], color: "#0d0" },
     ],
-    [noteFrequency]
+    [justNoticableRange, nearPerfectRange]
   );
 
   return (

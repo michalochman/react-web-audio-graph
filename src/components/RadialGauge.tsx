@@ -4,16 +4,20 @@ import { RadialGauge as Gauge, RadialGaugeOptions } from "canvas-gauges";
 const RadialGauge = function RadialGauge(props: Omit<RadialGaugeOptions, "renderTo">) {
   const canvasRef = useRef();
   const gaugeRef = useRef<Gauge | undefined>(undefined);
-  const drawGauge = useCallback(canvas => {
-    if (!canvasRef.current) {
-      canvasRef.current = canvas;
-      gaugeRef.current = new Gauge({
-        ...props,
-        renderTo: canvasRef.current!,
-      });
-      gaugeRef.current.draw();
-    }
-  }, []);
+  const drawGauge = useCallback(
+    canvas => {
+      if (!canvasRef.current) {
+        canvasRef.current = canvas;
+        gaugeRef.current = new Gauge({
+          ...props,
+          renderTo: canvasRef.current!,
+        });
+        gaugeRef.current.draw();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   useEffect(() => {
     // @ts-ignore
