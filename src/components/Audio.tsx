@@ -5,6 +5,7 @@ import { AudioContext } from "utils/audioContext";
 
 import ADSRWorkletProcessor from "worklet-loader!worklets/adsr-processor.worklet.ts";
 import AndGateWorkletProcessor from "worklet-loader!worklets/and-gate-processor.worklet.ts";
+import BeatDetectorWorkletProcessor from "worklet-loader!worklets/beat-detector-processor.worklet.ts";
 import ComparatorWorkletProcessor from "worklet-loader!worklets/comparator-processor.worklet.ts";
 import GateWorkletProcessor from "worklet-loader!worklets/gate-processor.worklet.ts";
 import MeterWorkletProcessor from "worklet-loader!worklets/meter-processor.worklet.ts";
@@ -41,6 +42,7 @@ function Audio({ children }: Props) {
       await Promise.all([
         context.audioWorklet.addModule(ADSRWorkletProcessor),
         context.audioWorklet.addModule(AndGateWorkletProcessor),
+        context.audioWorklet.addModule(BeatDetectorWorkletProcessor),
         context.audioWorklet.addModule(ComparatorWorkletProcessor),
         context.audioWorklet.addModule(GateWorkletProcessor),
         context.audioWorklet.addModule(MeterWorkletProcessor),

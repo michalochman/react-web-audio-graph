@@ -19,6 +19,7 @@ import ADSR from "components/nodes/ADSR";
 import Analyser from "components/nodes/Analyser";
 import AndGate from "components/nodes/AndGate";
 import AudioBufferSource from "components/nodes/AudioBufferSource";
+import BeatDetector from "components/nodes/BeatDetector";
 import BiquadFilter from "components/nodes/BiquadFilter";
 import ChannelMerger from "components/nodes/ChannelMerger";
 import ChannelSplitter from "components/nodes/ChannelSplitter";
@@ -97,6 +98,7 @@ const nodeTypes = {
   SampleAndHold: SampleAndHold,
   Sign: Sign,
   StereoPanner: StereoPanner,
+  BeatDetector: BeatDetector,
   Transformer: Transformer,
   Tuner: Tuner,
   WaveShaper: WaveShaper,
