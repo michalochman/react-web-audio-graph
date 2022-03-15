@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import { Elements, Handle, Node as FlowNode, NodeProps, Position } from "react-flow-renderer";
+import { Handle, NodeProps, Position } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import { GRID_SIZE } from "components/Flow";
 import { useContextMenu } from "context/ContextMenuContext";
@@ -15,12 +15,12 @@ interface Props extends Omit<React.HTMLProps<HTMLDivElement>, "id" | "title"> {
 }
 
 function Node({ children, id, inputs, outputs, title, type, ...props }: Props) {
-  const { elements, onChangeElementFactory, setElements } = useProject();
+  const { nodes, onChangeElementFactory, setNodes } = useProject();
   const contextMenu = useContextMenu();
-  const node = elements.find(node => node.id === id) as FlowNode;
+  const node = nodes.find(node => node.id === id);
   const handleStyle = useMemo(
     () => ({
-      background: `#${id.substr(-6)}`,
+      background: `#${id.slice(-6)}`,
     }),
     [id]
   );
@@ -41,9 +41,9 @@ function Node({ children, id, inputs, outputs, title, type, ...props }: Props) {
         y: node.position.y + GRID_SIZE,
       },
     };
-    setElements((elements: Elements) => [...elements, newNode]);
+    setNodes(nodes => [...nodes, newNode]);
     contextMenu.hide();
-  }, [contextMenu, onChangeElementFactory, node, setElements, type]);
+  }, [contextMenu, onChangeElementFactory, node, setNodes, type]);
 
   const onClick = useCallback(() => {
     contextMenu.hide();

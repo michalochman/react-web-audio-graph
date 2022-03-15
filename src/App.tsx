@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Elements, isNode, ReactFlowProvider } from "react-flow-renderer";
+import { ReactFlowProvider } from "react-flow-renderer";
 import produce from "immer";
 import Audio from "components/Audio";
 import ContextMenu from "components/ContextMenu";
@@ -11,23 +11,35 @@ import { ProjectContext } from "context/ProjectContext";
 function App() {
   const defaultProject = useMemo(getDefaultProject, []);
   const [id, setId] = useState<ProjectState["id"]>(defaultProject.id);
-  const [elements, setElements] = useState<ProjectState["elements"]>(defaultProject.elements);
+  const [edges, setEdges] = useState<ProjectState["edges"]>(defaultProject.edges);
+  const [nodes, setNodes] = useState<ProjectState["nodes"]>(defaultProject.nodes);
   const [transform, setTransform] = useState<ProjectState["transform"]>(defaultProject.transform);
   const onChangeElementFactory = useCallback(
-    (id: string) => (data: Record<string, any>): void => {
-      setElements(
-        produce((draft: Elements) => {
-          const node = draft.filter(isNode).find(element => element.id === id);
-          if (!node) {
-            return;
-          }
-          Object.keys(data).forEach(property => (node.data[property] = data[property]));
-        })
-      );
-    },
-    [setElements]
+    (id: string) =>
+      (data: Record<string, any>): void => {
+        setNodes(
+          produce(draft => {
+            const node = draft.find(element => element.id === id);
+            if (!node) {
+              return;
+            }
+            Object.keys(data).forEach(property => (node.data[property] = data[property]));
+          })
+        );
+      },
+    [setNodes]
   );
-  const project = { elements, id, onChangeElementFactory, setElements, setId, setTransform, transform };
+  const project = {
+    edges,
+    id,
+    nodes,
+    onChangeElementFactory,
+    setEdges,
+    setId,
+    setNodes,
+    setTransform,
+    transform,
+  };
 
   return (
     <ProjectContext.Provider value={project}>
