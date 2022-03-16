@@ -1,17 +1,15 @@
 import React, { useCallback, useState } from "react";
 import ReactFlow, {
   addEdge,
-  isEdge,
-  isNode,
-  removeElements,
+  applyEdgeChanges,
   Background,
   Connection,
   Controls,
   Edge,
-  Elements,
-  Node as ReactFlowNode,
+  Node,
   OnConnectStartParams,
-  OnLoadParams as ReactFlowInstance,
+  useReactFlow,
+  Viewport,
 } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import produce from "immer";
@@ -113,13 +111,13 @@ function getEdgeWithColor(params: Edge | Connection) {
 
   return Object.assign({}, params, {
     style: {
-      stroke: `#${params.source.substr(-6)}`,
+      stroke: `#${params.source.slice(-6)}`,
     },
   });
 }
 
-async function waitForInitialNodes(initialElements: Elements, audioNodes: Record<string, AnyAudioNode>) {
-  const nodesWithConnections = initialElements.filter(isEdge).reduce<Record<string, boolean>>((nodeIds, edge) => {
+async function waitForInitialNodes(initialEdges: Edge[], audioNodes: Record<string, AnyAudioNode>) {
+  const nodesWithConnections = initialEdges.reduce<Record<string, boolean>>((nodeIds, edge) => {
     nodeIds[edge.source] = true;
     nodeIds[edge.target] = true;
     return nodeIds;
@@ -139,7 +137,18 @@ function snapToGrid(position: number) {
 }
 
 function Flow() {
-  const { elements, onChangeElementFactory, setElements, setTransform, transform } = useProject();
+  const {
+    edges,
+    nodes,
+    onChangeElementFactory,
+    onEdgesChange,
+    onNodesChange,
+    setEdges,
+    setNodes,
+    setTransform,
+    transform,
+  } = useProject();
+  const { setViewport } = useReactFlow();
   const contextMenu = useContextMenu();
   const { nodes: audioNodes } = useNodeContext();
   const [tryingToConnect, setTryingToConnect] = useState<OnConnectStartParams | null>(null);
@@ -148,82 +157,46 @@ function Flow() {
   const onEdgeRemove = useOnEdgeRemove();
   const onNodeRemove = useOnNodeRemove();
 
-  const onLoad = useCallback(
-    async (reactFlowInstance: ReactFlowInstance) => {
-      reactFlowInstance.setTransform(transform);
+  const onInit = useCallback(
+    async () => {
+      setViewport(transform);
 
       // Attach onChange to nodes
-      setElements(
-        produce((draft: Elements) => {
-          draft.filter(isNode).forEach(node => {
-            node.data.onChange = onChangeElementFactory(node.id);
-          });
+      setNodes(
+        produce(draft => {
+          draft.forEach(node => void (node.data.onChange = onChangeElementFactory(node.id)));
         })
       );
 
       // Wait for nodes to render and handle connections
       // FIXME This should be handled on changes to ReactFlowRenderer state instead.
-      await waitForInitialNodes(elements, audioNodes);
-      const edges = elements.filter(isEdge);
+      await waitForInitialNodes(edges, audioNodes);
       edges.forEach(edge => onElementsConnect(edge));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+  const onMoveEnd = useCallback((event: any, transform: Viewport) => void setTransform(transform), [setTransform]);
 
-  const onMoveEnd = useCallback(
-    transform => {
-      setTransform(transform);
-    },
-    [setTransform]
-  );
-
-  const onConnectStart = useCallback((e: React.MouseEvent, params: OnConnectStartParams) => {
-    setTryingToConnect(params);
-  }, []);
-  const onConnectStop = useCallback((e: MouseEvent) => setTryingToConnect(null), []);
+  const onConnectStart = useCallback((e: any, params: OnConnectStartParams) => setTryingToConnect(params), []);
+  const onConnectStop = useCallback(() => setTryingToConnect(null), []);
   const onConnect = useCallback(
     (params: Edge | Connection) => {
-      setElements((elements: Elements) => addEdge(getEdgeWithColor(params), elements));
+      setEdges(edges => addEdge(getEdgeWithColor(params), edges));
       onElementsConnect(params);
     },
-    [onElementsConnect, setElements]
+    [onElementsConnect, setEdges]
   );
-  const onElementsRemove = useCallback(
-    (elementsToRemove: Elements) => {
-      elementsToRemove.filter(isEdge).forEach(edge => onEdgeRemove(edge));
-      elementsToRemove.filter(isNode).forEach(node => onNodeRemove(node.id));
-
-      setElements((elements: Elements) => removeElements(elementsToRemove, elements));
-    },
-    [onEdgeRemove, onNodeRemove, setElements]
-  );
+  const onEdgesDelete = useCallback((edges: Edge[]) => edges.forEach(edge => onEdgeRemove(edge)), [onEdgeRemove]);
+  const onNodesDelete = useCallback((nodes: Node[]) => nodes.forEach(node => onNodeRemove(node.id)), [onNodeRemove]);
   const onEdgeUpdate = useCallback(
     (oldEdge: Edge, newConnection: Connection) => {
+      const newEdge = getEdgeWithColor(newConnection);
       onEdgeRemove(oldEdge);
-      setElements((elements: Elements) => removeElements([oldEdge], elements));
-      setElements((elements: Elements) => addEdge(getEdgeWithColor(newConnection), elements));
+      setEdges(edges => applyEdgeChanges([{ id: oldEdge.id, type: "remove" }], addEdge(newEdge, edges)));
       onElementsConnect(newConnection);
     },
-    [onEdgeRemove, onElementsConnect, setElements]
-  );
-
-  const onNodeDragStop = useCallback(
-    (event: React.MouseEvent<Element, MouseEvent>, draggedNode: ReactFlowNode) => {
-      setElements(
-        produce((draft: Elements) => {
-          const node = draft.filter(isNode).find(element => element.id === draggedNode.id);
-          if (!node) {
-            return;
-          }
-          node.position = {
-            x: snapToGrid(draggedNode.position.x),
-            y: snapToGrid(draggedNode.position.y),
-          };
-        })
-      );
-    },
-    [setElements]
+    [onEdgeRemove, onElementsConnect, setEdges]
   );
 
   const addNode = useCallback(
@@ -240,10 +213,10 @@ function Flow() {
         type,
         position,
       };
-      setElements((elements: Elements) => [...elements, node]);
+      setNodes(nodes => [...nodes, node]);
       contextMenu.hide();
     },
-    [contextMenu, onChangeElementFactory, setElements, transform]
+    [contextMenu, onChangeElementFactory, setNodes, transform]
   );
 
   const onPaneClick = useCallback(() => {
@@ -265,16 +238,19 @@ function Flow() {
         data-connecting-handletype={tryingToConnect ? tryingToConnect.handleType : undefined}
         defaultPosition={[transform.x, transform.y]}
         defaultZoom={transform.zoom}
-        elements={elements}
+        edges={edges}
+        nodes={nodes}
         nodeTypes={nodeTypes}
         onConnect={onConnect}
         onConnectStart={onConnectStart}
         onConnectStop={onConnectStop}
         onEdgeUpdate={onEdgeUpdate}
-        onElementsRemove={onElementsRemove}
-        onLoad={onLoad}
+        onEdgesChange={onEdgesChange}
+        onEdgesDelete={onEdgesDelete}
+        onNodesChange={onNodesChange}
+        onNodesDelete={onNodesDelete}
+        onInit={onInit}
         onMoveEnd={onMoveEnd}
-        onNodeDragStop={onNodeDragStop}
         onPaneClick={onPaneClick}
         onPaneContextMenu={onPaneContextMenu}
         onlyRenderVisibleElements={false}

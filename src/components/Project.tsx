@@ -1,16 +1,20 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
-import { Elements, FlowTransform } from "react-flow-renderer";
+import { Edge, EdgeChange, Node, NodeChange, Viewport } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import { useProject } from "context/ProjectContext";
 
 export interface ProjectState {
-  elements: Elements;
+  edges: Edge[];
   id: string;
+  nodes: Node[];
   onChangeElementFactory: (id: string) => (data: Record<string, any>) => void;
-  setElements: Dispatch<SetStateAction<Elements>>;
+  onEdgesChange: (changes: EdgeChange[]) => void;
+  onNodesChange: (changes: NodeChange[]) => void;
+  setEdges: Dispatch<SetStateAction<Edge[]>>;
+  setNodes: Dispatch<SetStateAction<Node[]>>;
   setId: Dispatch<SetStateAction<string>>;
-  setTransform: Dispatch<SetStateAction<FlowTransform>>;
-  transform: FlowTransform;
+  setTransform: Dispatch<SetStateAction<Viewport>>;
+  transform: Viewport;
 }
 
 const textareaStyles: React.CSSProperties = {
@@ -42,7 +46,8 @@ const getDrawerStyles = (visible: boolean): React.CSSProperties => ({
 
 export const getDefaultProject = () => ({
   id: uuidv4(),
-  elements: [],
+  edges: [],
+  nodes: [],
   transform: {
     x: 0,
     y: 0,
@@ -51,54 +56,51 @@ export const getDefaultProject = () => ({
 });
 
 function Project() {
-  const { elements, id, setElements, setId, setTransform, transform } = useProject();
+  const { edges, id, nodes, setEdges, setId, setNodes, setTransform, transform } = useProject();
   const [visible, setVisible] = useState(false);
   const drawerStyles = useMemo(() => getDrawerStyles(visible), [visible]);
 
   // Load project from URL
   useEffect(() => {
-    const project = atob(window.location.hash.substr(1));
+    const project = atob(window.location.hash.slice(1));
     try {
-      const { elements, id, transform } = JSON.parse(project);
-      setElements(elements);
+      const { edges, id, nodes, transform } = JSON.parse(project);
+      setEdges(edges);
       setId(id ?? uuidv4());
+      setNodes(nodes);
       setTransform(transform);
     } catch (e) {
       console.error(e);
     }
-  }, [setElements, setId, setTransform]);
+  }, [setEdges, setId, setNodes, setTransform]);
 
   // Store project in URL
   useEffect(() => {
-    window.location.hash = btoa(
-      JSON.stringify({
-        elements: elements.map(element => ({ ...element, __rf: undefined })),
-        id,
-        transform,
-      })
-    );
-  }, [elements, id, transform]);
+    window.location.hash = btoa(JSON.stringify({ edges, id, nodes, transform }));
+  }, [edges, id, nodes, transform]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       try {
-        const { elements, id, transform } = JSON.parse(e.target.value);
-        setElements(elements);
+        const { edges, id, nodes, transform } = JSON.parse(e.target.value);
+        setEdges(edges);
         setId(id ?? uuidv4());
+        setNodes(nodes);
         setTransform(transform);
       } catch (e) {
         console.error(e);
       }
     },
-    [setElements, setId, setTransform]
+    [setEdges, setId, setNodes, setTransform]
   );
 
   const clearProject = useCallback(() => {
     const defaultProject = getDefaultProject();
-    setElements(defaultProject.elements);
+    setEdges(defaultProject.edges);
     setId(defaultProject.id);
+    setNodes(defaultProject.nodes);
     setTransform(defaultProject.transform);
-  }, [setElements, setId, setTransform]);
+  }, [setEdges, setId, setNodes, setTransform]);
   const toggleProjectDrawer = useCallback(() => setVisible(visible => !visible), []);
 
   return (
@@ -106,15 +108,7 @@ function Project() {
       <textarea
         onChange={onChange}
         style={textareaStyles}
-        value={JSON.stringify(
-          {
-            elements: elements.map(element => ({ ...element, __rf: undefined })),
-            id,
-            transform,
-          },
-          null,
-          2
-        )}
+        value={JSON.stringify({ edges, nodes, id, transform }, null, 2)}
       />
       <div style={controlsStyles}>
         <button onClick={clearProject} style={{ marginRight: 10 }}>

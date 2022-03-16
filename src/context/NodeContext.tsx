@@ -1,5 +1,5 @@
 import { createContext, DependencyList, useContext, useEffect, useMemo } from "react";
-import { useStoreState } from "react-flow-renderer";
+import { useStore } from "react-flow-renderer";
 import { AudioContext, AudioNode } from "utils/audioContext";
 import { connectNodes, disconnectNodes } from "utils/handles";
 import { AudioContextContext } from "context/AudioContextContext";
@@ -49,7 +49,7 @@ export function useNode(
 ) {
   const context = useContext(AudioContextContext);
   const { addNode, getNode, removeNode } = useNodeContext();
-  const edges = useStoreState(store => store.edges);
+  const edges = useStore(store => store.edges);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const node = useMemo(() => nodeFactory(context), dependencies);
