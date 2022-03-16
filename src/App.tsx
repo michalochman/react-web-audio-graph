@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { ReactFlowProvider } from "react-flow-renderer";
+import { ReactFlowProvider, useEdgesState, useNodesState } from "react-flow-renderer";
 import produce from "immer";
 import Audio from "components/Audio";
 import ContextMenu from "components/ContextMenu";
@@ -11,8 +11,8 @@ import { ProjectContext } from "context/ProjectContext";
 function App() {
   const defaultProject = useMemo(getDefaultProject, []);
   const [id, setId] = useState<ProjectState["id"]>(defaultProject.id);
-  const [edges, setEdges] = useState<ProjectState["edges"]>(defaultProject.edges);
-  const [nodes, setNodes] = useState<ProjectState["nodes"]>(defaultProject.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(defaultProject.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(defaultProject.nodes);
   const [transform, setTransform] = useState<ProjectState["transform"]>(defaultProject.transform);
   const onChangeElementFactory = useCallback(
     (id: string) =>
@@ -34,6 +34,8 @@ function App() {
     id,
     nodes,
     onChangeElementFactory,
+    onEdgesChange,
+    onNodesChange,
     setEdges,
     setId,
     setNodes,

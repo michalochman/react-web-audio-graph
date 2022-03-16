@@ -18,7 +18,7 @@
     "path": "file:./shims/path",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-flow-renderer": "9.7.4",
+    "react-flow-renderer": "10.0.1",
     "react-popper": "2.2.5",
     "react-scripts": "5.0.0",
     "standardized-audio-context": "25.3.21",

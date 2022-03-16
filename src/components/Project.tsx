@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
-import { Edge, FlowTransform, Node } from "react-flow-renderer";
+import { Edge, EdgeChange, Node, NodeChange, Viewport } from "react-flow-renderer";
 import { v4 as uuidv4 } from "uuid";
 import { useProject } from "context/ProjectContext";
 
@@ -8,11 +8,13 @@ export interface ProjectState {
   id: string;
   nodes: Node[];
   onChangeElementFactory: (id: string) => (data: Record<string, any>) => void;
+  onEdgesChange: (changes: EdgeChange[]) => void;
+  onNodesChange: (changes: NodeChange[]) => void;
   setEdges: Dispatch<SetStateAction<Edge[]>>;
   setNodes: Dispatch<SetStateAction<Node[]>>;
   setId: Dispatch<SetStateAction<string>>;
-  setTransform: Dispatch<SetStateAction<FlowTransform>>;
-  transform: FlowTransform;
+  setTransform: Dispatch<SetStateAction<Viewport>>;
+  transform: Viewport;
 }
 
 const textareaStyles: React.CSSProperties = {
