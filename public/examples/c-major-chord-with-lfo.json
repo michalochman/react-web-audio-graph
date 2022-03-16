@@ -1,0 +1,260 @@
+{
+  "edges": [
+    {
+      "source": "OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33c",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#fba33c"
+      },
+      "id": "reactflow__edge-OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33coutput-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7f",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f93e7f"
+      },
+      "id": "reactflow__edge-OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7foutput-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#845e65"
+      },
+      "id": "reactflow__edge-OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65output-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "sourceHandle": "output",
+      "target": "Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaab",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#fd4df1"
+      },
+      "id": "reactflow__edge-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1output-Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaabinput",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Oscillator-124e4609-0c66-4b36-a015-8d683b3ed083",
+      "sourceHandle": "output",
+      "target": "Gain-4a9e39c0-8474-4d35-855a-f994e1335372",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#3ed083"
+      },
+      "id": "reactflow__edge-Oscillator-124e4609-0c66-4b36-a015-8d683b3ed083output-Gain-4a9e39c0-8474-4d35-855a-f994e1335372input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-4a9e39c0-8474-4d35-855a-f994e1335372",
+      "sourceHandle": "output",
+      "target": "Analyser-8b9183a6-4e0d-4c5a-a2d7-8e232799f4f0",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#335372"
+      },
+      "id": "reactflow__edge-Gain-4a9e39c0-8474-4d35-855a-f994e1335372output-Analyser-8b9183a6-4e0d-4c5a-a2d7-8e232799f4f0input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-4a9e39c0-8474-4d35-855a-f994e1335372",
+      "sourceHandle": "output",
+      "target": "Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaab",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#335372"
+      },
+      "id": "reactflow__edge-Gain-4a9e39c0-8474-4d35-855a-f994e1335372output-Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaabgain",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaab",
+      "sourceHandle": "output",
+      "target": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#6fbaab"
+      },
+      "id": "reactflow__edge-Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaaboutput-Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fainput",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "sourceHandle": "output",
+      "target": "Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0cee",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#89f7fa"
+      },
+      "id": "reactflow__edge-Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7faoutput-Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0ceeinput",
+      "type": "default",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65",
+      "data": {
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33c",
+      "data": {
+        "twelfth": 4,
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 220
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7f",
+      "data": {
+        "twelfth": 7,
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 380
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "data": {
+        "threshold": -24
+      },
+      "type": "DynamicsCompressor",
+      "position": {
+        "x": 310,
+        "y": 220
+      },
+      "width": 143,
+      "height": 150,
+      "selected": false
+    },
+    {
+      "id": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "data": {},
+      "type": "Analyser",
+      "position": {
+        "x": 760,
+        "y": 220
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    },
+    {
+      "id": "Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0cee",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 1110,
+        "y": 220
+      },
+      "width": 80,
+      "height": 50,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-efd33467-0fc5-4a48-b48d-fa8e9f6fbaab",
+      "data": {
+        "gain": 0.5
+      },
+      "type": "Gain",
+      "position": {
+        "x": 560,
+        "y": 220
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Oscillator-124e4609-0c66-4b36-a015-8d683b3ed083",
+      "data": {
+        "frequency": 0.25
+      },
+      "type": "Oscillator",
+      "position": {
+        "x": 60,
+        "y": 540
+      },
+      "width": 134,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Gain-4a9e39c0-8474-4d35-855a-f994e1335372",
+      "data": {
+        "gain": 0.25
+      },
+      "type": "Gain",
+      "position": {
+        "x": 310,
+        "y": 540
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Analyser-8b9183a6-4e0d-4c5a-a2d7-8e232799f4f0",
+      "data": {},
+      "type": "Analyser",
+      "position": {
+        "x": 760,
+        "y": 540
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    }
+  ],
+  "id": "60f83bde-d669-4846-bdfc-3aac61c9077c",
+  "transform": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

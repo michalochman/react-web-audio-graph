@@ -1,15 +1,15 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ReactFlowProvider, useEdgesState, useNodesState } from "react-flow-renderer";
 import produce from "immer";
 import Audio from "components/Audio";
 import ContextMenu from "components/ContextMenu";
 import Flow from "components/Flow";
 import Nodes from "components/Nodes";
-import Project, { ProjectState, getDefaultProject } from "components/Project";
+import Project, { ProjectState, getEmptyProject } from "components/Project";
 import { ProjectContext } from "context/ProjectContext";
 
 function App() {
-  const defaultProject = useMemo(getDefaultProject, []);
+  const defaultProject = useMemo(getEmptyProject, []);
   const [id, setId] = useState<ProjectState["id"]>(defaultProject.id);
   const [edges, setEdges, onEdgesChange] = useEdgesState(defaultProject.edges);
   const [nodes, setNodes, onNodesChange] = useNodesState(defaultProject.nodes);
@@ -42,6 +42,26 @@ function App() {
     setTransform,
     transform,
   };
+
+  const setProject = useCallback(
+    (project: ProjectState) => {
+      setEdges(project.edges);
+      setId(project.id);
+      setNodes(project.nodes);
+      setTransform(project.transform);
+    },
+    [setEdges, setId, setNodes, setTransform]
+  );
+  useEffect(() => {
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const projectUrl = params.get("project");
+      if (projectUrl) {
+        const project = await (await fetch(projectUrl)).json();
+        setProject(project);
+      }
+    })();
+  }, [setProject]);
 
   return (
     <ProjectContext.Provider value={project}>

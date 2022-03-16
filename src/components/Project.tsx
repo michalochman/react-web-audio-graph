@@ -44,7 +44,7 @@ const getDrawerStyles = (visible: boolean): React.CSSProperties => ({
   width: 400,
 });
 
-export const getDefaultProject = () => ({
+export const getEmptyProject = () => ({
   id: uuidv4(),
   edges: [],
   nodes: [],
@@ -62,8 +62,13 @@ function Project() {
 
   // Load project from URL
   useEffect(() => {
-    const project = atob(window.location.hash.slice(1));
+    const projectData = window.location.hash.slice(1);
+    if (!projectData) {
+      return;
+    }
+
     try {
+      const project = atob(window.location.hash.slice(1));
       const { edges, id, nodes, transform } = JSON.parse(project);
       setEdges(edges);
       setId(id ?? uuidv4());
@@ -76,6 +81,12 @@ function Project() {
 
   // Store project in URL
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const projectUrl = params.get("project");
+    if (projectUrl) {
+      return;
+    }
+
     window.location.hash = btoa(JSON.stringify({ edges, id, nodes, transform }));
   }, [edges, id, nodes, transform]);
 
@@ -95,11 +106,11 @@ function Project() {
   );
 
   const clearProject = useCallback(() => {
-    const defaultProject = getDefaultProject();
-    setEdges(defaultProject.edges);
-    setId(defaultProject.id);
-    setNodes(defaultProject.nodes);
-    setTransform(defaultProject.transform);
+    const emptyProject = getEmptyProject();
+    setEdges(emptyProject.edges);
+    setId(emptyProject.id);
+    setNodes(emptyProject.nodes);
+    setTransform(emptyProject.transform);
   }, [setEdges, setId, setNodes, setTransform]);
   const toggleProjectDrawer = useCallback(() => setVisible(visible => !visible), []);
 
