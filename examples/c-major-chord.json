@@ -1,0 +1,156 @@
+{
+  "edges": [
+    {
+      "source": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "sourceHandle": "output",
+      "target": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#fd4df1"
+      },
+      "id": "reactflow__edge-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1output-Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fainput",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "sourceHandle": "output",
+      "target": "Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0cee",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#89f7fa"
+      },
+      "id": "reactflow__edge-Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7faoutput-Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0ceeinput",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33c",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#fba33c"
+      },
+      "id": "reactflow__edge-OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33coutput-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7f",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f93e7f"
+      },
+      "id": "reactflow__edge-OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7foutput-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65",
+      "sourceHandle": "output",
+      "target": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#845e65"
+      },
+      "id": "reactflow__edge-OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65output-DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1input",
+      "type": "default",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "OscillatorNote-76aaa00e-c124-44ab-90cc-ce250e845e65",
+      "data": {
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "OscillatorNote-a45cd87e-90f8-4675-90cb-35207bfba33c",
+      "data": {
+        "twelfth": 4,
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 220
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "OscillatorNote-e30f69fa-1d83-452a-bd09-ab13d4f93e7f",
+      "data": {
+        "twelfth": 7,
+        "type": "sine",
+        "octave": 3
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 60,
+        "y": 380
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "DynamicsCompressor-14438fd1-e0c0-4ebc-9dd4-0e85b1fd4df1",
+      "data": {},
+      "type": "DynamicsCompressor",
+      "position": {
+        "x": 310,
+        "y": 220
+      },
+      "width": 143,
+      "height": 150,
+      "selected": false
+    },
+    {
+      "id": "Analyser-3944b4ec-083c-4c76-b23f-8fb36689f7fa",
+      "data": {},
+      "type": "Analyser",
+      "position": {
+        "x": 570,
+        "y": 220
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    },
+    {
+      "id": "Destination-3c0d9b04-96d4-46da-8f3e-caf33dcf0cee",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 940,
+        "y": 220
+      },
+      "width": 80,
+      "height": 50,
+      "selected": true,
+      "dragging": false
+    }
+  ],
+  "id": "200d1032-ed0f-4acb-a0b7-6db216673173",
+  "transform": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

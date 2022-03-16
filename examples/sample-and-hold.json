@@ -1,0 +1,252 @@
+{
+  "edges": [
+    {
+      "source": "Noise-56e200d8-45ab-44c1-9a2a-ce235576cfcd",
+      "sourceHandle": "output",
+      "target": "Analyser-e382c426-28c6-4e11-9de6-6a1e4f91b92c",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#76cfcd"
+      },
+      "id": "reactflow__edge-Noise-56e200d8-45ab-44c1-9a2a-ce235576cfcdoutput-Analyser-e382c426-28c6-4e11-9de6-6a1e4f91b92cinput",
+      "selected": false
+    },
+    {
+      "source": "ConstantSource-3e0d723a-c829-4850-a3f8-ec89e390561a",
+      "sourceHandle": "output",
+      "target": "Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#90561a"
+      },
+      "id": "reactflow__edge-ConstantSource-3e0d723a-c829-4850-a3f8-ec89e390561aoutput-Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766gain",
+      "selected": false
+    },
+    {
+      "source": "Analyser-411a8559-1606-4c05-9287-facb71ea71a9",
+      "sourceHandle": "output",
+      "target": "Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#ea71a9"
+      },
+      "id": "reactflow__edge-Analyser-411a8559-1606-4c05-9287-facb71ea71a9output-Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766input",
+      "selected": false
+    },
+    {
+      "source": "ConstantSource-3ff311d4-5e20-4e27-a3f2-4202b3fad741",
+      "sourceHandle": "output",
+      "target": "SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8b",
+      "targetHandle": "holdTime",
+      "style": {
+        "stroke": "#fad741"
+      },
+      "id": "reactflow__edge-ConstantSource-3ff311d4-5e20-4e27-a3f2-4202b3fad741output-SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8bholdTime",
+      "selected": false
+    },
+    {
+      "source": "SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8b",
+      "sourceHandle": "output",
+      "target": "Analyser-411a8559-1606-4c05-9287-facb71ea71a9",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#3cfc8b"
+      },
+      "id": "reactflow__edge-SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8boutput-Analyser-411a8559-1606-4c05-9287-facb71ea71a9input",
+      "selected": false
+    },
+    {
+      "source": "Noise-56e200d8-45ab-44c1-9a2a-ce235576cfcd",
+      "sourceHandle": "output",
+      "target": "SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8b",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#76cfcd"
+      },
+      "id": "reactflow__edge-Noise-56e200d8-45ab-44c1-9a2a-ce235576cfcdoutput-SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8binput",
+      "selected": false
+    },
+    {
+      "source": "Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766",
+      "sourceHandle": "output",
+      "target": "OscillatorNote-9695b333-71a3-4a82-a51d-6430b3f72325",
+      "targetHandle": "detune",
+      "style": {
+        "stroke": "#202766"
+      },
+      "id": "reactflow__edge-Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766output-OscillatorNote-9695b333-71a3-4a82-a51d-6430b3f72325detune",
+      "selected": false
+    },
+    {
+      "source": "Gain-c264b18a-2638-4aea-a732-477b990533a2",
+      "sourceHandle": "output",
+      "target": "Destination-b2478fd6-1d93-4b0b-a7cb-2456b7c5b2b2",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#0533a2"
+      },
+      "id": "reactflow__edge-Gain-c264b18a-2638-4aea-a732-477b990533a2output-Destination-b2478fd6-1d93-4b0b-a7cb-2456b7c5b2b2input",
+      "selected": false
+    },
+    {
+      "source": "OscillatorNote-9695b333-71a3-4a82-a51d-6430b3f72325",
+      "sourceHandle": "output",
+      "target": "Gain-c264b18a-2638-4aea-a732-477b990533a2",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f72325"
+      },
+      "id": "reactflow__edge-OscillatorNote-9695b333-71a3-4a82-a51d-6430b3f72325output-Gain-c264b18a-2638-4aea-a732-477b990533a2input",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "SampleAndHold-b5bb92ef-67e9-42f9-ac5f-6997ca3cfc8b",
+      "data": {},
+      "type": "SampleAndHold",
+      "position": {
+        "x": 330,
+        "y": 20
+      },
+      "width": 130,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Analyser-411a8559-1606-4c05-9287-facb71ea71a9",
+      "data": {
+        "fftSizeExp": 13,
+        "paused": false
+      },
+      "type": "Analyser",
+      "position": {
+        "x": 510,
+        "y": 150
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    },
+    {
+      "id": "Analyser-e382c426-28c6-4e11-9de6-6a1e4f91b92c",
+      "data": {
+        "fftSizeExp": 13
+      },
+      "type": "Analyser",
+      "position": {
+        "x": 180,
+        "y": 150
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    },
+    {
+      "id": "Noise-56e200d8-45ab-44c1-9a2a-ce235576cfcd",
+      "data": {
+        "type": "White"
+      },
+      "type": "Noise",
+      "position": {
+        "x": 20,
+        "y": 20
+      },
+      "width": 87,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Gain-1b00ca49-1b82-4bf7-a5e8-26ab7d202766",
+      "data": {
+        "gain": 0
+      },
+      "type": "Gain",
+      "position": {
+        "x": 840,
+        "y": 150
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "ConstantSource-3e0d723a-c829-4850-a3f8-ec89e390561a",
+      "data": {
+        "offset": 600
+      },
+      "type": "ConstantSource",
+      "position": {
+        "x": 670,
+        "y": 310
+      },
+      "width": 120,
+      "height": 50,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "ConstantSource-3ff311d4-5e20-4e27-a3f2-4202b3fad741",
+      "data": {
+        "offset": 0.125
+      },
+      "type": "ConstantSource",
+      "position": {
+        "x": 180,
+        "y": 80
+      },
+      "width": 120,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Destination-b2478fd6-1d93-4b0b-a7cb-2456b7c5b2b2",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 1330,
+        "y": 150
+      },
+      "width": 80,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "OscillatorNote-9695b333-71a3-4a82-a51d-6430b3f72325",
+      "data": {
+        "twelfth": 0,
+        "octave": 2,
+        "type": "square"
+      },
+      "type": "OscillatorNote",
+      "position": {
+        "x": 1010,
+        "y": 150
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Gain-c264b18a-2638-4aea-a732-477b990533a2",
+      "data": {
+        "gain": 0.501,
+        "type": "Linear"
+      },
+      "type": "Gain",
+      "position": {
+        "x": 1170,
+        "y": 150
+      },
+      "width": 120,
+      "height": 139,
+      "selected": true
+    }
+  ],
+  "id": "99daf8d0-455d-4a96-a21f-c292c7c0d2cc",
+  "transform": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

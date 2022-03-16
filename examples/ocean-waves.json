@@ -1,0 +1,180 @@
+{
+  "edges": [
+    {
+      "source": "Noise-d71359ab-4544-4e22-b3e1-39b1d0654ad5",
+      "sourceHandle": "output",
+      "target": "Gain-a38310ce-6d4a-4625-a417-32ff99e7175d",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#654ad5"
+      },
+      "id": "reactflow__edge-Noise-d71359ab-4544-4e22-b3e1-39b1d0654ad5output-Gain-a38310ce-6d4a-4625-a417-32ff99e7175dinput",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Oscillator-6ece3d5c-7b2c-4651-b091-7ea2380ec0a0",
+      "sourceHandle": "output",
+      "target": "Gain-4bf96fc2-75f8-43d3-a9ea-b561612564d9",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#0ec0a0"
+      },
+      "id": "reactflow__edge-Oscillator-6ece3d5c-7b2c-4651-b091-7ea2380ec0a0output-Gain-4bf96fc2-75f8-43d3-a9ea-b561612564d9input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-4bf96fc2-75f8-43d3-a9ea-b561612564d9",
+      "sourceHandle": "output",
+      "target": "Gain-a38310ce-6d4a-4625-a417-32ff99e7175d",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#2564d9"
+      },
+      "id": "reactflow__edge-Gain-4bf96fc2-75f8-43d3-a9ea-b561612564d9output-Gain-a38310ce-6d4a-4625-a417-32ff99e7175dgain",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-a38310ce-6d4a-4625-a417-32ff99e7175d",
+      "sourceHandle": "output",
+      "target": "Analyser-3255d1e7-d87a-4e6a-b3da-12dd7364a1c2",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#e7175d"
+      },
+      "id": "reactflow__edge-Gain-a38310ce-6d4a-4625-a417-32ff99e7175doutput-Analyser-3255d1e7-d87a-4e6a-b3da-12dd7364a1c2input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Analyser-3255d1e7-d87a-4e6a-b3da-12dd7364a1c2",
+      "sourceHandle": "output",
+      "target": "Gain-56cbe91d-5927-4bd1-8cb7-1dec4a03c0f0",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#64a1c2"
+      },
+      "id": "reactflow__edge-Analyser-3255d1e7-d87a-4e6a-b3da-12dd7364a1c2output-Gain-56cbe91d-5927-4bd1-8cb7-1dec4a03c0f0input",
+      "type": "default",
+      "selected": false
+    },
+    {
+      "source": "Gain-56cbe91d-5927-4bd1-8cb7-1dec4a03c0f0",
+      "sourceHandle": "output",
+      "target": "Destination-69b9b5dc-6919-48e8-9636-8c8a25caa385",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#03c0f0"
+      },
+      "id": "reactflow__edge-Gain-56cbe91d-5927-4bd1-8cb7-1dec4a03c0f0output-Destination-69b9b5dc-6919-48e8-9636-8c8a25caa385input",
+      "type": "default",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "Noise-d71359ab-4544-4e22-b3e1-39b1d0654ad5",
+      "data": {
+        "type": "Brown"
+      },
+      "type": "Noise",
+      "position": {
+        "x": 70,
+        "y": 50
+      },
+      "width": 90,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Gain-a38310ce-6d4a-4625-a417-32ff99e7175d",
+      "data": {
+        "gain": 0.3
+      },
+      "type": "Gain",
+      "position": {
+        "x": 470,
+        "y": 50
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Oscillator-6ece3d5c-7b2c-4651-b091-7ea2380ec0a0",
+      "data": {
+        "frequency": 0.1,
+        "type": "sine"
+      },
+      "type": "Oscillator",
+      "position": {
+        "x": 70,
+        "y": 210
+      },
+      "width": 134,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Gain-4bf96fc2-75f8-43d3-a9ea-b561612564d9",
+      "data": {
+        "gain": 0.15
+      },
+      "type": "Gain",
+      "position": {
+        "x": 280,
+        "y": 210
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Gain-56cbe91d-5927-4bd1-8cb7-1dec4a03c0f0",
+      "data": {
+        "gain": 0.3
+      },
+      "type": "Gain",
+      "position": {
+        "x": 960,
+        "y": 50
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Destination-69b9b5dc-6919-48e8-9636-8c8a25caa385",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 1120,
+        "y": 50
+      },
+      "width": 80,
+      "height": 50,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Analyser-3255d1e7-d87a-4e6a-b3da-12dd7364a1c2",
+      "data": {},
+      "type": "Analyser",
+      "position": {
+        "x": 640,
+        "y": 50
+      },
+      "width": 276,
+      "height": 144,
+      "selected": false
+    }
+  ],
+  "id": "4b5cf8bc-51f8-470a-b5c5-0afab3573340",
+  "transform": {
+    "x": 0,
+    "y": -1,
+    "zoom": 1
+  }
+}

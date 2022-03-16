@@ -1,0 +1,297 @@
+{
+  "edges": [
+    {
+      "source": "ADSR-7011d20f-7baf-48aa-8e6c-436849758a73",
+      "sourceHandle": "gain",
+      "target": "Gain-dc813588-5dbf-46b0-99af-f07b43a571bf",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#758a73"
+      },
+      "id": "reactflow__edge-ADSR-7011d20f-7baf-48aa-8e6c-436849758a73gain-Gain-dc813588-5dbf-46b0-99af-f07b43a571bfgain",
+      "selected": false
+    },
+    {
+      "source": "Oscillator-f5634113-69ed-4f07-bcee-12dcac9cb5a5",
+      "sourceHandle": "output",
+      "target": "Gain-dc813588-5dbf-46b0-99af-f07b43a571bf",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#9cb5a5"
+      },
+      "id": "reactflow__edge-Oscillator-f5634113-69ed-4f07-bcee-12dcac9cb5a5output-Gain-dc813588-5dbf-46b0-99af-f07b43a571bfinput",
+      "selected": false
+    },
+    {
+      "source": "ConstantSource-9352fa4c-ee92-441d-ab1e-abed4b054ef1",
+      "sourceHandle": "output",
+      "target": "Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#054ef1"
+      },
+      "id": "reactflow__edge-ConstantSource-9352fa4c-ee92-441d-ab1e-abed4b054ef1output-Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95gain",
+      "selected": false
+    },
+    {
+      "source": "XYPad-5fecbf36-4035-423d-8643-6349baa1a547",
+      "sourceHandle": "x",
+      "target": "Gain-35b36ead-4831-4717-bae4-40209f7442cc",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#a1a547"
+      },
+      "id": "reactflow__edge-XYPad-5fecbf36-4035-423d-8643-6349baa1a547x-Gain-35b36ead-4831-4717-bae4-40209f7442ccinput",
+      "selected": false
+    },
+    {
+      "source": "XYPad-5fecbf36-4035-423d-8643-6349baa1a547",
+      "sourceHandle": "y",
+      "target": "Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#a1a547"
+      },
+      "id": "reactflow__edge-XYPad-5fecbf36-4035-423d-8643-6349baa1a547y-Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95input",
+      "selected": false
+    },
+    {
+      "source": "Gain-dc813588-5dbf-46b0-99af-f07b43a571bf",
+      "sourceHandle": "output",
+      "target": "BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#a571bf"
+      },
+      "id": "reactflow__edge-Gain-dc813588-5dbf-46b0-99af-f07b43a571bfoutput-BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8input",
+      "selected": false
+    },
+    {
+      "source": "BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8",
+      "sourceHandle": "output",
+      "target": "StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434ba",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#c0b8c8"
+      },
+      "id": "reactflow__edge-BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8output-StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434bainput",
+      "selected": false
+    },
+    {
+      "source": "StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434ba",
+      "sourceHandle": "output",
+      "target": "Destination-dcbd256d-791d-4baf-9339-dffb6ce8256d",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#d434ba"
+      },
+      "id": "reactflow__edge-StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434baoutput-Destination-dcbd256d-791d-4baf-9339-dffb6ce8256dinput",
+      "selected": false
+    },
+    {
+      "source": "ConstantSource-996d1356-b4ae-4be5-8058-1e248a1ab0bd",
+      "sourceHandle": "output",
+      "target": "Gain-35b36ead-4831-4717-bae4-40209f7442cc",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#1ab0bd"
+      },
+      "id": "reactflow__edge-ConstantSource-996d1356-b4ae-4be5-8058-1e248a1ab0bdoutput-Gain-35b36ead-4831-4717-bae4-40209f7442ccgain",
+      "selected": false
+    },
+    {
+      "source": "XYPad-5fecbf36-4035-423d-8643-6349baa1a547",
+      "sourceHandle": "gate",
+      "target": "ADSR-7011d20f-7baf-48aa-8e6c-436849758a73",
+      "targetHandle": "gate",
+      "style": {
+        "stroke": "#a1a547"
+      },
+      "id": "reactflow__edge-XYPad-5fecbf36-4035-423d-8643-6349baa1a547gate-ADSR-7011d20f-7baf-48aa-8e6c-436849758a73gate",
+      "selected": false
+    },
+    {
+      "source": "Gain-35b36ead-4831-4717-bae4-40209f7442cc",
+      "sourceHandle": "output",
+      "target": "StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434ba",
+      "targetHandle": "pan",
+      "style": {
+        "stroke": "#7442cc"
+      },
+      "id": "reactflow__edge-Gain-35b36ead-4831-4717-bae4-40209f7442ccoutput-StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434bapan",
+      "selected": false
+    },
+    {
+      "source": "Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95",
+      "sourceHandle": "output",
+      "target": "BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8",
+      "targetHandle": "frequency",
+      "style": {
+        "stroke": "#87bd95"
+      },
+      "id": "reactflow__edge-Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95output-BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8frequency",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "Destination-dcbd256d-791d-4baf-9339-dffb6ce8256d",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 1320,
+        "y": 60
+      },
+      "width": 80,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Oscillator-f5634113-69ed-4f07-bcee-12dcac9cb5a5",
+      "data": {
+        "frequency": 55,
+        "type": "sawtooth"
+      },
+      "type": "Oscillator",
+      "position": {
+        "x": 590,
+        "y": 260
+      },
+      "width": 134,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "Gain-dc813588-5dbf-46b0-99af-f07b43a571bf",
+      "data": {
+        "gain": 0
+      },
+      "type": "Gain",
+      "position": {
+        "x": 790,
+        "y": 300
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "ADSR-7011d20f-7baf-48aa-8e6c-436849758a73",
+      "data": {
+        "attackTime": 0.125,
+        "decayTime": 0.05,
+        "releaseTime": 0.2
+      },
+      "type": "ADSR",
+      "position": {
+        "x": 590,
+        "y": 380
+      },
+      "width": 105,
+      "height": 130,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "XYPad-5fecbf36-4035-423d-8643-6349baa1a547",
+      "data": {},
+      "type": "XYPad",
+      "position": {
+        "x": 20,
+        "y": 20
+      },
+      "width": 220,
+      "height": 310,
+      "selected": false
+    },
+    {
+      "id": "Gain-6f286ca0-a099-425c-a6fa-ae2cb087bd95",
+      "data": {
+        "gain": 0
+      },
+      "type": "Gain",
+      "position": {
+        "x": 590,
+        "y": 140
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "ConstantSource-9352fa4c-ee92-441d-ab1e-abed4b054ef1",
+      "data": {
+        "offset": 1000
+      },
+      "type": "ConstantSource",
+      "position": {
+        "x": 440,
+        "y": 190
+      },
+      "width": 120,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "Gain-35b36ead-4831-4717-bae4-40209f7442cc",
+      "data": {
+        "gain": 0
+      },
+      "type": "Gain",
+      "position": {
+        "x": 590,
+        "y": 20
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false
+    },
+    {
+      "id": "BiquadFilter-7da86010-a990-4d69-bf74-156184c0b8c8",
+      "data": {
+        "frequency": 1290,
+        "Q": 9.9001
+      },
+      "type": "BiquadFilter",
+      "position": {
+        "x": 960,
+        "y": 180
+      },
+      "width": 134,
+      "height": 130,
+      "selected": false
+    },
+    {
+      "id": "ConstantSource-996d1356-b4ae-4be5-8058-1e248a1ab0bd",
+      "data": {
+        "offset": 1
+      },
+      "type": "ConstantSource",
+      "position": {
+        "x": 440,
+        "y": 70
+      },
+      "width": 120,
+      "height": 50,
+      "selected": false
+    },
+    {
+      "id": "StereoPanner-79d2f732-8c84-421f-ae6e-18688ed434ba",
+      "data": {},
+      "type": "StereoPanner",
+      "position": {
+        "x": 1170,
+        "y": 60
+      },
+      "width": 106,
+      "height": 70,
+      "selected": false
+    }
+  ],
+  "id": "af79022b-3790-4d66-92a6-98b47017e1e5",
+  "transform": {
+    "x": -1,
+    "y": 0,
+    "zoom": 1
+  }
+}
