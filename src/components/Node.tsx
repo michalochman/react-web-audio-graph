@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { Handle, NodeProps, Position } from "react-flow-renderer";
+import produce from "immer";
 import { v4 as uuidv4 } from "uuid";
 import { GRID_SIZE } from "components/Flow";
 import { useContextMenu } from "context/ContextMenuContext";
@@ -44,10 +45,34 @@ function Node({ children, id, inputs, outputs, title, type, ...props }: Props) {
     setNodes(nodes => [...nodes, newNode]);
     contextMenu.hide();
   }, [contextMenu, onChangeElementFactory, node, setNodes, type]);
+  const moveNode = useCallback(
+    (parentNode?: string) => {
+      if (!node) {
+        throw new Error("Node does not exist - this should never happen");
+      }
+
+      setNodes(
+        produce(draft => {
+          const nodeIndex = draft.findIndex(({ id }) => id === node.id);
+          const updatedNnode = draft.splice(nodeIndex, 1)[0];
+          draft.push({
+            ...updatedNnode,
+            extent: "parent",
+            parentNode: parentNode,
+            position: { x: 0, y: 0 },
+          });
+        })
+      );
+      contextMenu.hide();
+    },
+    [contextMenu, node, setNodes]
+  );
 
   const onClick = useCallback(() => {
     contextMenu.hide();
   }, [contextMenu]);
+
+  const subFlows = nodes.filter(node => node.type === "SubFlow");
 
   const onContextMenu = useCallback(
     (event: React.MouseEvent<Element, MouseEvent>) => {
@@ -56,10 +81,26 @@ function Node({ children, id, inputs, outputs, title, type, ...props }: Props) {
       contextMenu.show(
         <ul className="contextMenu">
           <li onClick={cloneNode}>Clone</li>
+          <li>
+            Move to SubFlow
+            {subFlows.length > 0 && (
+              <>
+                <span>&#x276F;</span>
+                <ul className="contextMenu sub">
+                  {subFlows.map(subFlow => (
+                    <li key={subFlow.id} onClick={() => moveNode(subFlow.id)}>
+                      {subFlow.data?.title ?? subFlow.id}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </li>
+          <li onClick={() => moveNode(undefined)}>Remove from SubFlow</li>
         </ul>
       );
     },
-    [cloneNode, contextMenu]
+    [cloneNode, contextMenu, moveNode, subFlows]
   );
 
   return (

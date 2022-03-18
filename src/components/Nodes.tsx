@@ -13,8 +13,8 @@ export function nodeCleanup(node: AnyAudioNode) {
     node.input?.disconnect();
     node.output?.disconnect();
   } else {
-    (node as any).stop?.();
-    node.disconnect();
+    (node as any)?.stop?.();
+    node?.disconnect();
 
     if (node instanceof AudioWorkletNode!) {
       node.port.postMessage("stop");

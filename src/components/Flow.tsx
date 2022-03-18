@@ -51,6 +51,7 @@ import Rectifier from "components/nodes/Rectifier";
 import SampleAndHold from "components/nodes/SampleAndHold";
 import Sign from "components/nodes/Sign";
 import StereoPanner from "components/nodes/StereoPanner";
+import SubFlow from "components/nodes/SubFlow";
 import Transformer from "components/nodes/Transformer";
 import Tuner from "components/nodes/Tuner";
 import WaveShaper from "components/nodes/WaveShaper";
@@ -98,6 +99,7 @@ const nodeTypes = {
   SampleAndHold: SampleAndHold,
   Sign: Sign,
   StereoPanner: StereoPanner,
+  SubFlow: SubFlow,
   BeatDetector: BeatDetector,
   Transformer: Transformer,
   Tuner: Tuner,
@@ -204,17 +206,13 @@ function Flow() {
   const addNode = useCallback(
     (type: string) => {
       const id = `${type}-${uuidv4()}`;
-      const onChange = onChangeElementFactory(id);
+      const data = { onChange: onChangeElementFactory(id) };
       const position = {
         x: snapToGrid((contextMenu.getRect().left - transform.x) / transform.zoom),
         y: snapToGrid((contextMenu.getRect().top - transform.y) / transform.zoom),
       };
-      const node = {
-        id,
-        data: { onChange },
-        type,
-        position,
-      };
+      const zIndex = type === "SubFlow" ? -1 : undefined;
+      const node = { id, data, type, position, zIndex };
       setNodes(nodes => [...nodes, node]);
       contextMenu.hide();
     },

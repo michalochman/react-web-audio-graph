@@ -75,23 +75,26 @@ const items = [
     ],
     label: "Analysers",
   },
+  { label: "Sub Flow", node: "SubFlow" },
 ];
 
 function FlowContextMenu({ addNode }: Props) {
   return (
     <ul className="contextMenu">
       {items.map(item => (
-        <li key={item.label}>
+        <li key={item.label} onClick={item.items ? undefined : () => addNode(item.node)}>
           {item.label}
-          <span>&#x276F;</span>
           {item.items && (
-            <ul className="contextMenu sub">
-              {item.items.map(subitem => (
-                <li key={subitem.label} onClick={() => addNode(subitem.node)}>
-                  {subitem.label}
-                </li>
-              ))}
-            </ul>
+            <>
+              <span>&#x276F;</span>
+              <ul className="contextMenu sub">
+                {item.items.map(subitem => (
+                  <li key={subitem.label} onClick={() => addNode(subitem.node)}>
+                    {subitem.label}
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </li>
       ))}

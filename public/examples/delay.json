@@ -1,0 +1,655 @@
+{
+  "edges": [
+    {
+      "source": "Oscillator-ff4017ae-2cd1-4f45-a171-e2f0313a19d8",
+      "sourceHandle": "output",
+      "target": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#3a19d8"
+      },
+      "id": "reactflow__edge-Oscillator-ff4017ae-2cd1-4f45-a171-e2f0313a19d8output-Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396input",
+      "selected": false
+    },
+    {
+      "source": "ADSR-c54c309d-60eb-4b78-b92e-c442609ab2f8",
+      "sourceHandle": "gain",
+      "target": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "targetHandle": "gain",
+      "style": {
+        "stroke": "#9ab2f8"
+      },
+      "id": "reactflow__edge-ADSR-c54c309d-60eb-4b78-b92e-c442609ab2f8gain-Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396gain",
+      "selected": false
+    },
+    {
+      "source": "Keyboard-6e1d2122-5b87-4347-85bd-66f3266f7e97",
+      "sourceHandle": "frequency",
+      "target": "Oscillator-ff4017ae-2cd1-4f45-a171-e2f0313a19d8",
+      "targetHandle": "frequency",
+      "style": {
+        "stroke": "#6f7e97"
+      },
+      "id": "reactflow__edge-Keyboard-6e1d2122-5b87-4347-85bd-66f3266f7e97frequency-Oscillator-ff4017ae-2cd1-4f45-a171-e2f0313a19d8frequency",
+      "selected": false
+    },
+    {
+      "source": "Keyboard-6e1d2122-5b87-4347-85bd-66f3266f7e97",
+      "sourceHandle": "gate",
+      "target": "ADSR-c54c309d-60eb-4b78-b92e-c442609ab2f8",
+      "targetHandle": "gate",
+      "style": {
+        "stroke": "#6f7e97"
+      },
+      "id": "reactflow__edge-Keyboard-6e1d2122-5b87-4347-85bd-66f3266f7e97gate-ADSR-c54c309d-60eb-4b78-b92e-c442609ab2f8gate",
+      "selected": false
+    },
+    {
+      "source": "Gain-349c639b-9e2c-45eb-a6b9-1062d281c9ad",
+      "sourceHandle": "output",
+      "target": "OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#81c9ad"
+      },
+      "id": "reactflow__edge-Gain-349c639b-9e2c-45eb-a6b9-1062d281c9adoutput-OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853input",
+      "selected": false
+    },
+    {
+      "source": "Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49",
+      "sourceHandle": "output",
+      "target": "Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7a",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#38ac49"
+      },
+      "id": "reactflow__edge-Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49output-Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7ainput",
+      "selected": false
+    },
+    {
+      "source": "Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7a",
+      "sourceHandle": "output",
+      "target": "Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#dcbc7a"
+      },
+      "id": "reactflow__edge-Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7aoutput-Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49input",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853",
+      "sourceHandle": "A",
+      "target": "Gain-e4e39343-8f8f-4690-824b-eb3eda7f70db",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#7dc853"
+      },
+      "label": "bypass",
+      "id": "reactflow__edge-OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853A-Gain-e4e39343-8f8f-4690-824b-eb3eda7f70dbinput",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853",
+      "sourceHandle": "B",
+      "target": "Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#7dc853"
+      },
+      "id": "reactflow__edge-OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853B-Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49input",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "sourceHandle": "output-internal-0",
+      "target": "Gain-349c639b-9e2c-45eb-a6b9-1062d281c9ad",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f45508"
+      },
+      "id": "reactflow__edge-SubFlow-3877f251-b784-48da-af20-f1bdebf45508output-internal-0-Gain-349c639b-9e2c-45eb-a6b9-1062d281c9adinput",
+      "selected": false
+    },
+    {
+      "source": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "sourceHandle": "output",
+      "target": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "targetHandle": "input-external-0",
+      "style": {
+        "stroke": "#6aa396"
+      },
+      "id": "reactflow__edge-Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396output-SubFlow-3877f251-b784-48da-af20-f1bdebf45508input-external-0",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "sourceHandle": "output-external-0",
+      "target": "Destination-abab6d75-69a4-456c-8baa-b86f8500cba2",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f45508"
+      },
+      "id": "reactflow__edge-SubFlow-3877f251-b784-48da-af20-f1bdebf45508output-external-0-Destination-abab6d75-69a4-456c-8baa-b86f8500cba2input",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "sourceHandle": "_output-of-input-0_",
+      "target": "Gain-349c639b-9e2c-45eb-a6b9-1062d281c9ad",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#f45508"
+      },
+      "id": "reactflow__edge-SubFlow-3877f251-b784-48da-af20-f1bdebf45508_output-of-input-0_-Gain-349c639b-9e2c-45eb-a6b9-1062d281c9adinput",
+      "selected": false
+    },
+    {
+      "source": "Gain-e4e39343-8f8f-4690-824b-eb3eda7f70db",
+      "sourceHandle": "output",
+      "target": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "targetHandle": "_input-of-output-0_",
+      "style": {
+        "stroke": "#7f70db"
+      },
+      "id": "reactflow__edge-Gain-e4e39343-8f8f-4690-824b-eb3eda7f70dboutput-SubFlow-3877f251-b784-48da-af20-f1bdebf45508_input-of-output-0_",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853",
+      "sourceHandle": "B",
+      "target": "Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710",
+      "targetHandle": "A",
+      "style": {
+        "stroke": "#7dc853"
+      },
+      "id": "reactflow__edge-OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853B-Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710A",
+      "selected": false
+    },
+    {
+      "source": "Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7a",
+      "sourceHandle": "output",
+      "target": "Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710",
+      "targetHandle": "B",
+      "style": {
+        "stroke": "#dcbc7a"
+      },
+      "id": "reactflow__edge-Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7aoutput-Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710B",
+      "selected": false
+    },
+    {
+      "source": "Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710",
+      "sourceHandle": "output",
+      "target": "Gain-e4e39343-8f8f-4690-824b-eb3eda7f70db",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#06f710"
+      },
+      "id": "reactflow__edge-Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710output-Gain-e4e39343-8f8f-4690-824b-eb3eda7f70dbinput",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "sourceHandle": "_output-of-input-0_",
+      "target": "Gain-c211ceac-ad36-4434-9f50-58bd33ba7540",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#8c1005"
+      },
+      "id": "reactflow__edge-SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005_output-of-input-0_-Gain-c211ceac-ad36-4434-9f50-58bd33ba7540input",
+      "selected": false
+    },
+    {
+      "source": "Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8e",
+      "sourceHandle": "output",
+      "target": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "targetHandle": "_input-of-output-0_",
+      "style": {
+        "stroke": "#6dca8e"
+      },
+      "id": "reactflow__edge-Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8eoutput-SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005_input-of-output-0_",
+      "selected": false
+    },
+    {
+      "source": "Gain-c211ceac-ad36-4434-9f50-58bd33ba7540",
+      "sourceHandle": "output",
+      "target": "OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#ba7540"
+      },
+      "id": "reactflow__edge-Gain-c211ceac-ad36-4434-9f50-58bd33ba7540output-OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0input",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0",
+      "sourceHandle": "A",
+      "target": "Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8e",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#6aaaa0"
+      },
+      "id": "reactflow__edge-OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0A-Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8einput",
+      "selected": false
+    },
+    {
+      "source": "Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247",
+      "sourceHandle": "output",
+      "target": "Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8e",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#4c9247"
+      },
+      "id": "reactflow__edge-Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247output-Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8einput",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0",
+      "sourceHandle": "B",
+      "target": "Convolver-e9396fc7-f9a3-45d2-89f4-98fa06731aa5",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#6aaaa0"
+      },
+      "id": "reactflow__edge-OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0B-Convolver-e9396fc7-f9a3-45d2-89f4-98fa06731aa5input",
+      "selected": false
+    },
+    {
+      "source": "OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0",
+      "sourceHandle": "B",
+      "target": "Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247",
+      "targetHandle": "A",
+      "style": {
+        "stroke": "#6aaaa0"
+      },
+      "id": "reactflow__edge-OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0B-Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247A",
+      "selected": false
+    },
+    {
+      "source": "Convolver-e9396fc7-f9a3-45d2-89f4-98fa06731aa5",
+      "sourceHandle": "output",
+      "target": "Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247",
+      "targetHandle": "B",
+      "style": {
+        "stroke": "#731aa5"
+      },
+      "id": "reactflow__edge-Convolver-e9396fc7-f9a3-45d2-89f4-98fa06731aa5output-Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247B",
+      "selected": false
+    },
+    {
+      "source": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "sourceHandle": "output",
+      "target": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "targetHandle": "_input-of-input-0_",
+      "style": {
+        "stroke": "#6aa396"
+      },
+      "id": "reactflow__edge-Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396output-SubFlow-3877f251-b784-48da-af20-f1bdebf45508_input-of-input-0_",
+      "selected": false
+    },
+    {
+      "source": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "sourceHandle": "output",
+      "target": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "targetHandle": "_input-of-input-0_",
+      "style": {
+        "stroke": "#6aa396"
+      },
+      "id": "reactflow__edge-Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396output-SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005_input-of-input-0_",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "sourceHandle": "_output-of-output-0_",
+      "target": "Mixer-c4b80df1-ed83-4254-b64a-0ba531d810ab",
+      "targetHandle": "A",
+      "style": {
+        "stroke": "#f45508"
+      },
+      "id": "reactflow__edge-SubFlow-3877f251-b784-48da-af20-f1bdebf45508_output-of-output-0_-Mixer-c4b80df1-ed83-4254-b64a-0ba531d810abA",
+      "selected": false
+    },
+    {
+      "source": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "sourceHandle": "_output-of-output-0_",
+      "target": "Mixer-c4b80df1-ed83-4254-b64a-0ba531d810ab",
+      "targetHandle": "B",
+      "style": {
+        "stroke": "#8c1005"
+      },
+      "id": "reactflow__edge-SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005_output-of-output-0_-Mixer-c4b80df1-ed83-4254-b64a-0ba531d810abB",
+      "selected": false
+    },
+    {
+      "source": "Mixer-c4b80df1-ed83-4254-b64a-0ba531d810ab",
+      "sourceHandle": "output",
+      "target": "Destination-abab6d75-69a4-456c-8baa-b86f8500cba2",
+      "targetHandle": "input",
+      "style": {
+        "stroke": "#d810ab"
+      },
+      "id": "reactflow__edge-Mixer-c4b80df1-ed83-4254-b64a-0ba531d810aboutput-Destination-abab6d75-69a4-456c-8baa-b86f8500cba2input",
+      "selected": false
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ADSR-c54c309d-60eb-4b78-b92e-c442609ab2f8",
+      "data": {
+        "releaseTime": 0.6
+      },
+      "type": "ADSR",
+      "position": {
+        "x": 220,
+        "y": 170
+      },
+      "width": 105,
+      "height": 130,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Oscillator-ff4017ae-2cd1-4f45-a171-e2f0313a19d8",
+      "data": {
+        "frequency": 0,
+        "type": "triangle"
+      },
+      "type": "Oscillator",
+      "position": {
+        "x": 220,
+        "y": 90
+      },
+      "width": 134,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-8e3cebf4-f5c8-4398-8d34-5408596aa396",
+      "data": {
+        "gain": 0,
+        "type": "Linear"
+      },
+      "type": "Gain",
+      "position": {
+        "x": 380,
+        "y": 130
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Destination-abab6d75-69a4-456c-8baa-b86f8500cba2",
+      "data": {},
+      "type": "Destination",
+      "position": {
+        "x": 1020,
+        "y": 50
+      },
+      "width": 80,
+      "height": 50,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Keyboard-6e1d2122-5b87-4347-85bd-66f3266f7e97",
+      "data": {
+        "octave": 4
+      },
+      "type": "Keyboard",
+      "position": {
+        "x": 20,
+        "y": 130
+      },
+      "width": 170,
+      "height": 156,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "data": {
+        "title": "Delay"
+      },
+      "type": "SubFlow",
+      "position": {
+        "x": 20,
+        "y": -270
+      },
+      "style": {
+        "width": 760,
+        "height": 320
+      },
+      "zIndex": -1,
+      "width": 760,
+      "height": 320,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-349c639b-9e2c-45eb-a6b9-1062d281c9ad",
+      "data": {
+        "gain": 0.999608958971417
+      },
+      "extent": "parent",
+      "type": "Gain",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "position": {
+        "x": 30,
+        "y": 30
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "OutputSwitch-ba94e3e7-a2b8-43a2-871a-7b846e7dc853",
+      "data": {
+        "output": "B"
+      },
+      "extent": "parent",
+      "type": "OutputSwitch",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "position": {
+        "x": 170,
+        "y": 30
+      },
+      "width": 77,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-e4e39343-8f8f-4690-824b-eb3eda7f70db",
+      "data": {},
+      "extent": "parent",
+      "type": "Gain",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "position": {
+        "x": 610,
+        "y": 30
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Delay-278d5d54-654c-4b55-aa5d-dafd1238ac49",
+      "data": {
+        "delayTime": 0.5
+      },
+      "extent": "parent",
+      "type": "Delay",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "position": {
+        "x": 260,
+        "y": 150
+      },
+      "width": 135,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-7e04f9bf-8ac5-4144-bfcc-ce9cf4dcbc7a",
+      "data": {
+        "type": "Linear",
+        "gain": 0.504
+      },
+      "extent": "parent",
+      "type": "Gain",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508",
+      "position": {
+        "x": 260,
+        "y": 240
+      },
+      "width": 120,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Mixer-1c05cf53-3c7b-4ec6-8e16-ab229006f710",
+      "data": {
+        "mix": 0.4
+      },
+      "type": "Mixer",
+      "position": {
+        "x": 440,
+        "y": 100
+      },
+      "width": 142,
+      "height": 70,
+      "selected": false,
+      "dragging": false,
+      "extent": "parent",
+      "parentNode": "SubFlow-3877f251-b784-48da-af20-f1bdebf45508"
+    },
+    {
+      "id": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "data": {
+        "title": "Reverb"
+      },
+      "type": "SubFlow",
+      "position": {
+        "x": 20,
+        "y": 340
+      },
+      "style": {
+        "width": 760,
+        "height": 220
+      },
+      "zIndex": -1,
+      "width": 760,
+      "height": 220,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Mixer-d9fdc2fd-867f-447c-96e2-2dace74c9247",
+      "data": {
+        "mix": 0.5
+      },
+      "type": "Mixer",
+      "position": {
+        "x": 440,
+        "y": 100
+      },
+      "width": 142,
+      "height": 70,
+      "selected": false,
+      "dragging": false,
+      "extent": "parent",
+      "parentNode": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005"
+    },
+    {
+      "id": "Gain-c211ceac-ad36-4434-9f50-58bd33ba7540",
+      "data": {},
+      "type": "Gain",
+      "position": {
+        "x": 30,
+        "y": 30
+      },
+      "width": 120,
+      "height": 70,
+      "extent": "parent",
+      "parentNode": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Gain-fdd3192c-5253-449a-bffb-ba9fe06dca8e",
+      "data": {},
+      "type": "Gain",
+      "position": {
+        "x": 610,
+        "y": 30
+      },
+      "width": 120,
+      "height": 70,
+      "extent": "parent",
+      "parentNode": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Convolver-e9396fc7-f9a3-45d2-89f4-98fa06731aa5",
+      "data": {
+        "impulseResponse": "/react-web-audio-graph/static/media/Musikvereinsaal.84e0809c00e1f8dc4594.wav"
+      },
+      "type": "Convolver",
+      "position": {
+        "x": 260,
+        "y": 160
+      },
+      "width": 106,
+      "height": 50,
+      "extent": "parent",
+      "parentNode": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "OutputSwitch-05c80494-4b55-4636-a986-a5fa1f6aaaa0",
+      "data": {
+        "output": "B"
+      },
+      "type": "OutputSwitch",
+      "position": {
+        "x": 170,
+        "y": 30
+      },
+      "width": 77,
+      "height": 70,
+      "extent": "parent",
+      "parentNode": "SubFlow-213e02c6-6dd3-49f1-bcbb-8972d88c1005",
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "Mixer-c4b80df1-ed83-4254-b64a-0ba531d810ab",
+      "data": {
+        "mix": 0.4
+      },
+      "type": "Mixer",
+      "position": {
+        "x": 850,
+        "y": 50
+      },
+      "width": 142,
+      "height": 70,
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "id": "95c08632-8a69-4c77-8db3-188557a37fb9",
+  "transform": {
+    "x": 20,
+    "y": 300,
+    "zoom": 1
+  }
+}

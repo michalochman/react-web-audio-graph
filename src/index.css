@@ -222,6 +222,12 @@ body {
   stroke-dasharray: 6;
 }
 
+.subFlowNode {
+  background: rgba(153, 153, 153, 0.5);
+  height: 100%;
+  z-index: -1;
+}
+
 .contextMenu {
   background: #eee;
   border: 1px solid #ccc;
